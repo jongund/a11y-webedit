@@ -1,0 +1,96 @@
+{# Load the tag library #}
+{% load bootstrap3 %}
+
+{# Load CSS and JavaScript #}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+<body style = "padding: 0 5% 5% 5%">
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">WebEdit</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+	
+	<!-- Left side navbar -->
+      <ul class="nav navbar-nav">
+        <li><a href="#">Save <span class="sr-only">(current)</span></a></li>
+        <li><a href="#">Run</a></li>
+		<li><a href="#">Copy</a></li>
+		<li><a href="#">Delete</a></li>
+      </ul>
+	  
+	<!-- Right side navbar -->
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#">My Pages</a></li>
+		<li><a href="#">Sign in</a></li>
+      </ul>
+	  
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+<form id="pageForm" method="post">
+	<div class = "form-group">
+		<label for = "pageTitle">{{p.title}}</label>
+		<input type = "text" class = "input-sm form-control" id = "pageTitle"
+		placeholder="e.g. Homepage">
+	</div>
+	<div class = "form-group">
+		<label for = "pageDescrip">{{p.description}}</label>
+		<input type = "text" class = "input-sm form-control" id = "pageDescrip"
+		placeholder="e.g. The main page for my blog">
+	</div>
+	<p>Last updated: {{p.lastUpdated}}</p>
+</form>
+
+<hr>
+
+<div class = "container">
+	<center>
+		<button type="button" class="btn btn-info" data-toggle="collapse" 
+		data-target="#head">HTML Head</button>
+		</center>
+	<div id = "head" class = "collapse in">
+		<textarea rows="10" cols="150" form="pageForm"></textarea>
+	</div>
+	<br>
+
+	<center>
+		<button type="button" class="btn btn-info" data-toggle="collapse" 
+		data-target="#body">HTML Body</button>
+		</center>
+	<div id = "body" class = "collapse in">
+		<textarea rows="10" cols = "150" form="pageForm"></textarea>
+	</div>
+	<br>
+
+	<center>
+		<button type="button" class="btn btn-info" data-toggle="collapse" 
+		data-target="#css">CSS</button>
+		</center>
+	<div id = "css" class = "collapse in">
+		<textarea rows="10" cols = "150" form="pageForm"></textarea>
+	</div>
+	<br>
+
+
+	<center>
+		<button type="button" class="btn btn-info" data-toggle="collapse" 
+		data-target="#js">JavaScript</button>
+		</center>
+	<div id = "js" class = "collapse in">
+		<textarea rows="10" cols = "150" form="pageForm"></textarea>
+	</div>
+	<br>
+</div>
+</body>
