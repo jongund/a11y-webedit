@@ -1,6 +1,7 @@
 {% load bootstrap3 %}
-{% bootstrap_javascript %}
 {% bootstrap_css %}
+{% bootstrap_javascript %}
+
 {% bootstrap_messages %}
 
 <body style = "padding: 0 5% 5% 5%">
@@ -22,7 +23,8 @@
     <div class="collapse navbar-collapse" id="navbar-collapse-1">
 	
 	<!-- Left side navbar -->
-      <ul class="nav navbar-nav">
+	
+      <ul class="nav navbar-nav navbar-left">
         <li><a href="#">Save</a></li>
         <li><a href="#">Run</a></li>
 		<li><a href="#">Copy</a></li>
@@ -67,9 +69,7 @@
 	{% bootstrap_label "JavaScript" label_for="form.javascript" %}
 	{% bootstrap_field form.javascript show_label=False placeholder="" %}
 </div>
-
-
-<input type = "submit" method="POST" value = "Save"/>
+<br>
+{% bootstrap_button "Save" button_type="submit" %}
 </form>
-
 </body>

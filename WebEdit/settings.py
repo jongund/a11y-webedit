@@ -27,6 +27,11 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+#Changes to BOOTSTRAP default settings
+
+BOOTSTRAP3 = {
+    'include_jquery': True,
+}
 
 # Application definition
 
