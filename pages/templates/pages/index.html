@@ -42,39 +42,32 @@
 <form id="pageForm" action ="" method="POST">
 	{% csrf_token %}
 	<div class = "form-group">
-		<label for = "title">{{p.title}}</label>
-		<br>
-			{{ form.title }}
+		{% bootstrap_field form.title %}
 	</div>
 	<div class = "form-group">
-		<label for = "description">{{p.description}}</label>
-		<br>
-			{{ form.description }}
+		{% bootstrap_field form.description %}
 	</div>
 	<p>Last updated: {{ p.lastUpdated }}</p>
 
 <hr>
 
 <div class = "form-group">
-	<label for = "htmlHead">HTML Head</label>
-	<br>
-		{{ form.htmlHead }}
+	{% bootstrap_label "HTML Head" label_for="form.htmlHead" %}
+	{% bootstrap_field form.htmlHead show_label=False placeholder="" %}
 </div>
 <div class = "form-group">
-	<label for = "htmlBody">HTML Body</label>
-	<br>
-		{{ form.htmlBody }}
+	{% bootstrap_label "HTML Body" label_for="form.htmlBody" %}
+	{% bootstrap_field form.htmlBody show_label=False placeholder="" %}
 </div>
 <div class = "form-group">
-	<label for = "css">CSS</label>
-	<br>
-		{{ form.css }}
+	{% bootstrap_label "CSS" label_for="form.css" %}
+	{% bootstrap_field form.css show_label=False placeholder="" %}
 </div>
 <div class = "form-group">
-	<label for = "javascript">JavaScript</label>
-	<br>
-		{{ form.javascript }}
+	{% bootstrap_label "JavaScript" label_for="form.javascript" %}
+	{% bootstrap_field form.javascript show_label=False placeholder="" %}
 </div>
+
 
 <input type = "submit" method="POST" value = "Save"/>
 </form>
