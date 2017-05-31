@@ -1,75 +1,116 @@
 {% load bootstrap3 %}
 {% bootstrap_css %}
 {% bootstrap_javascript %}
-
 {% bootstrap_messages %}
+<style>
+	.navbar-btn{
+		border: thin solid gray;
+		margin-right: .5em  ;
+	}
+	.navbar{
+		border: thin solid gray;
+	}
+	.expand{
+		float: right;
+	}
+</style>
+<body>
+	<div class = "container">
+	<form id="pageForm" action ="" method="POST">
+			{% csrf_token %}
+		<nav class="navbar navbar-default">
+		  <div class="container-fluid">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header">
+			  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" 
+			  data-target="#navbar-collapse-1" aria-expanded="false">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			  </button>
+			  <a class="navbar-brand" href="#">WebEdit</a>
+			</div>
 
-<body style = "padding: 0 5% 5% 5%">
-<nav class="navbar navbar-default">
-  <div class="container-fluid">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" 
-	  data-target="#navbar-collapse-1" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="#">WebEdit</a>
-    </div>
-
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="navbar-collapse-1">
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse" id="navbar-collapse-1">
+			
+			<!-- Left side navbar -->
+			  <ul class="nav navbar-nav navbar-left">
+				<li>{% bootstrap_button "Save" button_type="submit" button_class="btn-default navbar-btn" %}</li>
+				<li><button type = "button" class = "btn btn-default navbar-btn">Run</button></li>
+				<li><button type = "button" class = "btn btn-default navbar-btn">Copy</button></li>
+				<li><button type = "button" class = "btn btn-default navbar-btn">Delete</button></li>
+			  </ul>
+			  
+			<!-- Right side navbar -->
+			  <ul class="nav navbar-nav navbar-right">
+				<li><a href="#">My Pages</a></li>
+				<li><a href="#">Sign in</a></li>
+			  </ul>
+			  
+			</div><!-- /.navbar-collapse -->
+		  </div><!-- /.container-fluid -->
+		</nav>
+		<h4>Settings:</h4>
+		<button class="btn btn-default" data-toggle="collapse"
+			data-target="#upper-form" style="float:right">Show/Hide</button>
+		<br>
+		<div id = "upper-form" class="collapse in">
+				<div class = "form-group">
+					{% bootstrap_field form.title %}
+				</div>
+				<div class = "form-group">
+					{% bootstrap_field form.description %}
+				</div>
+				<p>Last updated: {{ p.lastUpdated }}</p>
+		</div>
+		<hr>
+		
+		{% bootstrap_label "HTML Head" label_for="form.htmlHead" %}
+		<button class="btn btn-default expand" data-toggle="collapse"
+			data-target=".head">Show/Hide</button>
+		<br>
+		<div class = "form-group collapse in head">
+			<br>
+			{% bootstrap_field form.htmlHead show_label=False placeholder="" %}
+		</div>
+		
+		<hr class = "collapse head">
+		
+		{% bootstrap_label "HTML Body" label_for="form.htmlBody" %}
+		<button class="btn btn-default expand" data-toggle="collapse"
+			data-target=".body">Show/Hide</button>
+		<br>
+		<div class = "form-group collapse in body">
+			<br>
+			{% bootstrap_field form.htmlBody show_label=False placeholder="" %}
+		</div>
+		
+		<hr class = "collapse body">
+			
+		{% bootstrap_label "CSS" label_for="form.css" %}
+		<button class="btn btn-default expand" data-toggle="collapse"
+			data-target=".css">Show/Hide</button>
+		<br>
+		<div class = "form-group collapse in css">
+			<br>
+			{% bootstrap_field form.css show_label=False placeholder="" %}
+		</div>
+		
+		<hr class = "collapse css">
 	
-	<!-- Left side navbar -->
+		{% bootstrap_label "JavaScript" label_for="form.javascript" %}
+		<button class="btn btn-default expand" data-toggle="collapse"
+			data-target=".js">Show/Hide</button>
+		<br>
+		<div class = "form-group collapse in js">
+			<br>
+			{% bootstrap_field form.javascript show_label=False placeholder="" %}
+		</div>
+		
+		<hr class = "collapse js">
 	
-      <ul class="nav navbar-nav navbar-left">
-        <li><a href="#">Save</a></li>
-        <li><a href="#">Run</a></li>
-		<li><a href="#">Copy</a></li>
-		<li><a href="#">Delete</a></li>
-      </ul>
-	  
-	<!-- Right side navbar -->
-      <ul class="nav navbar-nav navbar-right">
-        <li><a href="#">My Pages</a></li>
-		<li><a href="#">Sign in</a></li>
-      </ul>
-	  
-    </div><!-- /.navbar-collapse -->
-  </div><!-- /.container-fluid -->
-</nav>
-
-<form id="pageForm" action ="" method="POST">
-	{% csrf_token %}
-	<div class = "form-group">
-		{% bootstrap_field form.title %}
+		</form>
 	</div>
-	<div class = "form-group">
-		{% bootstrap_field form.description %}
-	</div>
-	<p>Last updated: {{ p.lastUpdated }}</p>
-
-<hr>
-
-<div class = "form-group">
-	{% bootstrap_label "HTML Head" label_for="form.htmlHead" %}
-	{% bootstrap_field form.htmlHead show_label=False placeholder="" %}
-</div>
-<div class = "form-group">
-	{% bootstrap_label "HTML Body" label_for="form.htmlBody" %}
-	{% bootstrap_field form.htmlBody show_label=False placeholder="" %}
-</div>
-<div class = "form-group">
-	{% bootstrap_label "CSS" label_for="form.css" %}
-	{% bootstrap_field form.css show_label=False placeholder="" %}
-</div>
-<div class = "form-group">
-	{% bootstrap_label "JavaScript" label_for="form.javascript" %}
-	{% bootstrap_field form.javascript show_label=False placeholder="" %}
-</div>
-<br>
-{% bootstrap_button "Save" button_type="submit" %}
-</form>
 </body>

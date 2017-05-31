@@ -25,6 +25,9 @@ def index(request):
 	
 	return render(request, 'pages/index.html', context)
 
+def show(request,pageID):
+	p=Page.objects.get(id=pageID)
+	return HttpResponse(p)
 	
 
 	
