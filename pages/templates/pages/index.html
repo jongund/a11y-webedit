@@ -49,8 +49,9 @@
 			<!-- Right side navbar -->
 			  <ul class="nav navbar-nav navbar-right">
 				{% if user.is_authenticated %}
-				<li><a href="/pages/all">My Pages</a></li>
 				<li><a href="#">{{ user }}</a></li>
+				<li><a href="/pages/all">My Pages</a></li>
+				<li><a href="/accounts/logout">Logout</a></li>
 				{% else %}
 				<li><a href="#">Register</a></li>
 				<li><a href="/accounts/login">Login</a></li>
