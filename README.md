@@ -4,8 +4,8 @@ Online HTML/CS/Javascript code editor similiar in function to jsfiddle, but more
 <h3>Dependencies/build instructions:</h3>
 <code>pip install virtualenv</code>
 <p>This is the tool being used to create virtual environments</p>
-<code>python -m virtual env .your-directory</code>
-<code>cd your-directory</code>
+<code>python -m virtual env .your-directory</code><br>
+<code>cd your-directory</code><br>
 <code>.\scripts\activate</code>
 <p>Create and activate the virtual environment</p>
 <code>pip install django</code>
