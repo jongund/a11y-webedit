@@ -13,6 +13,12 @@
 	.expand{
 		float: right;
 	}
+	#page-functions{
+		padding-left: 0;
+	}
+	#page-functions li{
+		display: inline;
+	}
 </style>
 <body>
 	<div class = "container">
@@ -29,7 +35,7 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			  </button>
-			  <a class="navbar-brand" href="#">WebEdit</a>
+			  <a class="navbar-brand" href="/pages/new">WebEdit</a>
 			</div>
 
 			<!-- Collect the nav links, forms, and other content for toggling -->
@@ -37,21 +43,29 @@
 			
 			<!-- Left side navbar -->
 			  <ul class="nav navbar-nav navbar-left">
-				<li>{% bootstrap_button "Save" button_type="submit" button_class="btn-default navbar-btn" %}</li>
-				<li><button type = "button" class = "btn btn-default navbar-btn">Run</button></li>
-				<li><button type = "button" class = "btn btn-default navbar-btn">Copy</button></li>
-				<li><button type = "button" class = "btn btn-default navbar-btn">Delete</button></li>
+				<li><a href = "/pages/new">New page</a></li>
 			  </ul>
 			  
 			<!-- Right side navbar -->
 			  <ul class="nav navbar-nav navbar-right">
-				<li><a href="#">My Pages</a></li>
-				<li><a href="#">Sign in</a></li>
+				{% if user.is_authenticated %}
+				<li><a href="/pages/all">My Pages</a></li>
+				<li><a href="#">{{ user }}</a></li>
+				{% else %}
+				<li><a href="#">Register</a></li>
+				<li><a href="/accounts/login">Login</a></li>
+				{% endif %}
 			  </ul>
 			  
 			</div><!-- /.navbar-collapse -->
 		  </div><!-- /.container-fluid -->
 		</nav>
+		<ul id = "page-functions">
+			<li>{% bootstrap_button "Save" button_type="submit" button_class="btn-default navbar-btn" %}</li>
+			<li><button type = "button" class = "btn btn-default navbar-btn"><a href = "/pages/output">View</a></button></li>
+			<li><button type = "button" class = "btn btn-default navbar-btn"><a href = "#">Copy</a></button></li>
+			<li><button type = "button" class = "btn btn-default navbar-btn"><a href = "#">Delete</a></button></li>
+		</ul>
 		<h4>Settings:</h4>
 		<button class="btn btn-default" data-toggle="collapse"
 			data-target="#upper-form" style="float:right">Show/Hide</button>
@@ -62,6 +76,12 @@
 				</div>
 				<div class = "form-group">
 					{% bootstrap_field form.description %}
+				</div>
+				<div class = "form-group">
+					{% bootstrap_field form.web_key %}
+				</div>
+				<div class = "form-group">
+					{% bootstrap_field form.public %}
 				</div>
 				<p>Last updated: {{ p.lastUpdated }}</p>
 		</div>
@@ -110,7 +130,8 @@
 		</div>
 		
 		<hr class = "collapse js">
-	
+		
+		
 		</form>
 	</div>
 </body>
