@@ -146,5 +146,5 @@ STATIC_ROOT = join(BASE_DIR, 'static/')
 #print('STATIC ROOT: ' + STATIC_ROOT)
 
 STATICFILES_DIRS = (
-  join(APP_DIR, "a11ywebedit/static"),
+  join(APP_DIR, "static"),
 )
