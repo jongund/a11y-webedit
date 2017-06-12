@@ -17,7 +17,7 @@ from os.path import join, abspath, dirname
 #BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 here = lambda *dirs: join(abspath(dirname(__file__)), *dirs)
-root = lambda *dirs: join(abspath(here("..","..")), *dirs)
+root = lambda *dirs: join(abspath(here("","")), *dirs)
 
 BASE_DIR = here("", "")
 print("BASE_DIR: " + BASE_DIR)
@@ -146,5 +146,5 @@ STATIC_ROOT = join(BASE_DIR, 'static/')
 print('STATIC ROOT: ' + STATIC_ROOT)
 
 STATICFILES_DIRS = (
-  join(APP_DIR, "static"),
+  join(APP_DIR, "WebEdit/static"),
 )
