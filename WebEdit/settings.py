@@ -11,9 +11,19 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
+from os.path import join, abspath, dirname
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+#BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+here = lambda *dirs: join(abspath(dirname(__file__)), *dirs)
+root = lambda *dirs: join(abspath(here("..","..")), *dirs)
+
+BASE_DIR = here("", "")
+#print("BASE_DIR: " + BASE_DIR)
+
+APP_DIR  = root("")
+#print(" APP_DIR: " + APP_DIR)
 
 
 # Quick-start development settings - unsuitable for production
@@ -131,3 +141,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = join(BASE_DIR, 'static/')
+
+#print('STATIC ROOT: ' + STATIC_ROOT)
+
+STATICFILES_DIRS = (
+  join(APP_DIR, "a11ywebedit/static"),
+)
