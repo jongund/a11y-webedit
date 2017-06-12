@@ -52,9 +52,11 @@ def show(request,slug):
 
 def show_all(request):
 	all_pages = "<ul>"
+	key_suffix = ""
 	for i in Page.objects.filter(user=request.user):
-		all_pages+="<li>"+i.title+"</li>"
-	return HttpResponse(all_pages+"</ul>")
+		all_pages+="<li>"+i.title+"</li> <a href =\"/pages/"+i.web_key+"\">Edit</a><br>"+\
+		"<a href = \"/pages/"+i.web_key+"/output"+"\">View</a>"
+	return HttpResponse("<h2>All pages:</h2>"+all_pages+"</ul>")
 	
 def run(request,slug):
 	p=get_object_or_404(Page,web_key=slug)
