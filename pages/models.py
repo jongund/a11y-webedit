@@ -10,23 +10,23 @@ class Page(models.Model):
 			"\", Username: \""+self.user.username+"\""
 	
 	#------------USER----------------
-	user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name = "page",
-		blank=True)
+	user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name = "page")
 	#potentially add more models for sharing
 	
 	#----------SETTINGS--------------
 	title = models.CharField(max_length=30)
-	description = models.CharField(max_length=200)
-	web_key = models.CharField(max_length=6,default=get_random_string(length=6).lower(),unique=True)
+	description = models.CharField(max_length=200,blank=True)
+	web_key = models.CharField(max_length=6,
+	default=get_random_string(length=6).lower(),unique=True)
 	#=>letters and numbers excluding one, el
 	#=>all letters lowercase
 	public = models.BooleanField(default=True)
 	lastUpdated = models.DateTimeField(auto_now=True)
 	
 	#----------EDITOR TEXT-----------
-	htmlHead = models.TextField()
-	htmlBody = models.TextField()
-	css = models.TextField()
-	javascript = models.TextField()
+	htmlHead = models.TextField(blank=True)
+	htmlBody = models.TextField(blank=True)
+	css = models.TextField(blank=True)
+	javascript = models.TextField(blank=True)
 	
 	

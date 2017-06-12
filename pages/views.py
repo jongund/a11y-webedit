@@ -5,8 +5,6 @@ from django.http import HttpResponse
 #from django.contrib.auth.mixins import LoginRequiredMixin
 #from django.contrib.auth.decorators import login_required
 
-# Create your views here.
-
 def new(request):
 	if request.method == 'POST':
 		form_data = request.POST.copy() #get a mutable copy of the request data
@@ -40,6 +38,9 @@ def show(request,slug):
 	p=get_object_or_404(Page, web_key=slug)
 	form=PageForm(request.POST or None, instance=p) 
 	if request.method == 'POST':
+		form_data = request.POST.copy()
+		form_data['user']=(request.user).id
+		form=PageForm(form_data,instance=p)
 		if form.is_valid():
 			form.save()
 			return redirect("/pages/"+slug)
@@ -50,8 +51,14 @@ def show(request,slug):
 	return render(request, 'pages/index.html', context)
 
 def show_all(request):
-	return HttpResponse("All pages:")
+	all_pages = "<ul>"
+	for i in Page.objects.filter(user=request.user):
+		all_pages+="<li>"+i.title+"</li>"
+	return HttpResponse(all_pages+"</ul>")
 	
-def run(request):
-	return HttpResponse("Output:")
+def run(request,slug):
+	p=get_object_or_404(Page,web_key=slug)
+	web_page="<head>"+p.htmlHead+"</head>"+"<style>"+p.css+"</style>"+"<script>"+p.javascript+"</script>"+\
+	p.htmlBody
+	return HttpResponse(web_page)
 	
