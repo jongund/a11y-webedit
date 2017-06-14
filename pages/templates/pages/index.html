@@ -1,7 +1,16 @@
 {% extends "base.html" %}
+{% load static %}
 {% load bootstrap3 %}
+
 {% block content %}
 <!-- everything that fits into the template -->
+
+<script src="{% static 'pages/plugins/codemirror/lib/codemirror.js' %}"></script>
+<script src="{% static 'pages/plugins/codemirror/mode/javascript/javascript.js' %}"></script>
+<script type="text/javascript" src="{% static 'pages/plugins/codemirror/mode/xml/xml.js' %}"></script>
+<script type="text/javascript" src="{% static 'pages/plugins/codemirror/mode/javascript/javascript.js' %}"></script>
+<script type="text/javascript" src="{% static 'pages/plugins/codemirror/mode/css/css.js' %}"></script>
+
 <form id="pageForm" action ="" method="POST">
 	{% csrf_token %}
 	
@@ -10,7 +19,7 @@
 			{% bootstrap_button "Save" button_type="submit" button_class="btn btn-primary" extra_classes="save" %}
 			<a href = "output/" class = "btn btn-primary">Run</a>
 			<a href = "#" class = "btn btn-primary">Copy</a>
-			<a href = "#" class = "btn btn-danger">Delete</a>
+			<a href = "#" class = "btn btn-danger" id ="danger">Delete</a>
 		</div>
 	</div>
 	

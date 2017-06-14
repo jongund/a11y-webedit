@@ -14,3 +14,14 @@
 #page-functions li{
 	display: inline;
 }
+
+ul{
+	list-style: none;
+}
+.embedded-functions{
+	float: right;
+}
+
+#danger{
+	float: right;
+}
