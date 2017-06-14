@@ -5,12 +5,15 @@
 <form id="pageForm" action ="" method="POST">
 	{% csrf_token %}
 	
-	<ul id = "page-functions">
-		<li>{% bootstrap_button "Save" button_type="submit" button_class="btn-default navbar-btn" %}</li>
-		<li><button type = "button" class = "btn btn-default navbar-btn"><a href = "output/">View</a></button></li>
-		<li><button type = "button" class = "btn btn-default navbar-btn"><a href = "#">Copy</a></button></li>
-		<li><button type = "button" class = "btn btn-default navbar-btn"><a href = "#">Delete</a></button></li>
-	</ul>
+	<div class = "panel panel-default">
+		<div class = "panel-body">
+			{% bootstrap_button "Save" button_type="submit" button_class="btn btn-primary" extra_classes="save" %}
+			<a href = "output/" class = "btn btn-primary">Run</a>
+			<a href = "#" class = "btn btn-primary">Copy</a>
+			<a href = "#" class = "btn btn-danger">Delete</a>
+		</div>
+	</div>
+	
 	<div id = "upper-form" class="panel panel-default">
 		<div class = "panel-heading">Settings</div>
 			<div class = "panel-body">
