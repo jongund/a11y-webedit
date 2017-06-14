@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
 {% load bootstrap3 %}
-
 {% block content %}
 <!-- everything that fits into the template -->
 
@@ -39,8 +38,10 @@
 				{% bootstrap_field form.web_key show_label=False %}
 				
 				{% bootstrap_field form.public show_label=False %}
-			
+				
+				{% if p.lastUpdated != None %}
 				<p>Last updated: {{ p.lastUpdated }}</p>
+				{% endif %}
 			</div>
 	</div>
 	</hr>
@@ -76,8 +77,5 @@
 		</div>
 		{{ form.javascript }}
 	</div>
-	
 </form>
-
 {% endblock %}
-
