@@ -2,25 +2,26 @@
 {% load bootstrap3 %}
 {% block content %}
 <style>
+	ul{
+		list-style: none;
+	}
 	.embedded-functions{
 		float: right;
 	}
 </style>
-<h1>All pages:</h1>
 <br>
 {% for i in all_pages %}
-
-<ul>
-	<li><h2>Title: {{ i.0 }} </h2></li>
+	
+	<h3>{{ i.0 }} </h3>
 	<div class = "embedded-functions">
 		<a href = "/pages/{{ i.3 }}" class = "btn btn-primary">Edit</a>
 		<a href = "/pages/{{ i.3 }}/output" class = "btn btn-primary">Run</a>
 		<a href = "#" class = "btn btn-danger">Delete</a>
 	</div>
-		<h3>Description: {{ i.1 }}</h3>
-		<p>Last updated: {{ i.2 }}</p>
+	<h4>{{ i.1 }}</h4>
+	<p>Last updated: {{ i.2 }}</p>
 	<hr>
-</ul>
+	
 {% endfor %}
 
 {% endblock %}
