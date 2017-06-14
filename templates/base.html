@@ -4,6 +4,7 @@
 
 <head>
 	<link rel = "stylesheet" type = "text/css" href = "{% static 'pages/style.css' %}"/>
+	<link rel="stylesheet" type = "text/css" href="{% static 'pages/plugins/codemirror/lib/codemirror.css' %}">
 </head>
 <body>
 	<div class = "container">
@@ -48,4 +49,6 @@
 		{% endblock %}
 	</div>
 	{% bootstrap_javascript %}
+	<script src="{% static 'pages/plugins/codemirror/lib/codemirror.js' %}"></script>
+	<script src="{% static 'pages/plugins/codemirror/mode/javascript/javascript.js' %}"></script>
 </body>
