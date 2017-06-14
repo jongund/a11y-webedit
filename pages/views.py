@@ -55,16 +55,17 @@ def show(request,slug):
 	return render(request, 'pages/index.html', context)
 
 def show_all(request):
-	all_pages = "<ul>"
-	key_suffix = ""
-	for i in Page.objects.filter(user=request.user):
-		all_pages+="<li>"+i.title+"</li> <a href =\"/pages/"+i.web_key+"\">Edit</a><br>"+\
-		"<a href = \"/pages/"+i.web_key+"/output"+"\">View</a>"
-	return HttpResponse("<h2>All pages:</h2>"+all_pages+"</ul>")
+	all_pages = [(i.title,i.description,i.lastUpdated,i.web_key) for i in Page.objects.filter(\
+	user=request.user)]
+	context = {
+		'all_pages' : all_pages,
+	}
+	return render(request, 'pages/all_pages.html', context)
+	#return HttpResponse("<h2>All pages:</h2>"+all_pages+"</ul>")
 	
 def run(request,slug):
 	p=get_object_or_404(Page,web_key=slug)
-	web_page="<head>"+p.htmlHead+"</head>"+"<style>"+p.css+"</style>"+"<script>"+p.javascript+"</script>"+\
-	p.htmlBody
+	web_page="<head>"+p.htmlHead+"</head>"+"<style>"+p.css+"</style>"+"<script>"+\
+	p.javascript+"</script>"+p.htmlBody
 	return HttpResponse(web_page)
 	
