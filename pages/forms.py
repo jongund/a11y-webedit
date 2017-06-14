@@ -7,7 +7,7 @@ class PageForm(forms.ModelForm):
 		model = Page
 		fields = "__all__"
 	htmlHead = forms.CharField(widget= CodeMirrorTextarea(
-		mode = "html"), required = False,
+		mode = "xml", theme="cobalt"), required = False,
 		)
 	htmlBody = forms.CharField(widget= CodeMirrorTextarea(
 		mode = "html"), required = False,

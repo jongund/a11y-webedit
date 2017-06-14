@@ -12,62 +12,64 @@
 		<li><button type = "button" class = "btn btn-default navbar-btn"><a href = "#">Delete</a></button></li>
 	</ul>
 	<div id = "upper-form" class="collapse in">
-			<div class = "form-group">
-				{% bootstrap_field form.title %}
+			<div>
+				{% bootstrap_label "Title" label_for="form.title" label_class="label label-default" %}
+				<br>
+				{% bootstrap_field form.title show_label=False %}
 			</div>
-			<div class = "form-group">
-				{% bootstrap_field form.description %}
+			
+			<div>
+				{% bootstrap_label "Description" label_for="form.description" label_class="label label-default" %}
+				<br>
+				{% bootstrap_field form.description show_label=False %}
 			</div>
-			<div class = "form-group">
-				{% bootstrap_field form.web_key %}
+			
+			<div>
+				{% bootstrap_label "Web key" label_for="form.web_key" label_class="label label-default" %}
+				<br>
+				{% bootstrap_field form.web_key show_label=False %}
 			</div>
-			<div class = "form-group">
-				{% bootstrap_field form.public %}
+			
+			<div>
+				{% bootstrap_label "Privacy" label_for="form.public" label_class="label label-default" %}
+				{% bootstrap_field form.public show_label=False %}
 			</div>
-			<p>Last updated: {{ p.lastUpdated }}</p>
+			
+			<p>{% bootstrap_label "Last updated" label_for="form.lastUpdated" label_class="label label-default" %} {{ p.lastUpdated }}</p>
 	</div>
-	<hr>
-
+	</hr>
+	</br>
 	
-	{% bootstrap_label "HTML Head" label_for="form.htmlHead" %}
-	<br>
-	<div>
-		<br>
+	<div class = "panel panel-info">
+		<div class = "panel-heading">
+			{% bootstrap_label "HTML Head" label_for="form.htmlHead" %}
+		</div>
 		{{ form.htmlHead }}
 	</div>
-	<br>
-
-	<hr class = "collapse head">
-
-	{% bootstrap_label "HTML Body" label_for="form.htmlBody" %}
-	<br>
-	<div>
-		<br>
+	</br>
+	
+	<div class = "panel panel-info">
+		<div class = "panel-heading">
+			{% bootstrap_label "HTML Body" label_for="form.htmlBody" %}
+		</div>
 		{{ form.htmlBody }}
 	</div>
-	<br>
-
-	<hr class = "collapse body">
-		
-	{% bootstrap_label "CSS" label_for="form.css" %}
-	<br>
-	<div>
-		<br>
+	</br>
+	
+	<div class = "panel panel-info">	
+		<div class = "panel-heading">
+			{% bootstrap_label "CSS" label_for="form.css" %}
+		</div>
 		{{ form.css }}
 	</div>
-	<br>
-
-	<hr class = "collapse css">
-
-	{% bootstrap_label "JavaScript" label_for="form.javascript" %}
-	<br>
-	<div>
-		<br>
+	</br>
+	
+	<div class = "panel panel-info">	
+		<div class = "panel-heading">
+			{% bootstrap_label "JavaScript" label_for="form.javascript" %}
+		</div>
 		{{ form.javascript }}
 	</div>
-	<br>
-
-	<hr class = "collapse js">
 	
 </form>
 

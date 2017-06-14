@@ -8,6 +8,7 @@
 	<link rel="stylesheet" type = "text/css" href="{% static 'pages/plugins/codemirror/lib/codemirror.css' %}">
 	<script src="{% static 'pages/plugins/codemirror/lib/codemirror.js' %}"></script>
 	<script src="{% static 'pages/plugins/codemirror/mode/javascript/javascript.js' %}"></script>
+	<script type="text/javascript" src="{% static 'pages/plugins/codemirror/mode/xml/xml.js' %}"></script>
 </head>
 <body>
 	<div class = "container">
@@ -44,8 +45,9 @@
 				<li><a href="/accounts/login">Login</a></li>
 				{% endif %}
 			  </ul>
-			  
+			
 			</div><!-- /.navbar-collapse -->
+			<hr id = "nav-line">
 		  </div><!-- /.container-fluid -->
 		</nav>
 		{% block content %}

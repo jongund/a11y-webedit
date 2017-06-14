@@ -1,9 +1,9 @@
-.navbar-btn{
-	border: thin solid gray;
-	margin-right: .5em ;
-}
 .navbar{
-	border: thin solid gray;
+	border: none;
+	background: none;
+}
+#nav-line{
+	margin: 0;
 }
 .expand{
 	float: right;
