@@ -1,10 +1,13 @@
 {% load static %}
 {% load bootstrap3 %}
 {% bootstrap_css %}
+{% bootstrap_javascript %}
 
 <head>
 	<link rel = "stylesheet" type = "text/css" href = "{% static 'pages/style.css' %}"/>
 	<link rel="stylesheet" type = "text/css" href="{% static 'pages/plugins/codemirror/lib/codemirror.css' %}">
+	<script src="{% static 'pages/plugins/codemirror/lib/codemirror.js' %}"></script>
+	<script src="{% static 'pages/plugins/codemirror/mode/javascript/javascript.js' %}"></script>
 </head>
 <body>
 	<div class = "container">
@@ -48,7 +51,4 @@
 		{% block content %}
 		{% endblock %}
 	</div>
-	{% bootstrap_javascript %}
-	<script src="{% static 'pages/plugins/codemirror/lib/codemirror.js' %}"></script>
-	<script src="{% static 'pages/plugins/codemirror/mode/javascript/javascript.js' %}"></script>
 </body>

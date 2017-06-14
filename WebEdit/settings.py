@@ -40,6 +40,9 @@ ALLOWED_HOSTS = []
 # Redirect to home URL after login (Default redirects to /accounts/profile/)
 LOGIN_REDIRECT_URL = '/pages/all'
 
+# Codemirror specifications
+CODEMIRROR_PATH = '/pages/static/pages/plugins/codemirror'
+
 # Allow django-bootstrap3 to use jquery
 BOOTSTRAP3 = {
     'include_jquery': True,
@@ -147,4 +150,5 @@ STATIC_ROOT = join(BASE_DIR, 'static/')
 
 STATICFILES_DIRS = (
   join(APP_DIR, "WebEdit/static"),
+  #'pages/static/pages/',
 )
