@@ -4,8 +4,9 @@
 {% bootstrap_javascript %}
 
 <head>
+	<link rel="stylesheet" type = "text/css" href="{% static 'pages/plugins/codemirror/lib/codemirror.css' %}"/>
+	<link rel="stylesheet" type="text/css" href="{% static 'pages/plugins/codemirror/theme/cobalt.css' %}"/>
 	<link rel = "stylesheet" type = "text/css" href = "{% static 'pages/style.css' %}"/>
-	<link rel="stylesheet" type = "text/css" href="{% static 'pages/plugins/codemirror/lib/codemirror.css' %}">
 	<script src="{% static 'pages/plugins/codemirror/lib/codemirror.js' %}"></script>
 	<script src="{% static 'pages/plugins/codemirror/mode/javascript/javascript.js' %}"></script>
 	<script type="text/javascript" src="{% static 'pages/plugins/codemirror/mode/xml/xml.js' %}"></script>

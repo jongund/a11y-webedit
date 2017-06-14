@@ -11,31 +11,25 @@
 		<li><button type = "button" class = "btn btn-default navbar-btn"><a href = "#">Copy</a></button></li>
 		<li><button type = "button" class = "btn btn-default navbar-btn"><a href = "#">Delete</a></button></li>
 	</ul>
-	<div id = "upper-form" class="collapse in">
-			<div>
-				{% bootstrap_label "Title" label_for="form.title" label_class="label label-default" %}
+	<div id = "upper-form" class="panel panel-default">
+		<div class = "panel-heading">Settings</div>
+			<div class = "panel-body">
+				{% bootstrap_label "Title" label_for="form.title" %}
 				<br>
 				{% bootstrap_field form.title show_label=False %}
-			</div>
-			
-			<div>
-				{% bootstrap_label "Description" label_for="form.description" label_class="label label-default" %}
+		
+				{% bootstrap_label "Description" label_for="form.description" %}
 				<br>
 				{% bootstrap_field form.description show_label=False %}
-			</div>
 			
-			<div>
-				{% bootstrap_label "Web key" label_for="form.web_key" label_class="label label-default" %}
+				{% bootstrap_label "Web key" label_for="form.web_key" %}
 				<br>
 				{% bootstrap_field form.web_key show_label=False %}
-			</div>
-			
-			<div>
-				{% bootstrap_label "Privacy" label_for="form.public" label_class="label label-default" %}
+				
 				{% bootstrap_field form.public show_label=False %}
-			</div>
 			
-			<p>{% bootstrap_label "Last updated" label_for="form.lastUpdated" label_class="label label-default" %} {{ p.lastUpdated }}</p>
+				<p>Last updated: {{ p.lastUpdated }}</p>
+			</div>
 	</div>
 	</hr>
 	</br>
