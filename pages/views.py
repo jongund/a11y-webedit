@@ -36,6 +36,10 @@ def new(request):
 
 def show(request,slug):
 	p=get_object_or_404(Page, web_key=slug)
+	"""try:
+		p = Page.objects.get(web_key=slug)
+	except: 
+		form=PageForm()"""
 	form=PageForm(request.POST or None, instance=p) 
 	if request.method == 'POST':
 		form_data = request.POST.copy()

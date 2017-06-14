@@ -1,77 +1,92 @@
+{% extends "base.html" %}
+{% load bootstrap3 %}
+<style>
+	.expand{
+		float: right;
+	}
+	#page-functions{
+		padding-left: 0;
+	}
+	#page-functions li{
+		display: inline;
+	}
+</style>
+{% block content %}
+<!-- everything that fits into the template -->
+<form id="pageForm" action ="" method="POST">
+	{% csrf_token %}
+	<ul id = "page-functions">
+		<li>{% bootstrap_button "Save" button_type="submit" button_class="btn-default navbar-btn" %}</li>
+		<li><button type = "button" class = "btn btn-default navbar-btn"><a href = "output/">View</a></button></li>
+		<li><button type = "button" class = "btn btn-default navbar-btn"><a href = "#">Copy</a></button></li>
+		<li><button type = "button" class = "btn btn-default navbar-btn"><a href = "#">Delete</a></button></li>
+	</ul>
+	<h4>Settings:</h4>
+	<button class="btn btn-default" data-toggle="collapse"
+		data-target="#upper-form" style="float:right">Show/Hide</button>
+	<br>
+	<div id = "upper-form" class="collapse in">
+			<div class = "form-group">
+				{% bootstrap_field form.title %}
+			</div>
+			<div class = "form-group">
+				{% bootstrap_field form.description %}
+			</div>
+			<div class = "form-group">
+				{% bootstrap_field form.web_key %}
+			</div>
+			<div class = "form-group">
+				{% bootstrap_field form.public %}
+			</div>
+			<p>Last updated: {{ p.lastUpdated }}</p>
+	</div>
+	<hr>
 
-		{% extends "base.html" %}
-		{% load bootstrap3 %}
-		{% block content %}
-		<ul id = "page-functions">
-			<li>{% bootstrap_button "Save" button_type="submit" button_class="btn-default navbar-btn" %}</li>
-			<li><button type = "button" class = "btn btn-default navbar-btn"><a href = "output/">View</a></button></li>
-			<li><button type = "button" class = "btn btn-default navbar-btn"><a href = "#">Copy</a></button></li>
-			<li><button type = "button" class = "btn btn-default navbar-btn"><a href = "#">Delete</a></button></li>
-		</ul>
-		<h4>Settings:</h4>
-		<button class="btn btn-default" data-toggle="collapse"
-			data-target="#upper-form" style="float:right">Show/Hide</button>
+	{% bootstrap_label "HTML Head" label_for="form.htmlHead" %}
+	<button class="btn btn-default expand" data-toggle="collapse"
+		data-target=".head">Show/Hide</button>
+	<br>
+	<div class = "form-group collapse in head">
 		<br>
-		<div id = "upper-form" class="collapse in">
-				<div class = "form-group">
-					{% bootstrap_field form.title %}
-				</div>
-				<div class = "form-group">
-					{% bootstrap_field form.description %}
-				</div>
-				<div class = "form-group">
-					{% bootstrap_field form.web_key %}
-				</div>
-				<div class = "form-group">
-					{% bootstrap_field form.public %}
-				</div>
-				<p>Last updated: {{ p.lastUpdated }}</p>
-		</div>
-		<hr>
-		
-		{% bootstrap_label "HTML Head" label_for="form.htmlHead" %}
-		<button class="btn btn-default expand" data-toggle="collapse"
-			data-target=".head">Show/Hide</button>
+		{% bootstrap_field form.htmlHead show_label=False placeholder="" %}
+	</div>
+
+	<hr class = "collapse head">
+
+	{% bootstrap_label "HTML Body" label_for="form.htmlBody" %}
+	<button class="btn btn-default expand" data-toggle="collapse"
+		data-target=".body">Show/Hide</button>
+	<br>
+	<div class = "form-group collapse in body">
 		<br>
-		<div class = "form-group collapse in head">
-			<br>
-			{% bootstrap_field form.htmlHead show_label=False placeholder="" %}
-		</div>
+		{% bootstrap_field form.htmlBody show_label=False placeholder="" %}
+	</div>
+
+	<hr class = "collapse body">
 		
-		<hr class = "collapse head">
-		
-		{% bootstrap_label "HTML Body" label_for="form.htmlBody" %}
-		<button class="btn btn-default expand" data-toggle="collapse"
-			data-target=".body">Show/Hide</button>
+	{% bootstrap_label "CSS" label_for="form.css" %}
+	<button class="btn btn-default expand" data-toggle="collapse"
+		data-target=".css">Show/Hide</button>
+	<br>
+	<div class = "form-group collapse in css">
 		<br>
-		<div class = "form-group collapse in body">
-			<br>
-			{% bootstrap_field form.htmlBody show_label=False placeholder="" %}
-		</div>
-		
-		<hr class = "collapse body">
-			
-		{% bootstrap_label "CSS" label_for="form.css" %}
-		<button class="btn btn-default expand" data-toggle="collapse"
-			data-target=".css">Show/Hide</button>
+		{% bootstrap_field form.css show_label=False placeholder="" %}
+	</div>
+
+	<hr class = "collapse css">
+
+	{% bootstrap_label "JavaScript" label_for="form.javascript" %}
+	<button class="btn btn-default expand" data-toggle="collapse"
+		data-target=".js">Show/Hide</button>
+	<br>
+	<div class = "form-group collapse in js">
 		<br>
-		<div class = "form-group collapse in css">
-			<br>
-			{% bootstrap_field form.css show_label=False placeholder="" %}
-		</div>
-		
-		<hr class = "collapse css">
+		{% bootstrap_field form.javascript show_label=False placeholder="" %}
+	</div>
+
+	<hr class = "collapse js">
+
 	
-		{% bootstrap_label "JavaScript" label_for="form.javascript" %}
-		<button class="btn btn-default expand" data-toggle="collapse"
-			data-target=".js">Show/Hide</button>
-		<br>
-		<div class = "form-group collapse in js">
-			<br>
-			{% bootstrap_field form.javascript show_label=False placeholder="" %}
-		</div>
-		
-		<hr class = "collapse js">
-		
-		
-		{% endblock %}
+</form>
+
+{% endblock %}

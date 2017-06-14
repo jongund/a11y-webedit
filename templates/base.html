@@ -1,29 +1,12 @@
+{% load static %}
 {% load bootstrap3 %}
 {% bootstrap_css %}
-{% bootstrap_javascript %}
-{% bootstrap_messages %}
-<style>
-	.navbar-btn{
-		border: thin solid gray;
-		margin-right: .5em  ;
-	}
-	.navbar{
-		border: thin solid gray;
-	}
-	.expand{
-		float: right;
-	}
-	#page-functions{
-		padding-left: 0;
-	}
-	#page-functions li{
-		display: inline;
-	}
-</style>
+
+<head>
+	<link rel = "stylesheet" type = "text/css" href = "{% static 'pages/style.css' %}"/>
+</head>
 <body>
 	<div class = "container">
-	<form id="pageForm" action ="" method="POST">
-			{% csrf_token %}
 		<nav class="navbar navbar-default">
 		  <div class="container-fluid">
 			<!-- Brand and toggle get grouped for better mobile display -->
@@ -63,6 +46,6 @@
 		</nav>
 		{% block content %}
 		{% endblock %}
-		</form>
 	</div>
+	{% bootstrap_javascript %}
 </body>
