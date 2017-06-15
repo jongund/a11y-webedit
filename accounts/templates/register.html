@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% load bootstrap3 %}
+{% block content %}
+<form id="pageForm" action ="" method="POST">
+	{% csrf_token %}
+	{{ form }}
+	{% bootstrap_button "Save" button_type="submit" button_class="btn btn-primary" extra_classes="save" %}
+</form>
+{% endblock %}
