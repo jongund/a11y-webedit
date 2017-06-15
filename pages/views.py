@@ -5,6 +5,7 @@ from django.http import HttpResponse
 #from django.contrib.auth.mixins import LoginRequiredMixin
 #from django.contrib.auth.decorators import login_required
 
+#THIS FUNCTION IS LIKELY UNNECESSARY AND CAN BE MERGED WITH SHOW
 def new(request):
 	if request.method == 'POST':
 		form_data = request.POST.copy() #get a mutable copy of the request data
@@ -47,7 +48,8 @@ def show(request,slug):
 		form=PageForm(form_data,instance=p)
 		if form.is_valid():
 			form.save()
-			return redirect("/pages/"+slug)
+			pageKey = form.cleaned_data.get("web_key")
+			return redirect("/pages/"+pageKey)
 	context = {
 		'p' : p,
 		'form' : form,
@@ -71,3 +73,7 @@ def run(request,slug):
 	<script>"+p.javascript+"</script>"
 	return HttpResponse(web_page)
 	
+def delete(request, slug):
+	p=get_object_or_404(Page, web_key=slug)
+	p.delete()
+	return redirect("/pages/all")

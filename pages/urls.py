@@ -4,6 +4,7 @@ from . import views
 urlpatterns = [
 	url(r'^new/$', views.new, name = 'new'),
 	url(r'^(?P<slug>[-\w]+)/output/$', views.run),
+	url(r'^(?P<slug>[-\w]+)/delete/$', views.delete),
 	url(r'^all/$', views.show_all, name='show_all'),
 	url(r'^(?P<slug>[-\w]+)/$', views.show),
 	#url(r'^(?P<slug>[-\w]+)/output$', views.run),

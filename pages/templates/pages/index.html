@@ -16,9 +16,15 @@
 	<div class = "panel panel-default">
 		<div class = "panel-body">
 			{% bootstrap_button "Save" button_type="submit" button_class="btn btn-primary" extra_classes="save" %}
+			{% if p %}
 			<a href = "output/" class = "btn btn-primary">Run</a>
+			{% else %}
+			{% bootstrap_button "Run" button_type="submit" button_class="btn btn-primary" extra_classes="save before-run" %}
+			{% endif %}
 			<a href = "#" class = "btn btn-primary">Copy</a>
-			<a href = "#" class = "btn btn-danger" id ="danger">Delete</a>
+			{% if p %}
+			<a href = "delete/" class = "btn btn-danger danger">Delete</a>
+			{% endif %}
 		</div>
 	</div>
 	
