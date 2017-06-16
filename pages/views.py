@@ -5,6 +5,8 @@ from django.http import HttpResponse
 #from django.contrib.auth.mixins import LoginRequiredMixin
 #from django.contrib.auth.decorators import login_required
 
+from django.utils.crypto import get_random_string
+
 #THIS FUNCTION IS LIKELY UNNECESSARY AND CAN BE MERGED WITH SHOW
 def new(request):
 	if request.method == 'POST':
@@ -17,8 +19,9 @@ def new(request):
 			pageKey = form.cleaned_data.get("web_key")
 			return redirect("/pages/"+pageKey)
 	else:
-		form=PageForm()
-		
+		p = Page(web_key=get_random_string(length=6).lower())
+		form=PageForm(instance = p)
+	
 	context = {
 	'form' : form,
 	}
@@ -76,4 +79,7 @@ def run(request,slug):
 def delete(request, slug):
 	p=get_object_or_404(Page, web_key=slug)
 	p.delete()
-	return redirect("/pages/all")
+	if request.user.is_anonymous():
+		return redirect("/pages/new")
+	else:
+		return redirect("/pages/all")

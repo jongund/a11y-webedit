@@ -10,7 +10,11 @@
 		<a href = "/pages/{{ i.3 }}/output" class = "btn btn-primary">Run</a>
 		<a href = "/pages/{{ i.3 }}/delete" class = "btn btn-danger">Delete</a>
 	</div>
+	{% if i.1 %}
 	<h4>{{ i.1 }}</h4>
+	{% else %}
+	<br/>
+	{% endif %}
 	<p>Last updated: {{ i.2 }}</p>
 	<hr>
 	

@@ -12,12 +12,14 @@
 
 <form id="pageForm" action ="" method="POST">
 	{% csrf_token %}
-	
+	{% if form.errors %}
+	<p>Something went wrong.</p>
+	{% endif %}
 	<div class = "panel panel-default">
 		<div class = "panel-body">
 			{% bootstrap_button "Save" button_type="submit" button_class="btn btn-primary" extra_classes="save" %}
 			{% if p %}
-			<a href = "output/" class = "btn btn-primary">Run</a>
+			<a href = "output/" class = "btn btn-primary" target = "_blank">Run</a>
 			{% else %}
 			{% bootstrap_button "Run" button_type="submit" button_class="btn btn-primary" extra_classes="save before-run" %}
 			{% endif %}
@@ -52,36 +54,47 @@
 	</div>
 	</hr>
 	</br>
-	
 	<div class = "panel panel-info">
 		<div class = "panel-heading">
 			{% bootstrap_label "HTML Head" label_for="form.htmlHead" %}
+			<!--<button class = "btn btn-default" data-toggle="collapse" data-target="#head">Show/Hide</button>-->
 		</div>
-		{{ form.htmlHead }}
+		<div id = "head" class = "collapse in">
+			{{ form.htmlHead }}
+		</div>
 	</div>
 	</br>
 	
 	<div class = "panel panel-info">
 		<div class = "panel-heading">
 			{% bootstrap_label "HTML Body" label_for="form.htmlBody" %}
+			<!--<button class = "btn btn-default" data-toggle="collapse" data-target="#body">Show/Hide</button>-->
 		</div>
-		{{ form.htmlBody }}
+		<div id = "body" class = "collapse in">
+			{{ form.htmlBody }}
+		</div>
 	</div>
 	</br>
 	
 	<div class = "panel panel-info">	
 		<div class = "panel-heading">
 			{% bootstrap_label "CSS" label_for="form.css" %}
+			<!--<button class = "btn btn-default" data-toggle="collapse" data-target="#css">Show/Hide</button>-->
 		</div>
-		{{ form.css }}
+		<div id = "css" class = "collapse in">
+			{{ form.css }}
+		</div>
 	</div>
 	</br>
 	
 	<div class = "panel panel-info">	
 		<div class = "panel-heading">
 			{% bootstrap_label "JavaScript" label_for="form.javascript" %}
+			<!--<button class = "btn btn-default" data-toggle="collapse" data-target="#js">Show/Hide</button>-->
 		</div>
-		{{ form.javascript }}
+		<div id = "js" class = "collapse in">
+			{{ form.javascript }}
+		</div>
 	</div>
 </form>
 {% endblock %}

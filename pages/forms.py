@@ -1,6 +1,7 @@
 from django import forms
 from .models import Page
 from codemirror import CodeMirrorTextarea
+from django.utils.crypto import get_random_string
 
 class PageForm(forms.ModelForm):
 	class Meta: 
@@ -18,4 +19,3 @@ class PageForm(forms.ModelForm):
 	javascript = forms.CharField(widget= CodeMirrorTextarea(
 		mode = "javascript"), required = False,
 		)
-	
