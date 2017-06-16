@@ -38,7 +38,7 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 # Redirect to home URL after login (Default redirects to /accounts/profile/)
-LOGIN_REDIRECT_URL = '/pages/all'
+LOGIN_REDIRECT_URL = '/pages/new'
 
 # Codemirror specifications
 CODEMIRROR_PATH = '/pages/static/pages/plugins/codemirror'

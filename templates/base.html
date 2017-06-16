@@ -1,5 +1,5 @@
-{% load static %}
 {% load bootstrap3 %}
+{% load static %}
 {% bootstrap_css %}
 
 <head>
@@ -8,7 +8,7 @@
 	<link rel = "stylesheet" type = "text/css" href = "{% static 'pages/style.css' %}"/>
 </head>
 <body>
-	<div class = "container">
+	<div class = "container" id = "main">
 		<nav class="navbar navbar-default navbar-custom">
 		  <div class="container-fluid">
 			<!-- Brand and toggle get grouped for better mobile display -->
@@ -34,7 +34,7 @@
 			<!-- Right side navbar -->
 			  <ul class="nav navbar-nav navbar-right">
 				{% if user.is_authenticated %}
-				<li><a href="#">{{ user }}</a></li>
+				<li><a href="/accounts/profile">{{ user }}</a></li>
 				<li><a href="/pages/all">My Pages</a></li>
 				<li><a href="/accounts/logout">Logout</a></li>
 				{% else %}
@@ -49,12 +49,16 @@
 		</nav>
 		{% block content %}
 		{% endblock %}
-	<!--<footer>
-		<ul>
-			<li><p>Webedit |</p></li>
-			<li><a href = "https://github.com/illinois-dres-aitg/a11yWebEdit"> GitHub</a></li>
-		</ul>
-	</footer>-->
+		
+	</div>
+	<div class = "container" id = "bottom">
+		<hr/>
+		<footer>
+			<ul>
+				<li><p class = "footer-parts">Webedit |&nbsp</p></li>
+				<li><a class = "footer-parts" href = "https://github.com/illinois-dres-aitg/a11yWebEdit">GitHub</a></li>
+			</ul>
+		</footer>
 	</div>
 	{% bootstrap_javascript %}
 	<script src = "{% static '/pages/page_js.js' %}"></script>
