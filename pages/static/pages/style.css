@@ -1,7 +1,18 @@
-
 .navbar{
 	border: none;
 	background: none;
+}
+.container-fluid{
+	border-bottom: thin solid black;
+}
+#brand{
+	color: black;
+}
+#navbar-collapse-1 ul>li>a{
+	color: #337ab7;
+}
+#navbar-collapse-1 ul>li>a:hover{
+	text-decoration: underline;
 }
 #nav-line{
 	margin: 0;
