@@ -9,12 +9,15 @@
 .expand{
 	float: right;
 }
+
+/*
 #page-functions{
 	padding-left: 0;
 }
 #page-functions li{
 	display: inline;
 }
+*/
 
 ul{
 	list-style: none;

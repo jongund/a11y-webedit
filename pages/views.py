@@ -83,3 +83,16 @@ def delete(request, slug):
 		return redirect("/pages/new")
 	else:
 		return redirect("/pages/all")
+		
+def copy(request, slug):
+	p=get_object_or_404(Page, web_key=slug)
+	copy_title = "Copy of '"+p.title+"'"
+	copy_description = "'"+p.description+"'"
+	copy = Page(title=copy_title,description=copy_description,htmlHead=p.htmlHead,\
+	htmlBody=p.htmlBody,css=p.css,javascript=p.javascript,\
+	web_key=get_random_string(length=6).lower(),user=request.user)
+	try:
+		copy.save()
+	except:
+		return redirect("/pages/"+p.web_key)
+	return redirect("/pages/"+copy.web_key)

@@ -1,8 +1,10 @@
 {% load bootstrap3 %}
 {% load static %}
 {% bootstrap_css %}
-
+<!Doctype HTML>
+<html lang = "en">
 <head>
+	<title>WebEdit</title>
 	<link rel="stylesheet" type = "text/css" href="{% static 'pages/plugins/codemirror/lib/codemirror.css' %}"/>
 	<!--<link rel="stylesheet" type="text/css" href="{% static 'pages/plugins/codemirror/theme/cobalt.css' %}"/>-->
 	<link rel = "stylesheet" type = "text/css" href = "{% static 'pages/style.css' %}"/>
@@ -36,7 +38,7 @@
 				{% if user.is_authenticated %}
 				<li><a href="/accounts/profile">{{ user }}</a></li>
 				<li><a href="/pages/all">My Pages</a></li>
-				<li><a href="/accounts/logout">Logout</a></li>
+				<li><a href="/accounts/logout">Logout</a></li><!--redirect: ?next=/accounts/login -->
 				{% else %}
 				<li><a href="/register">Register</a></li>
 				<li><a href="/accounts/login">Login</a></li>
@@ -63,3 +65,4 @@
 	{% bootstrap_javascript %}
 	<script src = "{% static '/pages/page_js.js' %}"></script>
 </body>
+</html>
