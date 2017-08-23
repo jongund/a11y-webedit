@@ -29,7 +29,7 @@ APP_DIR  = root("")
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
-with open('../secrets.json') as s:
+with open('secrets.json') as s:
 	secrets = json.loads(s.read())
 	
 def get_secret(setting, secrets=secrets):
