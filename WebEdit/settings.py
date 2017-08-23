@@ -10,7 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
-import os
+import os, json
 from os.path import join, abspath, dirname
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -29,8 +29,18 @@ APP_DIR  = root("")
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
+with open('../secrets.json') as s:
+	secrets = json.loads(s.read())
+	
+def get_secret(setting, secrets=secrets):
+	try:
+		return secrets[setting]
+	except KeyError:
+		error_msg = 'Set the {0} environment variable'.format(setting)
+		raise ImproperlyConfigured(error_msg)
+
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '2kto924gv3w*$7+qb30ip5_eye9*y6&h)qq(=6wj3u2!$i-^=y'
+SECRET_KEY = get_secret('SECRET_KEY')#'2kto924gv3w*$7+qb30ip5_eye9*y6&h)qq(=6wj3u2!$i-^=y'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -97,12 +107,12 @@ WSGI_APPLICATION = 'WebEdit.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2', 
-        'NAME': 'webeditdb', 
-		'USER': 'postgres',
-		'PASSWORD': 'Akse55ible',
-		'HOST': 'localhost',
-		'PORT': '5432',
+        'ENGINE': get_secret('DATABASE_ENGINE'),
+        'NAME': get_secret('DATABASE_NAME'),
+		'USER': get_secret('USER'),
+		'PASSWORD': get_secret('PASSWORD'),
+		'HOST': get_secret('HOST'),
+		'PORT': get_secret('PORT')
     }
 }
 
