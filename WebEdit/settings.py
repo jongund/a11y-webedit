@@ -156,9 +156,6 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = join(BASE_DIR, 'static/')
 
-#print('STATIC ROOT: ' + STATIC_ROOT)
-
 STATICFILES_DIRS = (
-  join(APP_DIR, "WebEdit/static"),
-  #'pages/static/pages/',
+  join(APP_DIR, '../pages/static'),
 )

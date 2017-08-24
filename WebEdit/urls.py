@@ -20,7 +20,7 @@ from django.views.generic.edit import CreateView
 from django.contrib.auth.forms import UserCreationForm
 
 urlpatterns = [
-	url(r'^pages/', include('pages.urls')),
+	url(r'^', include('pages.urls')),
     url(r'^accounts/', include('django.contrib.auth.urls')),
     url(r'^accounts/', include('accounts.urls')),
 	url(r'^register/$', CreateView.as_view(
