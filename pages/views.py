@@ -4,6 +4,7 @@ from .forms import PageForm
 from django.http import HttpResponse
 #from django.contrib.auth.mixins import LoginRequiredMixin
 #from django.contrib.auth.decorators import login_required
+from django.urls import reverse
 
 from django.utils.crypto import get_random_string
 
@@ -82,9 +83,9 @@ def delete(request, slug):
 	p=get_object_or_404(Page, web_key=slug)
 	p.delete()
 	if request.user.is_anonymous():
-		return redirect('/new')
+		return redirect(reverse('new'))
 	else:
-		return redirect('/all')
+		return redirect(reverse('show_all'))
 		
 def copy(request, slug):
 	p=get_object_or_404(Page, web_key=slug)
