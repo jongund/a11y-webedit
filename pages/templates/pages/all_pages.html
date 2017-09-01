@@ -2,23 +2,49 @@
 {% load bootstrap3 %}
 {% block content %}
 
-<br>
+<h1>My Pages</h1>
+
+<table class="table table-striped">
+<thead>
+	<tr>
+		<th>Title</th>
+		<th>Last Updated</th>
+		<th>Options</th>
+	</tr>
+</thead>
+<tbody>
 {% for page in all_pages %}
-	<h3>{{ page.title }} </h3>
-	<div class = "embedded-functions">
-		<a href = "{% url 'show' page.web_key %}" class = "btn btn-primary">Edit</a>
-		<a href = "{% url 'run' page.web_key %}" class = "btn btn-primary">Run</a>
-		<a href = "{% url 'copy' page.web_key %}" class = "btn btn-primary">Copy</a>
-		<a href = "{% url 'delete' page.web_key %}" class = "btn btn-danger">Delete</a>
-	</div>
-	{% if page.description %}
-	<h4>{{ page.description }}</h4>
-	{% else %}
-	<br/>
-	{% endif %}
-	<p>Last updated: {{ page.lastUpdated }}</p>
-	<hr>
+	<tr>
+		<th>
+			<details>
+				<summary>{{page.title}}</summary>
+				{% if page.description %}
+					<div class = "description">
+						{{page.description}}
+					</div>
+				{% else %}
+					<div class = "description">
+						no description
+					</div>
+				{% endif %}
+			</details>
+		</th>
+		<td>{{page.lastUpdated}}</td>
+		<td>
+			<a href = "{% url 'show' page.web_key %}" aria-label = "Edit {{page.title}}" class = "btn btn-primary">Edit</a>
+			<a href = "{% url 'run' page.web_key %}" aria-label = "Run {{page.title}}" class = "btn btn-primary">Run</a>
+			<a href = "{% url 'copy' page.web_key %}" aria-label = "Copy {{page.title}}" class = "btn btn-primary">Copy</a>
+			<a href = "{% url 'delete' page.web_key %}" aria-label = "Delete {{page.title}}" class = "btn btn-danger">Delete</a>
+		</td>
+	</tr>
+	
+{% empty %}
+	<tr>
+		<th>No saved pages</th>
+		<td></td>
+		<td></td>
+	</tr>
 	
 {% endfor %}
-
+</table>
 {% endblock %}
