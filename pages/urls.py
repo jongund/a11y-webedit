@@ -10,6 +10,7 @@ urlpatterns = [
 	url(r'^(?P<slug>[-\w]+)/$', views.show, name = 'show'),
 	#url(r'^(?P<slug>[-\w]+)/output$', views.run),
 ]
+#reverse slug and copy/delete/output e.g. 'output/...slug...', 'delete/...slug...'
 
 #target = "_user.id"
 

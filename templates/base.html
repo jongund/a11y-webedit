@@ -5,9 +5,9 @@
 <html lang = "en">
 <head>
 	<title>WebEdit</title>
-	<link rel="stylesheet" type = "text/css" href="{% static 'pages/plugins/codemirror/lib/codemirror.css' %}"/>
+	<link rel="stylesheet" type = "text/css" href="{% static 'pages/css/codemirror/codemirror.css' %}"/>
 	<!--<link rel="stylesheet" type="text/css" href="{% static 'pages/plugins/codemirror/theme/cobalt.css' %}"/>-->
-	<link rel = "stylesheet" type = "text/css" href = "{% static 'pages/style.css' %}"/>
+	<link rel = "stylesheet" type = "text/css" href = "{% static 'pages/css/style.css' %}"/>
 </head>
 <body>
 	<div class = "container" id = "main">
@@ -22,7 +22,7 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			  </button>
-			  <a id = "brand" class="navbar-brand" href="{% url 'new'%}">WebEdit</a>
+			  <a id = "brand" class="navbar-brand" href="{% url 'new' %}">WebEdit</a>
 			</div>
 
 			<!-- Collect the nav links, forms, and other content for toggling -->
@@ -30,14 +30,14 @@
 			
 			<!-- Left side navbar -->
 			  <ul class="nav navbar-nav navbar-left nav-links">
-				<li><a href = "{% url 'new'%}">New page</a></li>
+				<li><a href = "{% url 'new' %}">New page</a></li>
 			  </ul>
 			  
 			<!-- Right side navbar -->
 			  <ul class="nav navbar-nav navbar-right">
 				{% if user.is_authenticated %}
 				<li><a href="/accounts/profile">{{ user }}</a></li>
-				<li><a href="/pages/all">My Pages</a></li>
+				<li><a href="/all">My Pages</a></li>
 				<li><a href="/accounts/logout">Logout</a></li><!--redirect: ?next=/accounts/login -->
 				{% else %}
 				<li><a href="/register">Register</a></li>
@@ -63,6 +63,6 @@
 		</footer>
 	</div>
 	{% bootstrap_javascript %}
-	<script src = "{% static '/pages/page_js.js' %}"></script>
+	<script src = "{% static '/pages/javascript/page_js.js' %}"></script>
 </body>
 </html>

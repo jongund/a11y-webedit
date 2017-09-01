@@ -17,7 +17,7 @@ def new(request):
 		if form.is_valid():
 			form.save()
 			pageKey = form.cleaned_data.get("web_key")
-			return redirect("/pages/"+pageKey)
+			return redirect('/'+pageKey)
 	else:
 		p = Page(web_key=get_random_string(length=6).lower())
 		form=PageForm(instance = p)
@@ -52,16 +52,18 @@ def show(request,slug):
 		if form.is_valid():
 			form.save()
 			pageKey = form.cleaned_data.get("web_key")
-			return redirect("/pages/"+pageKey)
+			return redirect(pageKey)
 	context = {
 		'p' : p,
 		'form' : form,
+		'slug' : slug
 	}
 	return render(request, 'pages/index.html', context)
 
 def show_all(request):
-	all_pages = [(i.title,i.description,i.lastUpdated,i.web_key) for i in Page.objects.filter(\
-	user=request.user)]
+	all_pages = Page.objects.filter(user=request.user)
+	#[(i.title,i.description,i.lastUpdated,i.web_key) for i in Page.objects.filter(\
+	#user=request.user)]
 	context = {
 		'all_pages' : all_pages,
 	}
@@ -80,9 +82,9 @@ def delete(request, slug):
 	p=get_object_or_404(Page, web_key=slug)
 	p.delete()
 	if request.user.is_anonymous():
-		return redirect("/pages/new")
+		return redirect('/new')
 	else:
-		return redirect("/pages/all")
+		return redirect('/all')
 		
 def copy(request, slug):
 	p=get_object_or_404(Page, web_key=slug)
@@ -94,5 +96,5 @@ def copy(request, slug):
 	try:
 		copy.save()
 	except:
-		return redirect("/pages/"+p.web_key)
-	return redirect("/pages/"+copy.web_key)
+		return redirect('/'+p.web_key)
+	return redirect('/'+copy.web_key)

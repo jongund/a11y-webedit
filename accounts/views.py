@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 # Create your views here.
 
-def show(request):
+def show_profile(request):
 	u = request.user
 	context = {
 		'u' : u,

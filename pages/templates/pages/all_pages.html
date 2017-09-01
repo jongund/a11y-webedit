@@ -3,20 +3,20 @@
 {% block content %}
 
 <br>
-{% for i in all_pages %}
-	<h3>{{ i.0 }} </h3>
+{% for page in all_pages %}
+	<h3>{{ page.title }} </h3>
 	<div class = "embedded-functions">
-		<a href = "/pages/{{ i.3 }}" class = "btn btn-primary">Edit</a>
-		<a href = "/pages/{{ i.3 }}/output" class = "btn btn-primary">Run</a>
-		<a href = "/pages/{{ i.3 }}/copy" class = "btn btn-primary">Copy</a>
-		<a href = "/pages/{{ i.3 }}/delete" class = "btn btn-danger">Delete</a>
+		<a href = "{% url 'show' page.web_key %}" class = "btn btn-primary">Edit</a>
+		<a href = "{% url 'run' page.web_key %}" class = "btn btn-primary">Run</a>
+		<a href = "{% url 'copy' page.web_key %}" class = "btn btn-primary">Copy</a>
+		<a href = "{% url 'delete' page.web_key %}" class = "btn btn-danger">Delete</a>
 	</div>
-	{% if i.1 %}
-	<h4>{{ i.1 }}</h4>
+	{% if page.description %}
+	<h4>{{ page.description }}</h4>
 	{% else %}
 	<br/>
 	{% endif %}
-	<p>Last updated: {{ i.2 }}</p>
+	<p>Last updated: {{ page.lastUpdated }}</p>
 	<hr>
 	
 {% endfor %}

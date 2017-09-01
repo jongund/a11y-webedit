@@ -4,11 +4,11 @@
 {% block content %}
 <!-- everything that fits into the template -->
 
-<script src="{% static 'pages/plugins/codemirror/lib/codemirror.js' %}"></script>
-<script src="{% static 'pages/plugins/codemirror/mode/javascript/javascript.js' %}"></script>
-<script type="text/javascript" src="{% static 'pages/plugins/codemirror/mode/xml/xml.js' %}"></script>
-<script type="text/javascript" src="{% static 'pages/plugins/codemirror/mode/javascript/javascript.js' %}"></script>
-<script type="text/javascript" src="{% static 'pages/plugins/codemirror/mode/css/css.js' %}"></script>
+<script src="{% static 'pages/javascript/codemirror/codemirror.js' %}"></script>
+<script src="{% static 'pages/javascript/codemirror/mode/javascript.js' %}"></script>
+<script src="{% static 'pages/javascript/codemirror/mode/xml.js' %}"></script>
+<script src="{% static 'pages/javascript/codemirror/mode/javascript.js' %}"></script>
+<script src="{% static 'pages/javascript/codemirror/mode/css.js' %}"></script>
 
 <form id="pageForm" action ="" method="POST">
 	{% csrf_token %}
@@ -19,13 +19,13 @@
 		<div class = "panel-body">
 			{% bootstrap_button "Save" button_type="submit" button_class="btn btn-primary" extra_classes="save" %}
 			{% if p %}
-			<a href = "output/" class = "btn btn-primary" target = "_blank">Run</a>
+			<a href = "{% url 'run' p.web_key %}" class = "btn btn-primary" target = "_blank">Run</a>
 			{% else %}
 			{% bootstrap_button "Run" button_type="submit" button_class="btn btn-primary" extra_classes="save before-run" %}
 			{% endif %}
-			<a href = "copy/" class = "btn btn-primary">Copy</a>
 			{% if p %}
-			<a href = "delete/" class = "btn btn-danger danger">Delete</a>
+			<a href = "{% url 'copy' p.web_key %}" class = "btn btn-primary">Copy</a>
+			<a href = "{% url 'delete' p.web_key %]" class = "btn btn-danger danger">Delete</a>
 			{% endif %}
 		</div>
 	</div>
