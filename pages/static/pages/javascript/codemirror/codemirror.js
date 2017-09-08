@@ -9247,8 +9247,10 @@ function fromTextArea(textarea, options) {
   }
 
   textarea.style.display = "none"
-  var cm = CodeMirror(function (node) { return textarea.parentNode.insertBefore(node, textarea.nextSibling); },
+  var cm = CodeMirror(function (node) {return textarea.parentNode.insertBefore(node, textarea.nextSibling); },
     options)
+	var newTextarea = cm.display.input.textarea;
+	newTextarea.setAttribute('aria-label',textarea.id);
   return cm
 }
 
