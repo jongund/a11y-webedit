@@ -57,7 +57,6 @@ def show(request,slug):
 	context = {
 		'p' : p,
 		'form' : form,
-		'slug' : slug
 	}
 	return render(request, 'pages/index.html', context)
 
@@ -73,7 +72,8 @@ def show_all(request):
 	
 def run(request,slug):
 	p=get_object_or_404(Page,web_key=slug)
-	web_page="<head>"+p.htmlHead+"</head>"+"<style>"+p.css+"</style>"+\
+	web_page="<head>"+p.htmlHead+"</head>"+\
+	"<style>"+p.css+"</style>"+\
 	p.htmlBody+"<script src='https://code.jquery.com/jquery-3.2.1.js'\
 	integrity='sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE='crossorigin='anonymous'></script>\
 	<script>"+p.javascript+"</script>"

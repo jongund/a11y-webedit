@@ -23,11 +23,12 @@ urlpatterns = [
 	url(r'^', include('pages.urls')),
     url(r'^accounts/', include('django.contrib.auth.urls')),
     url(r'^accounts/', include('accounts.urls')),
-	url(r'^register/$', CreateView.as_view(
+	url(r'^user/register/$', CreateView.as_view(
             template_name='register.html',
             form_class=UserCreationForm,
             success_url='/accounts/login',
-    )),
+			), name='register',
+		),
     url(r'^admin/', admin.site.urls),
 ]
 

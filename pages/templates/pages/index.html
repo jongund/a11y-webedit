@@ -34,15 +34,15 @@
 		<div class = "panel-heading">Settings</div>
 			<div class = "panel-body">
 				{% bootstrap_label "Title" label_for="form.title" %}
-				<br>
+				
 				{% bootstrap_field form.title show_label=False %}
 		
 				{% bootstrap_label "Description" label_for="form.description" %}
-				<br>
+				
 				{% bootstrap_field form.description show_label=False %}
 			
 				{% bootstrap_label "Web key" label_for="form.web_key" %}
-				<br>
+				
 				{% bootstrap_field form.web_key show_label=False %}
 				
 				{% bootstrap_field form.public show_label=False %}
@@ -56,7 +56,7 @@
 	</br>
 	<div class = "panel panel-info">
 		<div class = "panel-heading">
-			{% bootstrap_label "HTML Head" label_for="htmlHead" %}
+			{% bootstrap_label "HTML Head" label_for="id_htmlHead" %}
 			<!--<button class = "btn btn-default" data-toggle="collapse" data-target="#head">Show/Hide</button>-->
 		</div>
 		<div id = "head" class = "collapse in">
@@ -67,7 +67,7 @@
 	
 	<div class = "panel panel-info">
 		<div class = "panel-heading">
-			{% bootstrap_label "HTML Body" label_for="htmlBody" %}
+			{% bootstrap_label "HTML Body" label_for="form.htmlBody" %}
 			<!--<button class = "btn btn-default" data-toggle="collapse" data-target="#body">Show/Hide</button>-->
 		</div>
 		<div id = "body" class = "collapse in">
@@ -78,7 +78,7 @@
 	
 	<div class = "panel panel-info">	
 		<div class = "panel-heading">
-			{% bootstrap_label "CSS" label_for="css" %}
+			{% bootstrap_label "CSS" label_for="form.css" %}
 			<!--<button class = "btn btn-default" data-toggle="collapse" data-target="#css">Show/Hide</button>-->
 		</div>
 		<div id = "css" class = "collapse in">
@@ -89,7 +89,7 @@
 	
 	<div class = "panel panel-info">	
 		<div class = "panel-heading">
-			{% bootstrap_label "JavaScript" label_for="javascript" %}
+			{% bootstrap_label "JavaScript" label_for="form.javascript" %}
 			<!--<button class = "btn btn-default" data-toggle="collapse" data-target="#js">Show/Hide</button>-->
 		</div>
 		<div id = "js" class = "collapse in">
