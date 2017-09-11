@@ -57,7 +57,7 @@
 	</br>
 	<div class = "panel panel-info">
 		<div class = "panel-heading">
-			{% bootstrap_label "HTML Head" label_for="form.htmlHead" %}
+			{% bootstrap_label "HTML Head" label_for="htmlHead" %}
 			<!--<button class = "btn btn-default" data-toggle="collapse" data-target="#head">Show/Hide</button>-->
 		</div>
 		<div id = "head" class = "collapse in">
@@ -68,7 +68,7 @@
 	
 	<div class = "panel panel-info">
 		<div class = "panel-heading">
-			{% bootstrap_label "HTML Body" label_for="form.htmlBody" %}
+			{% bootstrap_label "HTML Body" label_for="htmlBody" %}
 			<!--<button class = "btn btn-default" data-toggle="collapse" data-target="#body">Show/Hide</button>-->
 		</div>
 		<div id = "body" class = "collapse in">
@@ -79,7 +79,7 @@
 	
 	<div class = "panel panel-info">	
 		<div class = "panel-heading">
-			{% bootstrap_label "CSS" label_for="form.css" %}
+			{% bootstrap_label "CSS" label_for="css" %}
 			<!--<button class = "btn btn-default" data-toggle="collapse" data-target="#css">Show/Hide</button>-->
 		</div>
 		<div id = "css" class = "collapse in">
@@ -90,7 +90,7 @@
 	
 	<div class = "panel panel-info">	
 		<div class = "panel-heading">
-			{% bootstrap_label "JavaScript" label_for="form.javascript" %}
+			{% bootstrap_label "JavaScript" label_for="javascript" %}
 			<!--<button class = "btn btn-default" data-toggle="collapse" data-target="#js">Show/Hide</button>-->
 		</div>
 		<div id = "js" class = "collapse in">
@@ -98,4 +98,5 @@
 		</div>
 	</div>
 </form>
+<script src = {% static 'pages/javascript/fixCodeMirrorLabeling.js' %}></script>
 {% endblock %}
