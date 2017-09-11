@@ -34,16 +34,13 @@
 	<div id = "upper-form" class="panel panel-default">
 		<div class = "panel-heading">Settings</div>
 			<div class = "panel-body">
-				{% bootstrap_label "Title" label_for="form.title" %}
-				
+				<div class = "webedit-label">Title</div>
 				{% bootstrap_field form.title show_label=False %}
-		
-				{% bootstrap_label "Description" label_for="form.description" %}
 				
+				<div class = "webedit-label">Description</div>
 				{% bootstrap_field form.description show_label=False %}
 			
-				{% bootstrap_label "Web key" label_for="form.web_key" %}
-				
+				<div class = "webedit-label">Web Key</div>
 				{% bootstrap_field form.web_key show_label=False %}
 				
 				{% bootstrap_field form.public show_label=False %}
@@ -60,9 +57,7 @@
 			{% bootstrap_label "HTML Head" label_for="htmlHead" %}
 			<!--<button class = "btn btn-default" data-toggle="collapse" data-target="#head">Show/Hide</button>-->
 		</div>
-		<div id = "head" class = "collapse in">
 			{{ form.htmlHead }}
-		</div>
 	</div>
 	</br>
 	
@@ -71,9 +66,7 @@
 			{% bootstrap_label "HTML Body" label_for="htmlBody" %}
 			<!--<button class = "btn btn-default" data-toggle="collapse" data-target="#body">Show/Hide</button>-->
 		</div>
-		<div id = "body" class = "collapse in">
 			{{ form.htmlBody }}
-		</div>
 	</div>
 	</br>
 	
@@ -82,9 +75,7 @@
 			{% bootstrap_label "CSS" label_for="css" %}
 			<!--<button class = "btn btn-default" data-toggle="collapse" data-target="#css">Show/Hide</button>-->
 		</div>
-		<div id = "css" class = "collapse in">
 			{{ form.css }}
-		</div>
 	</div>
 	</br>
 	
@@ -93,9 +84,7 @@
 			{% bootstrap_label "JavaScript" label_for="javascript" %}
 			<!--<button class = "btn btn-default" data-toggle="collapse" data-target="#js">Show/Hide</button>-->
 		</div>
-		<div id = "js" class = "collapse in">
 			{{ form.javascript }}
-		</div>
 	</div>
 </form>
 <script src = {% static 'pages/javascript/fixCodeMirrorLabeling.js' %}></script>

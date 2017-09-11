@@ -52,3 +52,7 @@ table .description{
 	font-weight: normal;
 	font-style: italic;
 }
+
+.webedit-label{
+	font-weight: bold;
+}
