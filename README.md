@@ -3,4 +3,4 @@ Online HTML/CS/Javascript code editor similiar in function to jsfiddle, but more
 <hr>
 <h3>Dependencies/build instructions:</h3>
 <code>pip install -r requirements.txt</code>
-<p>Install requireed dependencies</p>
+<p>Install required dependencies</p>
