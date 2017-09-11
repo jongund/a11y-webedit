@@ -9245,12 +9245,16 @@ function fromTextArea(textarea, options) {
       }
     }
   }
+  
+  let labelNewTextarea = cm => {
+	  let cmTextarea = cm.display.input.textarea
+	  if (textarea.id) cmTextarea.setAttribute('aria-label',textarea.id)
+  }
 
   textarea.style.display = "none"
   var cm = CodeMirror(function (node) {return textarea.parentNode.insertBefore(node, textarea.nextSibling); },
     options)
-	var newTextarea = cm.display.input.textarea;
-	newTextarea.setAttribute('aria-label',textarea.id);
+  labelNewTextarea(cm)
   return cm
 }
 

@@ -15,6 +15,7 @@
 	{% if form.errors %}
 	<p>Something went wrong.</p>
 	{% endif %}
+	<h1>New page</h1>
 	<div class = "panel panel-default">
 		<div class = "panel-body">
 			{% bootstrap_button "Save" button_type="submit" button_class="btn btn-primary" extra_classes="save" %}
@@ -56,7 +57,7 @@
 	</br>
 	<div class = "panel panel-info">
 		<div class = "panel-heading">
-			{% bootstrap_label "HTML Head" label_for="id_htmlHead" %}
+			{% bootstrap_label "HTML Head" label_for="form.htmlHead" %}
 			<!--<button class = "btn btn-default" data-toggle="collapse" data-target="#head">Show/Hide</button>-->
 		</div>
 		<div id = "head" class = "collapse in">

@@ -11,17 +11,17 @@ from django.utils.crypto import get_random_string
 #THIS FUNCTION IS LIKELY UNNECESSARY AND CAN BE MERGED WITH SHOW
 def new(request):
 	if request.method == 'POST':
-		form_data = request.POST.copy() #get a mutable copy of the request data
+		form_data=request.POST.copy() #get a mutable copy of the request data
 		form_data['user']=(request.user).id #the form's owner becomes the
 		#currently logged in user
 		form=PageForm(form_data) #populate form instance with data
 		if form.is_valid():
 			form.save()
-			pageKey = form.cleaned_data.get("web_key")
-			return redirect('/'+pageKey)
+			pageKey=form.cleaned_data.get("web_key")
+			return redirect(reverse('show',args=[pageKey]))
 	else:
 		p = Page(web_key=get_random_string(length=6).lower())
-		form=PageForm(instance = p)
+		form=PageForm(instance=p)
 	
 	context = {
 	'form' : form,
@@ -53,7 +53,7 @@ def show(request,slug):
 		if form.is_valid():
 			form.save()
 			pageKey = form.cleaned_data.get("web_key")
-			return redirect(pageKey)
+			return redirect(reverse('show',args=[pageKey]))
 	context = {
 		'p' : p,
 		'form' : form,
@@ -62,13 +62,10 @@ def show(request,slug):
 
 def show_all(request):
 	all_pages = Page.objects.filter(user=request.user)
-	#[(i.title,i.description,i.lastUpdated,i.web_key) for i in Page.objects.filter(\
-	#user=request.user)]
 	context = {
 		'all_pages' : all_pages,
 	}
 	return render(request, 'pages/all_pages.html', context)
-	#return HttpResponse("<h2>All pages:</h2>"+all_pages+"</ul>")
 	
 def run(request,slug):
 	p=get_object_or_404(Page,web_key=slug)
@@ -97,5 +94,5 @@ def copy(request, slug):
 	try:
 		copy.save()
 	except:
-		return redirect('/'+p.web_key)
-	return redirect('/'+copy.web_key)
+		return redirect(reverse('show',arg=[p.web_key]))
+	return redirect(reverse('show',args=[copy.web_key]))
