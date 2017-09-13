@@ -15,7 +15,9 @@
 	{% if form.errors %}
 	<p>Something went wrong.</p>
 	{% endif %}
-	<h1>New page</h1>
+	{% if p.title %}<h1>{{ p.title }}</h1>
+	{% else %}<h1>New page</h1>
+	{% endif %}
 	<div class = "panel panel-default">
 		<div class = "panel-body">
 			{% bootstrap_button "Save" button_type="submit" button_class="btn btn-primary" extra_classes="save" %}
