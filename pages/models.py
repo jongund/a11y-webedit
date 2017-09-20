@@ -10,13 +10,14 @@ class Page(models.Model):
 			"\", Username: \""+self.user.username+"\""
 			
 	#------------USER----------------
-	user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name = "page",blank=True,null=True)
+	user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, 
+	related_name = "page", blank=True, null=True)
 	#potentially add more models for sharing
 	
 	#----------SETTINGS--------------
 	title = models.CharField(max_length=30)
 	description = models.CharField(max_length=200,blank=True)
-	web_key = models.CharField(max_length=6, unique=True)
+	web_key = models.CharField(max_length=6, unique=True) #SHOULD JUST BE UNIQUE FOR ONE USER
 	#default=get_random_string(length=6).lower(),unique=True)
 	#=>letters and numbers excluding one, el
 	#=>all letters lowercase

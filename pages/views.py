@@ -18,7 +18,7 @@ def new(request):
 		if form.is_valid():
 			form.save()
 			pageKey=form.cleaned_data.get("web_key")
-			return redirect(reverse('show',args=[pageKey]))
+			return redirect(reverse('show',args=[request.user.username, pageKey]))
 	else:
 		p = Page(web_key=get_random_string(length=6).lower())
 		form=PageForm(instance=p)
@@ -39,7 +39,7 @@ def new(request):
 
 #RUN saves before it runs
 
-def show(request,slug):
+def show(request,slug,username):
 	p=get_object_or_404(Page, web_key=slug)
 	"""try:
 		p = Page.objects.get(web_key=slug)
@@ -53,7 +53,7 @@ def show(request,slug):
 		if form.is_valid():
 			form.save()
 			pageKey = form.cleaned_data.get("web_key")
-			return redirect(reverse('show',args=[pageKey]))
+			return redirect(reverse('show',args=[username,pageKey]))
 	context = {
 		'p' : p,
 		'form' : form,
@@ -94,5 +94,5 @@ def copy(request, slug):
 	try:
 		copy.save()
 	except:
-		return redirect(reverse('show',arg=[p.web_key]))
-	return redirect(reverse('show',args=[copy.web_key]))
+		return redirect(reverse('show',args=[request.user.username,p.web_key]))
+	return redirect(reverse('show',args=[request.user.username,copy.web_key]))

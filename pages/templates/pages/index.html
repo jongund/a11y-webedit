@@ -47,44 +47,36 @@
 				
 				{% bootstrap_field form.public show_label=False %}
 				
-				{% if p.lastUpdated != None %}
+				{% if p.lastUpdated %}
 				<p>Last updated: {{ p.lastUpdated }}</p>
 				{% endif %}
 			</div>
 	</div>
-	</hr>
-	</br>
+	
 	<div class = "panel panel-info">
 		<div class = "panel-heading">
 			{% bootstrap_label "HTML Head" label_for="htmlHead" %}
-			<!--<button class = "btn btn-default" data-toggle="collapse" data-target="#head">Show/Hide</button>-->
 		</div>
 			{{ form.htmlHead }}
 	</div>
-	</br>
 	
 	<div class = "panel panel-info">
 		<div class = "panel-heading">
 			{% bootstrap_label "HTML Body" label_for="htmlBody" %}
-			<!--<button class = "btn btn-default" data-toggle="collapse" data-target="#body">Show/Hide</button>-->
 		</div>
 			{{ form.htmlBody }}
 	</div>
-	</br>
 	
 	<div class = "panel panel-info">	
 		<div class = "panel-heading">
 			{% bootstrap_label "CSS" label_for="css" %}
-			<!--<button class = "btn btn-default" data-toggle="collapse" data-target="#css">Show/Hide</button>-->
 		</div>
 			{{ form.css }}
 	</div>
-	</br>
 	
 	<div class = "panel panel-info">	
 		<div class = "panel-heading">
 			{% bootstrap_label "JavaScript" label_for="javascript" %}
-			<!--<button class = "btn btn-default" data-toggle="collapse" data-target="#js">Show/Hide</button>-->
 		</div>
 			{{ form.javascript }}
 	</div>

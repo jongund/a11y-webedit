@@ -16,7 +16,7 @@
 {% for page in all_pages %}
 	<tr>
 		<th>
-			<details>
+			<details style = "width: 250px">
 				<summary>{{page.title}}</summary>
 				{% if page.description %}
 					<div class = "description">
@@ -31,7 +31,7 @@
 		</th>
 		<td>{{page.lastUpdated}}</td>
 		<td>
-			<a href = "{% url 'show' page.web_key %}" aria-label = "Edit {{page.title}}" class = "btn btn-primary">Edit</a>
+			<a href = "{% url 'show' user.username page.web_key %}" aria-label = "Edit {{page.title}}" class = "btn btn-primary">Edit</a>
 			<a href = "{% url 'run' page.web_key %}" aria-label = "Run {{page.title}}" class = "btn btn-primary">Run</a>
 			<a href = "{% url 'copy' page.web_key %}" aria-label = "Copy {{page.title}}" class = "btn btn-primary">Copy</a>
 			<a href = "{% url 'delete' page.web_key %}" aria-label = "Delete {{page.title}}" class = "btn btn-danger">Delete</a>

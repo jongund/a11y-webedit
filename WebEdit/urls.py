@@ -18,9 +18,11 @@ from django.contrib import admin
 import django.contrib.auth.urls
 from django.views.generic.edit import CreateView
 from django.contrib.auth.forms import UserCreationForm
+from django.http import HttpResponseRedirect
 
 urlpatterns = [
-	url(r'^', include('pages.urls')),
+	url(r'^$', lambda r: HttpResponseRedirect('pages/new')),
+	url(r'^pages/', include('pages.urls')),
     url(r'^accounts/', include('django.contrib.auth.urls')),
     url(r'^accounts/', include('accounts.urls')),
 	url(r'^user/register/$', CreateView.as_view(
