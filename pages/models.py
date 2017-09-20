@@ -17,7 +17,7 @@ class Page(models.Model):
 	#----------SETTINGS--------------
 	title = models.CharField(max_length=30)
 	description = models.CharField(max_length=200,blank=True)
-	web_key = models.CharField(max_length=6, unique=True) #SHOULD JUST BE UNIQUE FOR ONE USER
+	web_key = models.CharField(max_length=32, unique=True) #SHOULD JUST BE UNIQUE FOR ONE USER
 	#default=get_random_string(length=6).lower(),unique=True)
 	#=>letters and numbers excluding one, el
 	#=>all letters lowercase
