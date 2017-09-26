@@ -20,10 +20,10 @@ here = lambda *dirs: join(abspath(dirname(__file__)), *dirs)
 root = lambda *dirs: join(abspath(here("","")), *dirs)
 
 BASE_DIR = here("", "")
-#print("BASE_DIR: " + BASE_DIR)
+print("BASE_DIR: " + BASE_DIR)
 
 APP_DIR  = root("")
-#print(" APP_DIR: " + APP_DIR)
+print(" APP_DIR: " + APP_DIR)
 
 
 # Quick-start development settings - unsuitable for production
@@ -86,7 +86,7 @@ ROOT_URLCONF = 'WebEdit.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['accounts/templates','templates'],
+        'DIRS': [join(APP_DIR,'../accounts/templates'),join(APP_DIR,'../templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -98,6 +98,7 @@ TEMPLATES = [
         },
     },
 ]
+print(TEMPLATES)
 
 WSGI_APPLICATION = 'WebEdit.wsgi.application'
 
