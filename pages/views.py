@@ -69,8 +69,8 @@ def show_all(request):
 	}
 	return render(request, 'pages/all_pages.html', context)
 	
-def run(request,slug):
-	p=get_object_or_404(Page,web_key=slug)
+def run(request,slug,username):
+	p=get_object_or_404(Page,web_key=slug,user=get_object_or_404(User, username=username))
 	web_page="<head>"+p.htmlHead+"</head>"+\
 	"<style>"+p.css+"</style>"+\
 	p.htmlBody+"<script src='https://code.jquery.com/jquery-3.2.1.js'\
@@ -92,7 +92,7 @@ def delete(request, slug, username):
 		return redirect(reverse('show_all'))
 		
 def copy(request, slug, username):
-	p=get_object_or_404(Page, web_key=slug)
+	p=get_object_or_404(Page, web_key=slug, user=get_object_or_404(User,username=username))
 	copy_title = "Copy of '"+p.title+"'"
 	copy_description = "'"+p.description+"'"
 	copy = Page(title=copy_title,description=copy_description,htmlHead=p.htmlHead,\
