@@ -20,15 +20,19 @@
 	{% endif %}
 	<div class = "panel panel-default">
 		<div class = "panel-body">
+			{% if sameUser %}
 			{% bootstrap_button "Save" button_type="submit" button_class="btn btn-primary" extra_classes="save" %}
+			{% endif %}
 			{% if p %}
-			<a href = "{% url 'run' p.web_key %}" class = "btn btn-primary" target = "_blank">Run</a>
+			<a href = "{% url 'run' user.username p.web_key %}" class = "btn btn-primary" target = "_blank">Run</a>
 			{% else %}
 			{% bootstrap_button "Run" button_type="submit" button_class="btn btn-primary" extra_classes="save before-run" %}
 			{% endif %}
 			{% if p %}
-			<a href = "{% url 'copy' p.web_key %}" class = "btn btn-primary">Copy</a>
-			<a href = "{% url 'delete' p.web_key %}" class = "btn btn-danger danger">Delete</a>
+			<a href = "{% url 'copy' user.username p.web_key %}" class = "btn btn-primary">Copy</a>
+			{% if sameUser %}
+			<a href = "{% url 'delete' user.username p.web_key %}" class = "btn btn-danger danger">Delete</a>
+			{% endif %}
 			{% endif %}
 		</div>
 	</div>

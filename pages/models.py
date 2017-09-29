@@ -17,10 +17,8 @@ class Page(models.Model):
 	#----------SETTINGS--------------
 	title = models.CharField(max_length=30)
 	description = models.CharField(max_length=200,blank=True)
-	web_key = models.CharField(max_length=32, unique=True) #SHOULD JUST BE UNIQUE FOR ONE USER
-	#default=get_random_string(length=6).lower(),unique=True)
-	#=>letters and numbers excluding one, el
-	#=>all letters lowercase
+	web_key = models.CharField(max_length=32) #SHOULD JUST BE UNIQUE FOR ONE USER
+	#=>letters and numbers excluding one and l
 	public = models.BooleanField(default=True)
 	lastUpdated = models.DateTimeField(auto_now=True)
 	
@@ -29,5 +27,8 @@ class Page(models.Model):
 	htmlBody = models.TextField(blank=True)
 	css = models.TextField(blank=True)
 	javascript = models.TextField(blank=True)
+	
+	class Meta:
+		unique_together = ('user', 'web_key')
 	
 	

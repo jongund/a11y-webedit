@@ -1,10 +1,12 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Page
+from django.contrib.auth.models import User
 from .forms import PageForm
 from django.http import HttpResponse
 #from django.contrib.auth.mixins import LoginRequiredMixin
 #from django.contrib.auth.decorators import login_required
 from django.urls import reverse
+from django.contrib.auth.decorators import user_passes_test
 
 from django.utils.crypto import get_random_string
 
@@ -18,13 +20,17 @@ def new(request):
 		if form.is_valid():
 			form.save()
 			pageKey=form.cleaned_data.get("web_key")
-			return redirect(reverse('show',args=[request.user.username, pageKey]))
+			if request.user.username:
+				return redirect(reverse('show',args=[request.user.username, pageKey]))
+			else:
+				return redirect(reverse('show',args=['anonymous', pageKey]))
 	else:
 		p = Page(web_key=get_random_string(length=6).lower())
 		form=PageForm(instance=p)
 	
 	context = {
 	'form' : form,
+	'sameUser' : True,
 	}
 	
 	return render(request, 'pages/index.html', context)
@@ -38,13 +44,8 @@ def new(request):
 #pipe safe sends raw text to db
 
 #RUN saves before it runs
-
 def show(request,slug,username):
-	p=get_object_or_404(Page, web_key=slug)
-	"""try:
-		p = Page.objects.get(web_key=slug)
-	except: 
-		form=PageForm()"""
+	p=get_object_or_404(Page, web_key=slug, user=get_object_or_404(User,username=username))
 	form=PageForm(request.POST or None, instance=p) 
 	if request.method == 'POST':
 		form_data = request.POST.copy()
@@ -53,10 +54,11 @@ def show(request,slug,username):
 		if form.is_valid():
 			form.save()
 			pageKey = form.cleaned_data.get("web_key")
-			return redirect(reverse('show',args=[username,pageKey]))
+			return redirect(reverse('show',args=[request.user.username,pageKey]))
 	context = {
 		'p' : p,
 		'form' : form,
+		'sameUser' : request.user.username == username
 	}
 	return render(request, 'pages/index.html', context)
 
@@ -76,15 +78,20 @@ def run(request,slug):
 	<script>"+p.javascript+"</script>"
 	return HttpResponse(web_page)
 	
-def delete(request, slug):
-	p=get_object_or_404(Page, web_key=slug)
+def delete(request, slug, username):
+	context = {
+		'sameUser' : False
+	}
+	if request.user.username != username:
+		return render(request, 'pages/index.html', context)
+	p=get_object_or_404(Page, web_key=slug, user=get_object_or_404(User, username=username))
 	p.delete()
 	if request.user.is_anonymous():
 		return redirect(reverse('new'))
 	else:
 		return redirect(reverse('show_all'))
 		
-def copy(request, slug):
+def copy(request, slug, username):
 	p=get_object_or_404(Page, web_key=slug)
 	copy_title = "Copy of '"+p.title+"'"
 	copy_description = "'"+p.description+"'"
