@@ -21,7 +21,7 @@
 	<div class = "panel panel-default">
 		<div class = "panel-body">
 			{% if sameUser %}
-			{% bootstrap_button "Save" button_type="submit" button_class="btn btn-primary" extra_classes="save" title="Saves changes to page 
+			{% bootstrap_button "Save" button_type="submit" button_class="btn btn-primary" extra_classes="save" title="Saves changes to page" %}
 			{% endif %}
 			{% if p %}
 			<a href = "{% url 'run' user.username p.web_key %}" class = "btn btn-primary" target = "_blank" title="Displays output of code in new window">Run</a>
