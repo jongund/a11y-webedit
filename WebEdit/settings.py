@@ -86,7 +86,8 @@ ROOT_URLCONF = 'WebEdit.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [join(APP_DIR,'../accounts/templates'),join(APP_DIR,'../templates')],
+        'DIRS': [join(APP_DIR,'../accounts/templates'),join(APP_DIR,'../templates'),
+		join(APP_DIR,'../samples/templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -98,7 +99,6 @@ TEMPLATES = [
         },
     },
 ]
-print(TEMPLATES)
 
 WSGI_APPLICATION = 'WebEdit.wsgi.application'
 

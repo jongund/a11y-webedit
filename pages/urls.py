@@ -8,5 +8,7 @@ urlpatterns = [
 	url(r'^(?P<username>\w+)/copy/(?P<slug>[-\w]+)/$', views.copy, name = 'copy'),
 	url(r'^all/$', views.show_all, name='show_all'),
 	url(r'^(?P<username>\w+)/(?P<slug>[-\w]+)/$', views.show, name = 'show'),
+	url(r'^(?P<slug>[-\w]+)/$', views.show_anon, name = 'show_anon'),
+	url(r'^output/(?P<slug>[-\w]+)/$', views.run_anon, name = 'run_anon')
 ]
 

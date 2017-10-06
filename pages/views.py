@@ -20,10 +20,10 @@ def new(request):
 		if form.is_valid():
 			form.save()
 			pageKey=form.cleaned_data.get("web_key")
-			if request.user.username:
-				return redirect(reverse('show',args=[request.user.username, pageKey]))
+			if request.user.is_anonymous:
+				return redirect(reverse('show_anon',args=[pageKey]))
 			else:
-				return redirect(reverse('show',args=['anonymous', pageKey]))
+				return redirect(reverse('show',args=[request.user.username, pageKey]))
 	else:
 		p = Page(web_key=get_random_string(length=6).lower())
 		form=PageForm(instance=p)
@@ -34,6 +34,35 @@ def new(request):
 	}
 	
 	return render(request, 'pages/index.html', context)
+	
+#def new_anon
+	
+def show_anon(request, slug):
+	p=get_object_or_404(Page, web_key=slug)
+	form=PageForm(request.POST or None, instance=p) 
+	if request.method == 'POST':
+		form_data = request.POST.copy()
+		#form_data['user']=(request.user).id
+		form=PageForm(form_data,instance=p)
+		if form.is_valid():
+			form.save()
+			pageKey = form.cleaned_data.get("web_key")
+			return redirect(reverse('show_anon',args=[pageKey]))
+	context = {
+		'p' : p,
+		'form' : form
+	}
+	return render(request, 'pages/index.html', context)
+	
+def run_anon(request,slug):
+	p=get_object_or_404(Page,web_key=slug)
+	web_page="<head>"+p.htmlHead+"</head>"+\
+	"<style>"+p.css+"</style>"+\
+	p.htmlBody+"<script src='https://code.jquery.com/jquery-3.2.1.js'\
+	integrity='sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE='crossorigin='anonymous'></script>\
+	<script>"+p.javascript+"</script>"
+	return HttpResponse(web_page)
+	
 	
 #database should update as user types
 #using AJAX calls

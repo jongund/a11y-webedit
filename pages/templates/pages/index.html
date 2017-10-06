@@ -20,18 +20,24 @@
 	{% endif %}
 	<div class = "panel panel-default">
 		<div class = "panel-body">
-			{% if sameUser %}
+			{% if sameUser or user.is_anonymous %}
 			{% bootstrap_button "Save" button_type="submit" button_class="btn btn-primary" extra_classes="save" title="Saves changes to page" %}
 			{% endif %}
 			{% if p %}
+			{% if user.is_anonymous %}
+			<a href = "{% url 'run_anon' p.web_key %}" class = "btn btn-primary" target = "_blank" title="Displays output of code in new window">Run</a>
+			{% else %}
 			<a href = "{% url 'run' user.username p.web_key %}" class = "btn btn-primary" target = "_blank" title="Displays output of code in new window">Run</a>
+			{% endif %}
 			{% else %}
 			{% bootstrap_button "Run" button_type="submit" button_class="btn btn-primary" extra_classes="save before-run" %}
 			{% endif %}
+			{% if not user.is_anonymous %}
 			{% if p %}
 			<a href = "{% url 'copy' user.username p.web_key %}" class = "btn btn-primary" title="Copies last-saved page to new page">Copy</a>
 			{% if sameUser %}
 			<a href = "{% url 'delete' user.username p.web_key %}" class = "btn btn-danger danger" title = "Permanently removes page from your account">Delete</a>
+			{% endif %}
 			{% endif %}
 			{% endif %}
 		</div>
