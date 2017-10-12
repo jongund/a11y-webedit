@@ -57,7 +57,9 @@
 				<div class = "webedit-label">Web Key</div>
 				{% bootstrap_field form.web_key show_label=False %}
 				
-				{% bootstrap_field form.public show_label=False %}
+				{% bootstrap_field form.public %}
+				
+				{% bootstrap_field form.sample %}
 				
 				{% if p.lastUpdated %}
 				<p>Last updated: {{ p.lastUpdated }}</p>

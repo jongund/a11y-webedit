@@ -11,7 +11,11 @@ from django.contrib.auth.decorators import user_passes_test
 from django.utils.crypto import get_random_string
 
 def show_samples(request):
-	return render(request, 'pages/samples.html');
+	samples = Page.objects.filter(sample=True)
+	context = {
+		'samples':samples
+	}
+	return render(request, 'pages/samples.html', context)
 
 #THIS FUNCTION IS LIKELY UNNECESSARY AND CAN BE MERGED WITH SHOW
 def new(request):

@@ -4,4 +4,48 @@
 
 <h1>Samples</h1>
 
+<table class="table table-striped">
+<thead>
+	<tr>
+		<th>Title</th>
+		<th>Last Updated</th>
+		<th>Options</th>
+	</tr>
+</thead>
+<tbody>
+{% for sample in samples %}
+	<tr>
+		<th>
+			<details style = "width: 250px">
+				<summary>{{sample.title}}</summary>
+				{% if sample.description %}
+					<div class = "description">
+						{{sample.description}}
+					</div>
+				{% else %}
+					<div class = "description">
+						no description
+					</div>
+				{% endif %}
+			</details>
+		</th>
+		<td>{{sample.lastUpdated}}</td>
+		<td>
+			<a href = "{% url 'show' user.username sample.web_key %}" aria-label = "Edit {{sample.title}}" class = "btn btn-primary">Edit</a>
+			<a href = "{% url 'run' user.username sample.web_key %}" aria-label = "Run {{sample.title}}" class = "btn btn-primary">Run</a>
+			<a href = "{% url 'copy' user.username sample.web_key %}" aria-label = "Copy {{sample.title}}" class = "btn btn-primary">Copy</a>
+			<a href = "{% url 'delete' user.username sample.web_key %}" aria-label = "Delete {{sample.title}}" class = "btn btn-danger">Delete</a>
+		</td>
+	</tr>
+	
+{% empty %}
+	<tr>
+		<th>No samples</th>
+		<td></td>
+		<td></td>
+	</tr>
+	
+{% endfor %}
+</table>
+
 {% endblock %}

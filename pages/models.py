@@ -20,6 +20,7 @@ class Page(models.Model):
 	web_key = models.CharField(max_length=32) #SHOULD JUST BE UNIQUE FOR ONE USER
 	#=>letters and numbers excluding one and l
 	public = models.BooleanField(default=True)
+	sample = models.BooleanField(default=False)
 	lastUpdated = models.DateTimeField(auto_now=True)
 	
 	#----------EDITOR TEXT-----------

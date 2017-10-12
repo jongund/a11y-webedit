@@ -23,7 +23,6 @@ from django.http import HttpResponseRedirect
 urlpatterns = [
 	url(r'^$', lambda r: HttpResponseRedirect('pages/new')),
 	url(r'^pages/', include('pages.urls')),
-	url(r'^samples/', include('samples.urls')),
     url(r'^accounts/', include('django.contrib.auth.urls')),
     url(r'^accounts/', include('accounts.urls')),
 	url(r'^user/register/$', CreateView.as_view(
