@@ -9,7 +9,9 @@
 <script src="{% static 'pages/javascript/codemirror/mode/xml.js' %}"></script>
 <script src="{% static 'pages/javascript/codemirror/mode/javascript.js' %}"></script>
 <script src="{% static 'pages/javascript/codemirror/mode/css.js' %}"></script>
-
+{% if not p.public and not sameUser %}
+<h1>This page is private.</h1>
+{% else %}
 <form id="pageForm" action ="" method="POST">
 	{% csrf_token %}
 	{% if form.errors %}
@@ -92,4 +94,5 @@
 	</div>
 </form>
 <script src = {% static 'pages/javascript/fixCodeMirrorLabeling.js' %}></script>
+{% endif %}
 {% endblock %}
