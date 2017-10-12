@@ -59,13 +59,21 @@
 				
 				{% bootstrap_field form.public %}
 				
-				{% bootstrap_field form.sample %}
-				
-				{% bootstrap_field form.tags %}
 				
 				{% if p.lastUpdated %}
 				<p>Last updated: {{ p.lastUpdated }}</p>
 				{% endif %}
+				{% if user.is_superuser %}
+			<div class="panel panel-warning">
+				<div class="panel-heading">Administrator options</div>
+				<div class="panel-body">
+					{% bootstrap_field form.sample show_label=False addon_after='<p>test</p>' %}
+					
+					{% bootstrap_label "Tags for sample pages" label_for="tags" %}
+					{% bootstrap_field form.tags show_label=False %}
+				</div>
+			</div>
+			{% endif %}
 			</div>
 	</div>
 	

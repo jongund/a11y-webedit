@@ -24,7 +24,7 @@ class Page(models.Model):
 	
 	
 	sample = models.BooleanField(default=False)
-	tags = models.ManyToManyField('Tag')
+	tags = models.ManyToManyField('Tag', blank=True)
 	
 	#----------EDITOR TEXT-----------
 	htmlHead = models.TextField(blank=True)

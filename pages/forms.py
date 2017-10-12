@@ -21,5 +21,6 @@ class PageForm(forms.ModelForm):
 		mode = "javascript"), required = False,
 		)
 	
-	tags = forms.ModelMultipleChoiceField(widget=forms.CheckboxSelectMultiple,queryset=Tag.objects.all())
+	tags = forms.ModelMultipleChoiceField(widget=forms.CheckboxSelectMultiple,queryset=Tag.objects.all(),
+	required=False)
 
