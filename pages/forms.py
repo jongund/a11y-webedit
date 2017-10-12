@@ -1,5 +1,6 @@
 from django import forms
 from .models import Page
+from .models import Tag
 from codemirror import CodeMirrorTextarea
 from django.utils.crypto import get_random_string
 
@@ -19,3 +20,6 @@ class PageForm(forms.ModelForm):
 	javascript = forms.CharField(widget= CodeMirrorTextarea(
 		mode = "javascript"), required = False,
 		)
+	
+	tags = forms.ModelMultipleChoiceField(widget=forms.CheckboxSelectMultiple,queryset=Tag.objects.all())
+

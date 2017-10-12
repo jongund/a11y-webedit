@@ -20,8 +20,11 @@ class Page(models.Model):
 	web_key = models.CharField(max_length=32) #SHOULD JUST BE UNIQUE FOR ONE USER
 	#=>letters and numbers excluding one and l
 	public = models.BooleanField(default=True)
-	sample = models.BooleanField(default=False)
 	lastUpdated = models.DateTimeField(auto_now=True)
+	
+	
+	sample = models.BooleanField(default=False)
+	tags = models.ManyToManyField('Tag')
 	
 	#----------EDITOR TEXT-----------
 	htmlHead = models.TextField(blank=True)
@@ -32,4 +35,8 @@ class Page(models.Model):
 	class Meta:
 		unique_together = ('user', 'web_key')
 	
+class Tag(models.Model):
+	def __str__(self):
+		return self.title;
+	title=models.CharField(max_length=20)
 	
