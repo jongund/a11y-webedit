@@ -44,6 +44,8 @@ SECRET_KEY = get_secret('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+ADMIN_USERNAME = get_secret('ADMIN_USERNAME')
+ADMIN_PASSWORD = get_secret('ADMIN_PASSWORD')
 
 ALLOWED_HOSTS = get_secret('ALLOWED_HOSTS');
 
