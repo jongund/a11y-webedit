@@ -15,7 +15,7 @@ class Page(models.Model):
 	#potentially add more models for sharing
 
 	#----------SETTINGS--------------
-	title = models.CharField(max_length=30)
+	title = models.CharField(max_length=128)
 	description = models.CharField(max_length=200,blank=True)
 	webKey = models.CharField(max_length=32) #SHOULD JUST BE UNIQUE FOR ONE USER
 	#=>letters and numbers excluding one and l
@@ -33,7 +33,9 @@ class Page(models.Model):
 	javascript = models.TextField(blank=True)
 
 	class Meta:
+		ordering = ['title']
 		unique_together = ('user', 'webKey')
+
 
 class Tag(models.Model):
 	def __str__(self):
