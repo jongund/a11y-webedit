@@ -22,7 +22,7 @@ class Page(models.Model):
 	public = models.BooleanField(default=True)
 	lastUpdated = models.DateTimeField(auto_now=True)
 	
-	
+	#-----------ADMIN----------------
 	sample = models.BooleanField(default=False)
 	tags = models.ManyToManyField('Tag', blank=True)
 	
@@ -39,4 +39,7 @@ class Tag(models.Model):
 	def __str__(self):
 		return self.title;
 	title=models.CharField(max_length=20)
+	description=models.CharField(max_length=50,blank=True,null=True)
+	slug=models.CharField(max_length=32)
+	
 	
