@@ -31,11 +31,13 @@ def create_users(users):
 			user = User.objects.get(username=person[0])
 			user.is_superuser = person[2]
 			user.is_staff 	  = person[3]
+			user.set_password(person[1])
 
 		except ObjectDoesNotExist:
 			print("Create User: " + person[0])
 			user = User(username=person[0], is_superuser=person[2], is_staff=person[3])
-
+			user.set_password(person[1])
+			
 		user.save()
 
 create_users(users)
