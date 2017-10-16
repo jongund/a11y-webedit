@@ -46,8 +46,22 @@
 	</div>
 	
 	<div id = "upper-form" class="panel panel-default">
-		<div class = "panel-heading">Settings</div>
-			<div class = "panel-body">
+		<div class = "panel-heading">
+			Settings
+			<button type="button" id="hideBtn" onclick="toggleHide()"
+			class="btn btn-default btn-xs">Hide</button>
+			<div class="clearfix"></div>
+			<script>
+			var toggleHide = function(){
+				var settings = document.querySelector("#settings-body");
+				var hidden = settings.style.display=="none";
+				var hideBtn = document.querySelector("#hideBtn");
+				settings.style.display=hidden?"block":"none";
+				hideBtn.textContent=hidden?"Hide":"Show";
+			}
+			</script>
+		</div>
+			<div class = "panel-body" id="settings-body">
 				<div class = "webedit-label">Title</div>
 				{% bootstrap_field form.title show_label=False %}
 				
