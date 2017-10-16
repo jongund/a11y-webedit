@@ -39,22 +39,22 @@
 		{% endif %}
 		</td>
 		<td>
-			<a href = "{% url 'show' user.username sample.web_key %}" aria-label = "Edit {{sample.title}}" class = "btn btn-primary">Edit</a>
-			<a href = "{% url 'run' user.username sample.web_key %}" aria-label = "Run {{sample.title}}" class = "btn btn-primary">Run</a>
-			<a href = "{% url 'copy' user.username sample.web_key %}" aria-label = "Copy {{sample.title}}" class = "btn btn-primary">Copy</a>
+			<a href = "{% url 'show' user.username sample.webKey %}" aria-label = "Edit {{sample.title}}" class = "btn btn-primary">Edit</a>
+			<a href = "{% url 'run' user.username sample.webKey %}" aria-label = "Run {{sample.title}}" class = "btn btn-primary">Run</a>
+			<a href = "{% url 'copy' user.username sample.webKey %}" aria-label = "Copy {{sample.title}}" class = "btn btn-primary">Copy</a>
 			{% if request.user == sample.user %}
-			<a href = "{% url 'delete' user.username sample.web_key %}" aria-label = "Delete {{sample.title}}" class = "btn btn-danger">Delete</a>
+			<a href = "{% url 'delete' user.username sample.webKey %}" aria-label = "Delete {{sample.title}}" class = "btn btn-danger">Delete</a>
 			{% endif %}
 		</td>
 	</tr>
-	
+
 {% empty %}
 	<tr>
 		<th>No samples</th>
 		<td></td>
 		<td></td>
 	</tr>
-	
+
 {% endfor %}
 </table>
 

@@ -27,24 +27,24 @@
 			{% endif %}
 			{% if p %}
 			{% if user.is_anonymous %}
-			<a href = "{% url 'run_anon' p.web_key %}" class = "btn btn-primary" target = "_blank" title="Displays output of code in new window">Run</a>
+			<a href = "{% url 'run_anon' p.webKey %}" class = "btn btn-primary" target = "_blank" title="Displays output of code in new window">Run</a>
 			{% else %}
-			<a href = "{% url 'run' user.username p.web_key %}" class = "btn btn-primary" target = "_blank" title="Displays output of code in new window">Run</a>
+			<a href = "{% url 'run' user.username p.webKey %}" class = "btn btn-primary" target = "_blank" title="Displays output of code in new window">Run</a>
 			{% endif %}
 			{% else %}
 			{% bootstrap_button "Run" button_type="submit" button_class="btn btn-primary" extra_classes="save before-run" %}
 			{% endif %}
 			{% if not user.is_anonymous %}
 			{% if p %}
-			<a href = "{% url 'copy' user.username p.web_key %}" class = "btn btn-primary" title="Copies last-saved page to new page">Copy</a>
+			<a href = "{% url 'copy' user.username p.webKey %}" class = "btn btn-primary" title="Copies last-saved page to new page">Copy</a>
 			{% if sameUser %}
-			<a href = "{% url 'delete' user.username p.web_key %}" class = "btn btn-danger danger" title = "Permanently removes page from your account">Delete</a>
+			<a href = "{% url 'delete' user.username p.webKey %}" class = "btn btn-danger danger" title = "Permanently removes page from your account">Delete</a>
 			{% endif %}
 			{% endif %}
 			{% endif %}
 		</div>
 	</div>
-	
+
 	<div id = "upper-form" class="panel panel-default">
 		<div class = "panel-heading">
 			Settings
@@ -64,16 +64,16 @@
 			<div class = "panel-body" id="settings-body">
 				<div class = "webedit-label">Title</div>
 				{% bootstrap_field form.title show_label=False %}
-				
+
 				<div class = "webedit-label">Description</div>
 				{% bootstrap_field form.description show_label=False %}
-			
+
 				<div class = "webedit-label">Web Key</div>
-				{% bootstrap_field form.web_key show_label=False %}
-				
+				{% bootstrap_field form.webKey show_label=False %}
+
 				{% bootstrap_field form.public %}
-				
-				
+
+
 				{% if p.lastUpdated %}
 				<p>Last updated: {{ p.lastUpdated }}</p>
 				{% endif %}
@@ -82,7 +82,7 @@
 				<div class="panel-heading">Administrator options</div>
 				<div class="panel-body">
 					{% bootstrap_field form.sample show_label=False addon_after='<p>test</p>' %}
-					
+
 					{% bootstrap_label "Tags for sample pages" label_for="tags" %}
 					{% bootstrap_field form.tags show_label=False %}
 				</div>
@@ -90,29 +90,29 @@
 			{% endif %}
 			</div>
 	</div>
-	
+
 	<div class = "panel panel-info">
 		<div class = "panel-heading">
 			{% bootstrap_label "HTML Head" label_for="htmlHead" %}
 		</div>
 			{{ form.htmlHead }}
 	</div>
-	
+
 	<div class = "panel panel-info">
 		<div class = "panel-heading">
 			{% bootstrap_label "HTML Body" label_for="htmlBody" %}
 		</div>
 			{{ form.htmlBody }}
 	</div>
-	
-	<div class = "panel panel-info">	
+
+	<div class = "panel panel-info">
 		<div class = "panel-heading">
 			{% bootstrap_label "CSS" label_for="css" %}
 		</div>
 			{{ form.css }}
 	</div>
-	
-	<div class = "panel panel-info">	
+
+	<div class = "panel panel-info">
 		<div class = "panel-heading">
 			{% bootstrap_label "JavaScript" label_for="javascript" %}
 		</div>

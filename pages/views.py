@@ -26,51 +26,51 @@ def new(request):
 		form=PageForm(form_data) #populate form instance with data
 		if form.is_valid():
 			form.save()
-			pageKey=form.cleaned_data.get("web_key")
+			pageKey=form.cleaned_data.get("webKey")
 			if request.user.is_anonymous:
 				return redirect(reverse('show_anon',args=[pageKey]))
 			else:
 				return redirect(reverse('show',args=[request.user.username, pageKey]))
 	else:
-		p = Page(web_key=get_random_string(length=6).lower())
+		p = Page(webKey=get_random_string(length=6).lower())
 		form=PageForm(instance=p)
-	
+
 	context = {
 	'form' : form,
 	'sameUser' : True,
 	}
-	
+
 	return render(request, 'pages/index.html', context)
-	
+
 #def new_anon
-	
+
 def show_anon(request, slug):
-	p=get_object_or_404(Page, web_key=slug)
-	form=PageForm(request.POST or None, instance=p) 
+	p=get_object_or_404(Page, webKey=slug)
+	form=PageForm(request.POST or None, instance=p)
 	if request.method == 'POST':
 		form_data = request.POST.copy()
 		#form_data['user']=(request.user).id
 		form=PageForm(form_data,instance=p)
 		if form.is_valid():
 			form.save()
-			pageKey = form.cleaned_data.get("web_key")
+			pageKey = form.cleaned_data.get("webKey")
 			return redirect(reverse('show_anon',args=[pageKey]))
 	context = {
 		'p' : p,
 		'form' : form
 	}
 	return render(request, 'pages/index.html', context)
-	
+
 def run_anon(request,slug):
-	p=get_object_or_404(Page,web_key=slug)
+	p=get_object_or_404(Page,webKey=slug)
 	web_page="<head>"+p.htmlHead+"</head>"+\
 	"<style>"+p.css+"</style>"+\
 	p.htmlBody+"<script src='https://code.jquery.com/jquery-3.2.1.js'\
 	integrity='sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE='crossorigin='anonymous'></script>\
 	<script>"+p.javascript+"</script>"
 	return HttpResponse(web_page)
-	
-	
+
+
 #database should update as user types
 #using AJAX calls
 #on change event sends new data to server
@@ -81,15 +81,15 @@ def run_anon(request,slug):
 
 #RUN saves before it runs
 def show(request,slug,username):
-	p=get_object_or_404(Page, web_key=slug, user=get_object_or_404(User,username=username))
-	form=PageForm(request.POST or None, instance=p) 
+	p=get_object_or_404(Page, webKey=slug, user=get_object_or_404(User,username=username))
+	form=PageForm(request.POST or None, instance=p)
 	if request.method == 'POST':
 		form_data = request.POST.copy()
 		form_data['user']=(request.user).id
 		form=PageForm(form_data,instance=p)
 		if form.is_valid():
 			form.save()
-			pageKey = form.cleaned_data.get("web_key")
+			pageKey = form.cleaned_data.get("webKey")
 			return redirect(reverse('show',args=[request.user.username,pageKey]))
 	context = {
 		'p' : p,
@@ -104,38 +104,38 @@ def show_all(request):
 		'all_pages' : all_pages,
 	}
 	return render(request, 'pages/all_pages.html', context)
-	
+
 def run(request,slug,username):
-	p=get_object_or_404(Page,web_key=slug,user=get_object_or_404(User, username=username))
+	p=get_object_or_404(Page,webKey=slug,user=get_object_or_404(User, username=username))
 	web_page="<head>"+p.htmlHead+"</head>"+\
 	"<style>"+p.css+"</style>"+\
 	p.htmlBody+"<script src='https://code.jquery.com/jquery-3.2.1.js'\
 	integrity='sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE='crossorigin='anonymous'></script>\
 	<script>"+p.javascript+"</script>"
 	return HttpResponse(web_page)
-	
+
 def delete(request, slug, username):
 	context = {
 		'sameUser' : False
 	}
 	if request.user.username != username:
 		return render(request, 'pages/index.html', context)
-	p=get_object_or_404(Page, web_key=slug, user=get_object_or_404(User, username=username))
+	p=get_object_or_404(Page, webKey=slug, user=get_object_or_404(User, username=username))
 	p.delete()
 	if request.user.is_anonymous():
 		return redirect(reverse('new'))
 	else:
 		return redirect(reverse('show_all'))
-		
+
 def copy(request, slug, username):
-	p=get_object_or_404(Page, web_key=slug, user=get_object_or_404(User,username=username))
+	p=get_object_or_404(Page, webKey=slug, user=get_object_or_404(User,username=username))
 	copy_title = "Copy of '"+p.title+"'"
 	copy_description = "'"+p.description+"'"
 	copy = Page(title=copy_title,description=copy_description,htmlHead=p.htmlHead,\
 	htmlBody=p.htmlBody,css=p.css,javascript=p.javascript,\
-	web_key=get_random_string(length=6).lower(),user=request.user)
+	webKey=get_random_string(length=6).lower(),user=request.user)
 	try:
 		copy.save()
 	except:
-		return redirect(reverse('show',args=[request.user.username,p.web_key]))
-	return redirect(reverse('show',args=[request.user.username,copy.web_key]))
+		return redirect(reverse('show',args=[request.user.username,p.webKey]))
+	return redirect(reverse('show',args=[request.user.username,copy.webKey]))
