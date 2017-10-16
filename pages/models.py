@@ -40,6 +40,6 @@ class Tag(models.Model):
 		return self.title;
 	title=models.CharField(max_length=20)
 	description=models.CharField(max_length=50,blank=True,null=True)
-	slug=models.CharField(max_length=32)
+	slug=models.CharField(max_length=32,unique=True,default='')
 	
 	
