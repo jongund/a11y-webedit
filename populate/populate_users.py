@@ -5,8 +5,8 @@ import os
 
 fp = os.path.realpath(__file__)
 path, filename = os.path.split(fp)
-
-webedit_path = path.split('/populate')[0]
+webedit_path = os.path.split(path)[0]
+print(webedit_path)
 sys.path.append(webedit_path)
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "WebEdit.settings")
