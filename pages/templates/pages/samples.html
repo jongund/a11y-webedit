@@ -4,6 +4,10 @@
 
 <h1>Samples</h1>
 
+{% for tag in tags %}
+
+<h2>{{tag.title}}</h2>
+
 <table class="table table-striped">
 <thead>
 	<tr>
@@ -13,7 +17,7 @@
 	</tr>
 </thead>
 <tbody>
-{% for sample in samples %}
+{% for sample in tag.pages.all %}
 	<tr>
 		<th>
 			<details>
@@ -31,8 +35,8 @@
 		</th>
 		<td>
 		{% if sample.tags %}
-		{% for tag in sample.tags.all %}
-		<span>{{tag.title}}</span>
+		{% for t in sample.tags.all %}
+		<span>{{t.title}}</span>
 		{% endfor %}
 		{% else %}
 		No tags
@@ -47,15 +51,17 @@
 			{% endif %}
 		</td>
 	</tr>
-
 {% empty %}
 	<tr>
 		<th>No samples</th>
 		<td></td>
 		<td></td>
 	</tr>
+{% endfor %}
+</tbody>
+</table>
 
 {% endfor %}
-</table>
+
 
 {% endblock %}

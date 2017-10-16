@@ -1,5 +1,4 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Page
 from django.contrib.auth.models import User
 from .forms import PageForm
 from django.http import HttpResponse
@@ -10,9 +9,14 @@ from django.contrib.auth.decorators import user_passes_test
 
 from django.utils.crypto import get_random_string
 
+from .models import Page
+from .models import Tag
+
 def show_samples(request):
+	tags    = Tag.objects.all()
 	samples = Page.objects.filter(sample=True)
 	context = {
+		'tags':tags,
 		'samples':samples
 	}
 	return render(request, 'pages/samples.html', context)
