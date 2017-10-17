@@ -45,7 +45,6 @@ class Page(models.Model):
 			self.save_count += 1  # Keep track of how many times someone saves a page
 			super(Page, self).save()  # Call real save
 
-
 class Tag(models.Model):
 
 	title       = models.CharField(max_length=20)

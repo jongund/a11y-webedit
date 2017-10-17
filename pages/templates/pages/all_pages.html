@@ -8,6 +8,7 @@
 <thead>
 	<tr>
 		<th>Title</th>
+		<th>Public</th>
 		<th>Last Updated</th>
 		<th>Options</th>
 	</tr>
@@ -15,6 +16,7 @@
 <tbody>
 {% for page in all_pages %}
 	<tr>
+		{% if page.public or page.user == user %}
 		<th>
 			<details>
 				<summary style="width: 20em">{{page.title}}</summary>
@@ -29,15 +31,21 @@
 				{% endif %}
 			</details>
 		</th>
+		<td>{{page.public}}</td>
 		<td>{{page.lastUpdated}}</td>
 		<td>
-			<a href = "{% url 'show'   user.username page.webKey %}" aria-label = "Edit {{page.title}}"   class = "btn btn-primary">Edit</a>
-			<a href = "{% url 'run'    user.username page.webKey %}" aria-label = "Run {{page.title}}"    class = "btn btn-primary">Run</a>
-			<a href = "{% url 'copy'   user.username page.webKey %}" aria-label = "Copy {{page.title}}"   class = "btn btn-primary">Copy</a>
-			<a href = "{% url 'delete' user.username page.webKey %}" aria-label = "Delete {{page.title}}" class = "btn btn-danger">Delete</a>
+			{% if  page.user == user %}
+			<a href = "{% url 'show'   page.user.username page.webKey %}" aria-label = "Edit {{page.title}}"   class = "btn btn-primary">Edit</a>
+			{% endif %}
+			<a href = "{% url 'run'    page.user.username page.webKey %}" aria-label = "Run {{page.title}}"    class = "btn btn-primary">Run</a>
+			<a href = "{% url 'copy'   page.user.username page.webKey %}" aria-label = "Copy {{page.title}}"   class = "btn btn-primary">Copy</a>
+			{% if  page.user == user %}
+			<a href = "{% url 'delete' page.user.username page.webKey %}" aria-label = "Delete {{page.title}}" class = "btn btn-danger">Delete
+			</a>
+			{% endif %}
 		</td>
 	</tr>
-
+	{% endif %}
 {% empty %}
 	<tr>
 		<th>No saved pages</th>
