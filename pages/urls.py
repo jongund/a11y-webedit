@@ -10,6 +10,7 @@ urlpatterns = [
 	url(r'^user/(?P<username>\w+)/(?P<slug>[-\w]+)/$', views.show, name = 'show'),
 	url(r'^guest/(?P<slug>[-\w]+)/$', views.show_anon, name = 'show_anon'),
 	url(r'^guest/output/(?P<slug>[-\w]+)/$', views.run_anon, name = 'run_anon'),
+  url(r'^guest/copy/(?P<username>\w+)/(?P<slug>[-\w]+)/$', views.copy_anon, name = 'copy_anon'),
 	url(r'^samples/$', views.show_samples, name='show_samples')
 ]
 

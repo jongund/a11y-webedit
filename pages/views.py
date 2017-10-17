@@ -67,12 +67,47 @@ def show_anon(request, slug):
 
 def run_anon(request,slug):
 	p=get_object_or_404(Page,webKey=slug)
-	web_page="<head>"+p.htmlHead+"</head>"+\
-	"<style>"+p.css+"</style>"+\
-	p.htmlBody+"<script src='https://code.jquery.com/jquery-3.2.1.js'\
-	integrity='sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE='crossorigin='anonymous'></script>\
-	<script>"+p.javascript+"</script>"
-	return HttpResponse(web_page)
+	html = '<!DOCTYPE html>\n'
+	html += '<html>\n'
+	html += '  <head>\n'
+
+	html += '    <title>\n'
+	html += '      ' + p.title + '\n'
+	html += '    </title>\n'
+
+	if len(p.css):
+		html += '    <style type="text/css">\n'
+		html += p.css
+		html += '    </style>\n'
+
+ 	if len(p.javascript):
+		html += '    <script type="text/javascript">\n'
+		html += p.javascript
+		html += '    </script>\n'
+
+ 	html += '    <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>\n'
+	html += p.htmlHead
+
+	html += '  </head>\n'
+	html += '  <body>\n'
+	html += p.htmlBody
+	html += '  </body>\n'
+	html += '</html>\n'
+	return HttpResponse(html)
+
+def copy_anon(request, slug, username):
+	print('[copy][user]' + str(request.user))
+	page=get_object_or_404(Page, webKey=slug, user=get_object_or_404(User, username=username))
+	copy_title = "Copy of '"+page.title+"'"
+	copy = Page(title=copy_title, description=page.description,htmlHead=page.htmlHead,\
+	htmlBody=page.htmlBody,css=page.css,javascript=page.javascript,\
+	webKey=get_random_string(length=6).lower())
+	try:
+		copy.save()
+	except:
+		return redirect(reverse('show_anon',args=[page.webKey]))
+
+	return redirect(reverse('show_anon',args=[copy.webKey]))
 
 
 #database should update as user types
@@ -154,14 +189,16 @@ def delete(request, slug, username):
 		return redirect(reverse('show_all'))
 
 def copy(request, slug, username):
-	p=get_object_or_404(Page, webKey=slug, user=get_object_or_404(User,username=username))
-	copy_title = "Copy of '"+p.title+"'"
-	copy_description = "'"+p.description+"'"
-	copy = Page(title=copy_title,description=copy_description,htmlHead=p.htmlHead,\
-	htmlBody=p.htmlBody,css=p.css,javascript=p.javascript,\
+	print('[copy][user]' + str(request.user))
+	page=get_object_or_404(Page, webKey=slug, user=get_object_or_404(User, username=username))
+	copy_title = "Copy of '"+page.title+"'"
+	copy = Page(title=copy_title, description=page.description,htmlHead=page.htmlHead,\
+	htmlBody=page.htmlBody,css=page.css,javascript=page.javascript,\
 	webKey=get_random_string(length=6).lower(),user=request.user)
 	try:
 		copy.save()
 	except:
-		return redirect(reverse('show',args=[request.user.username,p.webKey]))
+		return redirect(reverse('show',args=[request.user.username,page.webKey]))
+
 	return redirect(reverse('show',args=[request.user.username,copy.webKey]))
+
