@@ -150,9 +150,13 @@ def run(request,slug,username):
 	html += '<html>\n'
 	html += '  <head>\n'
 
-	html += '    <title>\n'
-	html += '      ' + p.title + '\n'
-	html += '    </title>\n'
+	if p.head.find('<title>') < 0:
+		html += '    <title>\n'
+		html += '      ' + p.title + '\n'
+		html += '    </title>\n'
+
+ 	html += '    <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>\n'
+	html += p.htmlHead
 
 	if len(p.css):
 		html += '    <style type="text/css">\n'
@@ -164,8 +168,6 @@ def run(request,slug,username):
 		html += p.javascript
 		html += '    </script>\n'
 
- 	html += '    <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>\n'
-	html += p.htmlHead
 
 	html += '  </head>\n'
 	html += '  <body>\n'
