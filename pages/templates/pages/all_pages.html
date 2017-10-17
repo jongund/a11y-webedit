@@ -2,7 +2,7 @@
 {% load bootstrap3 %}
 {% block content %}
 
-<h1>My Pages</h1>
+<h1>{{name}} Pages</h1>
 
 <table class="table table-striped">
 <thead>
@@ -16,7 +16,7 @@
 <tbody>
 {% for page in all_pages %}
 	<tr>
-		{% if page.public or page.user == user %}
+		{% if page.public or page.user == user or user.is_superuser %}
 		<th>
 			<details>
 				<summary style="width: 20em">{{page.title}}</summary>

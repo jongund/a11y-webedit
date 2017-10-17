@@ -167,8 +167,15 @@ def show(request,slug,username):
 
 def show_all(request, username):
 	all_pages = Page.objects.filter(user=get_object_or_404(User,username=username))
+	user = User.objects.get(username=username)
+	name = user.first_name + ' ' + user.last_name
+
+	if not len(name) > 1:
+		name = username
+
 	context = {
 		'all_pages' : all_pages,
+		'name' : name,
 	}
 	return render(request, 'pages/all_pages.html', context)
 
