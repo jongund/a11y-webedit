@@ -31,7 +31,7 @@ print(" APP_DIR: " + APP_DIR)
 
 with open(join(BASE_DIR,'secrets.json')) as s:
 	secrets = json.loads(s.read())
-	
+
 def get_secret(setting, secrets=secrets):
 	try:
 		return secrets[setting]
@@ -48,6 +48,17 @@ ADMIN_USERNAME = get_secret('ADMIN_USERNAME')
 ADMIN_PASSWORD = get_secret('ADMIN_PASSWORD')
 
 ALLOWED_HOSTS = get_secret('ALLOWED_HOSTS');
+
+SITE_URL      = get_secret('SITE_URL')
+
+SHIBBOETH_URL = ''
+if get_secret('SHIBBOLETH_URL'):
+  SHIBBOETH_URL = get_secret('SHIBBOLETH_URL')
+
+if SITE_URL.find('127.0.0.1') >= 0 or SITE_URL.find('localhost') >= 0:
+  EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+else:
+  EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 # Redirect to home URL after login (Default redirects to /accounts/profile/)
 LOGIN_REDIRECT_URL = '/pages/new'
