@@ -111,30 +111,31 @@ def show_all(request):
 
 def run(request,slug,username):
 	p=get_object_or_404(Page,webKey=slug,user=get_object_or_404(User, username=username))
-	html = '<!DOCTYPE html>'
-	html += '<head>\n'
+	html = '<!DOCTYPE html>\n'
+	html += '<html>\n'
+	html += '  <head>\n'
 
-	html += '  <title>\n'
-	html += '    ' + p.title + '\n'
-	html += '  </title>\n'
+	html += '    <title>\n'
+	html += '      ' + p.title + '\n'
+	html += '    </title>\n'
 
 	if len(p.css):
-		html += '  <style type="text/css">\n'
+		html += '    <style type="text/css">\n'
 		html += p.css
-		html += '  </style>\n'
+		html += '    </style>\n'
 
  	if len(p.javascript):
-		html += '  <sscript type="text/javascript">\n'
+		html += '    <script type="text/javascript">\n'
 		html += p.javascript
-		html += '  </script>\n'
+		html += '    </script>\n'
 
- 	html += '<script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>\n'
+ 	html += '    <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>\n'
 	html += p.htmlHead
 
-	html += '</head>\n'
-	html += '<body>\n'
+	html += '  </head>\n'
+	html += '  <body>\n'
 	html += p.htmlBody
-	html += '</body>\n'
+	html += '  </body>\n'
 	html += '</html>\n'
 
 	return HttpResponse(html)
