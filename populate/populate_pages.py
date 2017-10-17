@@ -57,8 +57,8 @@ admin_user = User.objects.get(username=settings.ADMIN_USERNAME)
 
 page = type("myobj",(object,),dict(webKey='', title='', description='', htmlHead='', htmlBody='', css='', javascript='', tags='', sample=False))
 
-page.webKey = 'landmark-hw1-roles'
-page.title = 'Homework 1: Using role attributes to create ARIA landmarks'
+page.webKey = 'landmark-problem-1'
+page.title = 'Problem 1: Using role attributes to create ARIA landmarks'
 page.description = 'Homework problem for A11yBadging course.'
 page.htmlHead = """
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" type="text/css">
@@ -134,8 +134,8 @@ page.htmlBody = """
 
 create_page(page)
 
-page.webKey = 'landmark-hw1-sections'
-page.title = 'Homework 2: Using HTML5 sectioning elements to create ARIA landmarks'
+page.webKey = 'landmark-problem-2'
+page.title = 'Problem 2: Using HTML5 sectioning elements to create ARIA landmarks'
 page.description = 'Homework problem for A11yBadging course.'
 page.htmlHead = """
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" type="text/css">
@@ -212,8 +212,8 @@ page.htmlBody = """
 create_page(page)
 
 
-page.webKey = 'landmark-hw1-roles-answers'
-page.title = 'Answers 1: Landmarks defined using role attribute'
+page.webKey = 'landmark-solution-1'
+page.title = 'Solution 1: Landmarks defined using role attribute'
 page.description = 'Answers for landmark homework 1 for Illinois A11yBadging course.'
 page.htmlHead = """
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" type="text/css">
@@ -293,8 +293,8 @@ page.htmlBody = """
 
 create_page(page)
 
-page.webKey = 'landmark-hw1-sections-answers'
-page.title = 'Answers 2: Landmarks defined using HTML5 sectioning elements'
+page.webKey = 'landmark-solution-2'
+page.title = 'Solution 2: Landmarks defined using HTML5 sectioning elements'
 page.description = 'Answers for landmark homework 1 for Illinois A11yBadging course.'
 page.htmlHead = """
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" type="text/css">
