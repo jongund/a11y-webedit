@@ -95,7 +95,7 @@ page.htmlBody = """
       <div class="row">
         <div class="col-sm-12">
            <h1>
-           Homework 1: Using <code>role</code> attribute to create landmarks
+           Problem 1: Using <code>role</code> attribute to create landmarks
            </h1>
         </div>
       </div>
@@ -172,7 +172,7 @@ page.htmlBody = """
       <div class="row">
         <div class="col-sm-12">
            <h1>
-           Homework 2: Using HTML5 Sectioning Elements to create Landmarks
+           Problem 2: Using HTML5 Sectioning Elements to create Landmarks
            </h1>
         </div>
       </div>
@@ -253,7 +253,7 @@ page.htmlBody = """
 	      <div class="row">
 	        <div class="col-sm-12">
 	           <h1>
-	           Landmark Roles Defined Using Role Attribute
+	           Solution 1: Landmark Roles Defined Using Role Attribute
 	           </h1>
 	        </div>
 	      </div>
@@ -334,7 +334,7 @@ page.htmlBody = """
 	      <div class="row">
 	        <div class="col-sm-12">
 	           <h1>
-	           Landmark Roles Defined Using Role Attribute
+	           Solution 2: Landmark Roles Defined Using Role Attribute
 	           </h1>
 	        </div>
 	      </div>
