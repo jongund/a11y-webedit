@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% load bootstrap3 %}
+{% block content %}
+<form id="registrationForm" action ="" method="POST">
+	{% csrf_token %}
+	{% bootstrap_field form.username placeholder=None%}
+	{% bootstrap_field form.password1 placeholder=None%}
+	{% bootstrap_field form.password2 placeholder=None%}
+	{% bootstrap_button "Save" button_type="submit" button_class="btn btn-primary" extra_classes="save" %}
+</form>
+{% endblock %}

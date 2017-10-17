@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% load bootstrap3 %}
+{% block content %}
+<h1>{{ u.username }}'s profile</h1>
+<p>Last logged in: {{ u.last_login }}</p>
+{% endblock %}
