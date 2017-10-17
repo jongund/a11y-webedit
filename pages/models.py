@@ -26,7 +26,7 @@ class Page(models.Model):
 	#-----------ADMIN----------------
 	sample     = models.BooleanField(default=False)
 	assignment = models.BooleanField(default=False)
-	tags       = models.ManyToManyField('Tag', related_name='pages', blank=True)
+	tags       = models.ManyToManyField('Tag', related_name='pages', null=True)
 
 	#----------EDITOR TEXT-----------
 	htmlHead   = models.TextField(blank=True)
@@ -54,5 +54,11 @@ class Tag(models.Model):
 
 	def __str__(self):
 		return self.title;
+
+	def get_public_count(self):
+		return self.pages.filter(public=True).count()
+
+	def get_public(self):
+		return self.pages.filter(public=True)
 
 

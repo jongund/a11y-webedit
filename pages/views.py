@@ -23,21 +23,31 @@ def show_samples(request):
 
 #THIS FUNCTION IS LIKELY UNNECESSARY AND CAN BE MERGED WITH SHOW
 def new(request):
-	if request.method == 'POST':
-		form_data=request.POST.copy() #get a mutable copy of the request data
-		form_data['user']=(request.user).id #the form's owner becomes the
-		#currently logged in user
-		form=PageForm(form_data) #populate form instance with data
-		if form.is_valid():
-			form.save()
-			pageKey=form.cleaned_data.get("webKey")
-			if request.user.is_anonymous:
-				return redirect(reverse('show_anon',args=[pageKey]))
-			else:
-				return redirect(reverse('show',args=[request.user.username, pageKey]))
+	if request.user.is_anonymous:
+		user = None
 	else:
-		p = Page(webKey=get_random_string(length=6).lower())
-		form=PageForm(instance=p)
+		user = request.user
+
+	if request.method == 'POST':
+
+		form = PageForm(request.POST) #populate form instance with data
+		print('USER (request): ' + str(user))
+		form.user = user
+		print('USER (form)   : ' + str(form.user))
+
+		if form.is_valid():
+			page = form.save()
+			page.user = user
+			page.save()
+
+			if request.user.is_anonymous:
+				return redirect(reverse('show_anon',args=[page.webKey]))
+			else:
+				return redirect(reverse('show',args=[page.user.username, page.webKey]))
+
+	else:
+		page = Page(user=user, webKey=get_random_string(length=6).lower())
+		form = PageForm(instance=page)
 
 	context = {
 	'form' : form,
@@ -49,50 +59,55 @@ def new(request):
 #def new_anon
 
 def show_anon(request, slug):
-	p=get_object_or_404(Page, webKey=slug)
-	form=PageForm(request.POST or None, instance=p)
+	page = get_object_or_404(Page, user=None, webKey=slug)
+
+	form=PageForm(request.POST or None, instance=page)
+
 	if request.method == 'POST':
-		form_data = request.POST.copy()
-		#form_data['user']=(request.user).id
-		form=PageForm(form_data,instance=p)
+
+		form=PageForm(request.POST,instance=page)
+
 		if form.is_valid():
 			form.save()
-			pageKey = form.cleaned_data.get("webKey")
-			return redirect(reverse('show_anon',args=[pageKey]))
+
+			return redirect(reverse('show_anon',args=[page.webKey]))
 	context = {
-		'p' : p,
+		'p' : page,
 		'form' : form
 	}
 	return render(request, 'pages/index.html', context)
 
 def run_anon(request,slug):
-	p=get_object_or_404(Page,webKey=slug)
+	page = get_object_or_404(Page,webKey=slug)
+
 	html = '<!DOCTYPE html>\n'
 	html += '<html>\n'
 	html += '  <head>\n'
 
-	html += '    <title>\n'
-	html += '      ' + p.title + '\n'
-	html += '    </title>\n'
-
-	if len(p.css):
-		html += '    <style type="text/css">\n'
-		html += p.css
-		html += '    </style>\n'
-
- 	if len(p.javascript):
-		html += '    <script type="text/javascript">\n'
-		html += p.javascript
-		html += '    </script>\n'
+	if page.htmlHead.find('<title>') < 0:
+		html += '    <title>\n'
+		html += '      ' + page.title + '\n'
+		html += '    </title>\n'
 
  	html += '    <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>\n'
-	html += p.htmlHead
+	html += page.htmlHead
+
+	if len(page.css):
+		html += '    <style type="text/css">\n'
+		html += page.css
+		html += '    </style>\n'
+
+ 	if len(page.javascript):
+		html += '    <script type="text/javascript">\n'
+		html += page.javascript
+		html += '    </script>\n'
 
 	html += '  </head>\n'
 	html += '  <body>\n'
-	html += p.htmlBody
+	html += page.htmlBody
 	html += '  </body>\n'
 	html += '</html>\n'
+
 	return HttpResponse(html)
 
 def copy_anon(request, slug, username):
@@ -119,59 +134,64 @@ def copy_anon(request, slug, username):
 #pipe safe sends raw text to db
 
 #RUN saves before it runs
+
 def show(request,slug,username):
-	p=get_object_or_404(Page, webKey=slug, user=get_object_or_404(User,username=username))
-	form=PageForm(request.POST or None, instance=p)
+	page = get_object_or_404(Page, webKey=slug, user=get_object_or_404(User,username=username))
+
+	form = PageForm(request.POST or None, instance=page)
+
 	if request.method == 'POST':
 		form_data = request.POST.copy()
 		form_data['user']=(request.user).id
-		form=PageForm(form_data,instance=p)
+		form=PageForm(form_data,instance=page)
 		if form.is_valid():
 			form.save()
-			pageKey = form.cleaned_data.get("webKey")
-			return redirect(reverse('show',args=[request.user.username,pageKey]))
+
+			return redirect(reverse('show',args=[username,page.webKey]))
+
 	context = {
-		'p' : p,
+		'p' : page,
 		'form' : form,
 		'sameUser' : request.user.username == username
 	}
 	return render(request, 'pages/index.html', context)
 
-def show_all(request):
-	all_pages = Page.objects.filter(user=request.user)
+def show_all(request, username):
+	all_pages = Page.objects.filter(user=get_object_or_404(User,username=username))
 	context = {
 		'all_pages' : all_pages,
 	}
 	return render(request, 'pages/all_pages.html', context)
 
 def run(request,slug,username):
-	p=get_object_or_404(Page,webKey=slug,user=get_object_or_404(User, username=username))
+	page = get_object_or_404(Page,webKey=slug,user=get_object_or_404(User, username=username))
+
 	html = '<!DOCTYPE html>\n'
 	html += '<html>\n'
 	html += '  <head>\n'
 
-	if p.head.find('<title>') < 0:
+	if page.htmlHead.find('<title>') < 0:
 		html += '    <title>\n'
-		html += '      ' + p.title + '\n'
+		html += '      ' + page.title + '\n'
 		html += '    </title>\n'
 
  	html += '    <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>\n'
-	html += p.htmlHead
+	html += page.htmlHead
 
-	if len(p.css):
+	if len(page.css):
 		html += '    <style type="text/css">\n'
-		html += p.css
+		html += page.css
 		html += '    </style>\n'
 
- 	if len(p.javascript):
+ 	if len(page.javascript):
 		html += '    <script type="text/javascript">\n'
-		html += p.javascript
+		html += page.javascript
 		html += '    </script>\n'
 
 
 	html += '  </head>\n'
 	html += '  <body>\n'
-	html += p.htmlBody
+	html += page.htmlBody
 	html += '  </body>\n'
 	html += '</html>\n'
 
@@ -188,7 +208,7 @@ def delete(request, slug, username):
 	if request.user.is_anonymous():
 		return redirect(reverse('new'))
 	else:
-		return redirect(reverse('show_all'))
+		return redirect(reverse('show_all', args=[username]))
 
 def copy(request, slug, username):
 	print('[copy][user]' + str(request.user))

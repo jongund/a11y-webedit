@@ -31,9 +31,9 @@
 		</th>
 		<td>{{page.lastUpdated}}</td>
 		<td>
-			<a href = "{% url 'show' user.username page.webKey %}" aria-label = "Edit {{page.title}}" class = "btn btn-primary">Edit</a>
-			<a href = "{% url 'run' user.username page.webKey %}" aria-label = "Run {{page.title}}" class = "btn btn-primary">Run</a>
-			<a href = "{% url 'copy' user.username page.webKey %}" aria-label = "Copy {{page.title}}" class = "btn btn-primary">Copy</a>
+			<a href = "{% url 'show'   user.username page.webKey %}" aria-label = "Edit {{page.title}}"   class = "btn btn-primary">Edit</a>
+			<a href = "{% url 'run'    user.username page.webKey %}" aria-label = "Run {{page.title}}"    class = "btn btn-primary">Run</a>
+			<a href = "{% url 'copy'   user.username page.webKey %}" aria-label = "Copy {{page.title}}"   class = "btn btn-primary">Copy</a>
 			<a href = "{% url 'delete' user.username page.webKey %}" aria-label = "Delete {{page.title}}" class = "btn btn-danger">Delete</a>
 		</td>
 	</tr>

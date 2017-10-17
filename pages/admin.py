@@ -6,7 +6,7 @@ from .models import Tag
 # Register your models here.
 
 class PageAdmin(admin.ModelAdmin):
-    list_display = ('title', 'user', 'save_count', 'created', 'lastUpdated')
+    list_display = ('title', 'user', 'webKey', 'public', 'sample', 'assignment', 'save_count', 'created', 'lastUpdated')
 
 admin.site.register(Page, PageAdmin)
 

@@ -5,9 +5,10 @@ from codemirror import CodeMirrorTextarea
 from django.utils.crypto import get_random_string
 
 class PageForm(forms.ModelForm):
-	class Meta: 
+	class Meta:
 		model = Page
-		fields = "__all__"
+		fields = ['user', 'title', 'description', 'webKey', 'public', 'sample', 'assignment', 'tags', 'htmlHead', 'htmlBody', 'css', 'javascript']
+
 	htmlHead = forms.CharField(widget= CodeMirrorTextarea(
 		mode = "xml"), required = False,
 		)
@@ -20,7 +21,7 @@ class PageForm(forms.ModelForm):
 	javascript = forms.CharField(widget= CodeMirrorTextarea(
 		mode = "javascript"), required = False,
 		)
-	
+
 	tags = forms.ModelMultipleChoiceField(widget=forms.CheckboxSelectMultiple,queryset=Tag.objects.all(),
 	required=False)
 
