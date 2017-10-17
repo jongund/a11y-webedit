@@ -23,7 +23,7 @@ def show_samples(request):
 
 #THIS FUNCTION IS LIKELY UNNECESSARY AND CAN BE MERGED WITH SHOW
 def new(request):
-	if request.user.is_anonymous:
+	if request.user.is_anonymous():
 		user = None
 	else:
 		user = request.user
@@ -40,7 +40,7 @@ def new(request):
 			page.user = user
 			page.save()
 
-			if request.user.is_anonymous:
+			if request.user.is_anonymous():
 				return redirect(reverse('show_anon',args=[page.webKey]))
 			else:
 				return redirect(reverse('show',args=[page.user.username, page.webKey]))
@@ -110,19 +110,28 @@ def run_anon(request,slug):
 
 	return HttpResponse(html)
 
-def copy_anon(request, slug, username):
+def copy_anon(request, slug):
 	print('[copy][user]' + str(request.user))
-	page=get_object_or_404(Page, webKey=slug, user=get_object_or_404(User, username=username))
+	page=get_object_or_404(Page, webKey=slug, user=None)
 	copy_title = "Copy of '"+page.title+"'"
-	copy = Page(title=copy_title, description=page.description,htmlHead=page.htmlHead,\
+	if request.user.is_anonymous():
+		user = None
+	else:
+		user = request.user
+
+	copy = Page(user=user, title=copy_title, description=page.description,htmlHead=page.htmlHead,\
 	htmlBody=page.htmlBody,css=page.css,javascript=page.javascript,\
 	webKey=get_random_string(length=6).lower())
+
 	try:
 		copy.save()
 	except:
-		return redirect(reverse('show_anon',args=[page.webKey]))
+		return redirect(reverse('show_anon',args=[slug]))
 
-	return redirect(reverse('show_anon',args=[copy.webKey]))
+	if user:
+		return redirect(reverse('show',args=[copy.user.username, copy.webKey]))
+	else:
+		return redirect(reverse('show_anon',args=[copy.webKey]))
 
 
 #database should update as user types
@@ -211,16 +220,26 @@ def delete(request, slug, username):
 		return redirect(reverse('show_all', args=[username]))
 
 def copy(request, slug, username):
-	print('[copy][user]' + str(request.user))
-	page=get_object_or_404(Page, webKey=slug, user=get_object_or_404(User, username=username))
+	page = get_object_or_404(Page, webKey=slug, user=get_object_or_404(User, username=username))
+
 	copy_title = "Copy of '"+page.title+"'"
-	copy = Page(title=copy_title, description=page.description,htmlHead=page.htmlHead,\
+	if request.user.is_anonymous():
+		user = None
+	else:
+		user = request.user
+
+	copy = Page(user=user, title=copy_title, description=page.description,htmlHead=page.htmlHead,\
 	htmlBody=page.htmlBody,css=page.css,javascript=page.javascript,\
-	webKey=get_random_string(length=6).lower(),user=request.user)
+	webKey=get_random_string(length=6).lower())
+
 	try:
 		copy.save()
 	except:
-		return redirect(reverse('show',args=[request.user.username,page.webKey]))
+		return redirect(reverse('show',args=[username, slug]))
 
-	return redirect(reverse('show',args=[request.user.username,copy.webKey]))
+	if user:
+		return redirect(reverse('show',args=[copy.user.username,copy.webKey]))
+	else:
+		return redirect(reverse('show_anon',args=[copy.webKey]))
+
 

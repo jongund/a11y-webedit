@@ -22,26 +22,35 @@
 	{% endif %}
 	<div class = "panel panel-default">
 		<div class = "panel-body">
-			{% if sameUser or user.is_anonymous %}
+			{% if p.user == user or not p %}
 			{% bootstrap_button "Save" button_type="submit" button_class="btn btn-primary" extra_classes="save" title="Saves changes to page" %}
 			{% endif %}
+
 			{% if p %}
-			{% if user.is_anonymous %}
+			{% if user %}
 			<a href = "{% url 'run_anon' p.webKey %}" class = "btn btn-primary" target = "_blank" title="Displays output of code in new window">Run</a>
 			{% else %}
 			<a href = "{% url 'run' user.username p.webKey %}" class = "btn btn-primary" target = "_blank" title="Displays output of code in new window">Run</a>
 			{% endif %}
+
 			{% else %}
+
 			{% bootstrap_button "Run" button_type="submit" button_class="btn btn-primary" extra_classes="save before-run" %}
+
 			{% endif %}
-			{% if not user.is_anonymous %}
+
 			{% if p %}
-			<a href = "{% url 'copy' user.username p.webKey %}" class = "btn btn-primary" title="Copies last-saved page to new page">Copy</a>
-			{% if sameUser %}
+			{% if p.user %}
+			<a href = "{% url 'copy' p.user.username p.webKey %}" class = "btn btn-primary" title="Copies last-saved page to new page">Copy</a>
+			{% else %}
+			<a href = "{% url 'copy_anon' p.webKey %}" class = "btn btn-primary" title="Copies last-saved page to new page">Copy</a>
+			{% endif %}
+			{% endif %}
+
+			{% if p and p.user == user %}
 			<a href = "{% url 'delete' user.username p.webKey %}" class = "btn btn-danger danger" title = "Permanently removes page from your account">Delete</a>
 			{% endif %}
-			{% endif %}
-			{% endif %}
+
 		</div>
 	</div>
 
