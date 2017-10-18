@@ -39,7 +39,7 @@ def create_page(page):
 
   except ObjectDoesNotExist:
     print("Create Page: " + page.webKey)
-    p = Page(user=admin_user, webKey= page.webKey, title=page.title, description=page.description, htmlHead = page.htmlHead, htmlBody=page.htmlBody, sample=page.sample, public=p.public, javascript=page.javascript, css=page.css)
+    p = Page(user=admin_user, webKey= page.webKey, title=page.title, description=page.description, htmlHead = page.htmlHead, htmlBody=page.htmlBody, sample=page.sample, public=page.public, javascript=page.javascript, css=page.css)
 
   p.save()
   p.tags.remove()
