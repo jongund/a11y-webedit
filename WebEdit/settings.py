@@ -42,7 +42,7 @@ def get_secret(setting, secrets=secrets):
 SECRET_KEY = get_secret('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = get_secret('DEBUG')
 
 ADMIN_USERNAME = get_secret('ADMIN_USERNAME')
 ADMIN_PASSWORD = get_secret('ADMIN_PASSWORD')

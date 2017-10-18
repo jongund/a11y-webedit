@@ -31,19 +31,17 @@ def new(request):
 	if request.method == 'POST':
 
 		form = PageForm(request.POST) #populate form instance with data
-		print('USER (request): ' + str(user))
 		form.user = user
-		print('USER (form)   : ' + str(form.user))
 
 		if form.is_valid():
 			page = form.save()
 			page.user = user
 			page.save()
 
-			if request.user.is_anonymous():
-				return redirect(reverse('show_anon',args=[page.webKey]))
-			else:
+			if page.user:
 				return redirect(reverse('show',args=[page.user.username, page.webKey]))
+			else:
+				return redirect(reverse('show_anon',args=[page.webKey]))
 
 	else:
 		page = Page(user=user, webKey=get_random_string(length=6).lower())
