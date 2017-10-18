@@ -35,9 +35,9 @@ def create_tag(tag):
 	t.save()
 
 tag = type("myobj",(object,),dict(slug='', title='', description=''))
-tag.slug = 'landmarks'
-tag.title = 'Landmarks'
-tag.description = 'Examples related ARIA landmarks.'
+tag.slug = 'structure'
+tag.title = 'Structure'
+tag.description = 'Problems and solutions related ARIA landmarks, headings, page titles and navigation.'
 
 create_tag(tag)
 

@@ -28,9 +28,9 @@
 
 			{% if p %}
 			{% if user %}
-			<a href = "{% url 'run_anon' p.webKey %}" class = "btn btn-primary" target = "_blank" title="Displays output of code in new window">Run</a>
-			{% else %}
 			<a href = "{% url 'run' user.username p.webKey %}" class = "btn btn-primary" target = "_blank" title="Displays output of code in new window">Run</a>
+			{% else %}
+			<a href = "{% url 'run_anon' p.webKey %}" class = "btn btn-primary" target = "_blank" title="Displays output of code in new window">Run</a>
 			{% endif %}
 
 			{% else %}

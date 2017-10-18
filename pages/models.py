@@ -13,7 +13,7 @@ class Page(models.Model):
 
 	#----------SETTINGS--------------
 	title       = models.CharField(max_length=128)
-	description = models.CharField(max_length=200,blank=True)
+	description = models.CharField(max_length=512,blank=True)
 	webKey      = models.CharField(max_length=32) #SHOULD JUST BE UNIQUE FOR ONE
 	#=>USER letters and numbers excluding one and l
 
@@ -47,8 +47,8 @@ class Page(models.Model):
 
 class Tag(models.Model):
 
-	title       = models.CharField(max_length=20)
-	description = models.CharField(max_length=50,blank=True,null=True)
+	title       = models.CharField(max_length=128)
+	description = models.CharField(max_length=512,blank=True,null=True)
 	slug        = models.CharField(max_length=32,unique=True,default='')
 
 	def __str__(self):
