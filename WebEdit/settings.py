@@ -50,6 +50,7 @@ ADMIN_PASSWORD = get_secret('ADMIN_PASSWORD')
 ALLOWED_HOSTS = get_secret('ALLOWED_HOSTS');
 
 SITE_URL      = get_secret('SITE_URL')
+SHIB_URL      = get_secret('SHIB_URL')
 
 if SITE_URL.find('127.0.0.1') >= 0 or SITE_URL.find('localhost') >= 0:
   EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

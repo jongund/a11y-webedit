@@ -20,6 +20,12 @@ from django.views.generic.edit import CreateView
 from django.contrib.auth.forms import UserCreationForm
 from django.http import HttpResponseRedirect
 
+from accounts.views import ShibbolethLogin
+from accounts.views import ShibbolethLogout
+from accounts.views import ShibbolethDiscovery
+from accounts.views import ShibbolethInstitution
+from accounts.views import HeaderInfo
+
 urlpatterns = [
 	url(r'^$', lambda r: HttpResponseRedirect('pages/new')),
 	url(r'^pages/', include('pages.urls')),
@@ -31,6 +37,12 @@ urlpatterns = [
             success_url='/accounts/login',
 			), name='register',
 		),
+    url(r'^shib/login/$',                ShibbolethLogin.as_view(),       name='shib_login'),
+    url(r'^shib/logout/$',               ShibbolethLogout.as_view(),      name='shib_logout'),
+    url(r'^shib/discovery/$',            ShibbolethDiscovery.as_view(),   name='shib_discovery'),
+    url(r'^shib/inst/(?P<domain>\w+)/$', ShibbolethInstitution.as_view(), name='shib_institution'),
+    url(r'^shib/header-info/$',          HeaderInfo.as_view(),            name='shib_header_info'), # debug information
+
     url(r'^admin/', admin.site.urls),
 ]
 
