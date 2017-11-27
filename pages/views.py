@@ -86,8 +86,8 @@ def run_anon(request,slug):
 		html += '    <title>\n'
 		html += '      ' + page.title + '\n'
 		html += '    </title>\n'
-
- 	html += '    <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>\n'
+		
+	html += '    <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>\n'
 	html += page.htmlHead
 
 	if len(page.css):
@@ -95,7 +95,7 @@ def run_anon(request,slug):
 		html += page.css
 		html += '    </style>\n'
 
- 	if len(page.javascript):
+	if len(page.javascript):
 		html += '    <script type="text/javascript">\n'
 		html += page.javascript
 		html += '    </script>\n'
@@ -189,7 +189,7 @@ def run(request,slug,username):
 		html += '      ' + page.title + '\n'
 		html += '    </title>\n'
 
- 	html += '    <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>\n'
+	html += '    <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>\n'
 	html += page.htmlHead
 
 	if len(page.css):
@@ -197,7 +197,7 @@ def run(request,slug,username):
 		html += page.css
 		html += '    </style>\n'
 
- 	if len(page.javascript):
+	if len(page.javascript):
 		html += '    <script type="text/javascript">\n'
 		html += page.javascript
 		html += '    </script>\n'
