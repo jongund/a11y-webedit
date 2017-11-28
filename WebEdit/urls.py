@@ -37,11 +37,11 @@ urlpatterns = [
             success_url='/accounts/login',
 			), name='register',
 		),
-    url(r'^shib/login/$',                ShibbolethLogin.as_view(),       name='shib_login'),
-    url(r'^shib/logout/$',               ShibbolethLogout.as_view(),      name='shib_logout'),
-    url(r'^shib/discovery/$',            ShibbolethDiscovery.as_view(),   name='shib_discovery'),
-    url(r'^shib/inst/(?P<domain>\w+)/$', ShibbolethInstitution.as_view(), name='shib_institution'),
-    url(r'^shib/header-info/$',          HeaderInfo.as_view(),            name='shib_header_info'), # debug information
+    url(r'^login/$',                ShibbolethLogin.as_view(),       name='shib_login'),
+    url(r'^logout/$',               ShibbolethLogout.as_view(),      name='shib_logout'),
+    url(r'^discovery/$',            ShibbolethDiscovery.as_view(),   name='shib_discovery'),
+    url(r'^inst/(?P<domain>\w+)/$', ShibbolethInstitution.as_view(), name='shib_institution'),
+    url(r'^header-info/$',          HeaderInfo.as_view(),            name='shib_header_info'), # debug information
 
     url(r'^admin/', admin.site.urls),
 ]
