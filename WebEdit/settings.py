@@ -44,6 +44,33 @@ SECRET_KEY = get_secret('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = get_secret('DEBUG')
 
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = get_secret('SECRET_KEY')
+
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = get_secret('DEBUG')
+
+EMAIL_HOST               = get_secret('EMAIL_HOST')
+
+EMAIL_PORT               = get_secret('EMAIL_PORT')
+EMAIL_USE_TLS            = get_secret('EMAIL_USE_TLS')
+
+EMAIL_HOST_USER          = get_secret('EMAIL_HOST_USER')
+EMAIL_HOST_USER_PASSWORD = get_secret('EMAIL_HOST_USER_PASSWORD')
+
+DEFAULT_FROM_EMAIL       = get_secret('EMAIL_HOST_USER')
+SERVER_EMAIL             = get_secret('EMAIL_HOST_USER')
+
+if get_secret('SITE_URL').find('127.0.0.1') >= 0 or get_secret('SITE_URL').find('localhost') >= 0:
+  EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+else:
+  EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+ACCOUNT_ACTIVATION_DAYS = get_secret('ACCOUNT_ACTIVATION_DAYS')
+REGISTRATION_EMAIL_HTML = False
+
+ALLOWED_HOSTS = get_secret('ALLOWED_HOSTS')
+
 ADMIN_USERNAME = get_secret('ADMIN_USERNAME')
 ADMIN_PASSWORD = get_secret('ADMIN_PASSWORD')
 
@@ -51,11 +78,6 @@ ALLOWED_HOSTS = get_secret('ALLOWED_HOSTS');
 
 SITE_URL      = get_secret('SITE_URL')
 SHIB_URL      = get_secret('SHIB_URL')
-
-if SITE_URL.find('127.0.0.1') >= 0 or SITE_URL.find('localhost') >= 0:
-  EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-else:
-  EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 # Redirect to home URL after login (Default redirects to /accounts/profile/)
 LOGIN_REDIRECT_URL = '/pages/new'
@@ -118,12 +140,12 @@ WSGI_APPLICATION = 'WebEdit.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': get_secret('DATABASE_ENGINE'),
-        'NAME': get_secret('DATABASE_NAME'),
-		'USER': get_secret('USER'),
-		'PASSWORD': get_secret('PASSWORD'),
-		'HOST': get_secret('HOST'),
-		'PORT': get_secret('PORT')
+        'ENGINE':   get_secret('DATABASE_ENGINE'),
+        'NAME':     get_secret('DATABASE_NAME'),
+		'USER':     get_secret('DATABASE_USER'),
+		'PASSWORD': get_secret('DATABASE_PASSWORD'),
+		'HOST':     get_secret('DATABASE_HOST'),
+		'PORT':     get_secret('DATABASE_PORT')
     }
 }
 

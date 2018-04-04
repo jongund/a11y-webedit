@@ -1,5 +1,9 @@
 Django==1.11.2
 django-bootstrap3==8.2.3
 django-codemirror-widget==0.4.1
-psycopg2==2.7.1
+django-password-reset
+django-registration
+django-timezone-field
+psycopg2
 pytz==2017.2
+
