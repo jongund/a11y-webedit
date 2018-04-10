@@ -15,8 +15,10 @@ from django.conf import settings
 
 django.setup()
 
-from django.core.exceptions 	import ObjectDoesNotExist
-from django.contrib.auth.models import User
+from django.core.exceptions      import ObjectDoesNotExist
+from django.core.exceptions      import ImproperlyConfigured
+from django.contrib.sites.models import Site
+from django.contrib.auth.models  import User
 
 users = (
 	(settings.ADMIN_USERNAME, settings.ADMIN_PASSWORD, True, True),
@@ -37,7 +39,15 @@ def create_users(users):
 			print("Create User: " + person[0])
 			user = User(username=person[0], is_superuser=person[2], is_staff=person[3])
 			user.set_password(person[1])
-			
+
 		user.save()
 
+
+def set_site(name, url):
+    site = Site.objects.get_current()
+    site.domain = url
+    site.name = name
+    site.save()
+
 create_users(users)
+set_site(settings.SITE_NAME, settings.SITE_URL)

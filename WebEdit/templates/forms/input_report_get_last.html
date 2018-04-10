@@ -1,0 +1,8 @@
+    <input id="id_get_last" 
+           type="button" 
+           onclick="getLastReport()" 
+           {% if report_nav.wser.url == '' %}disabled{% endif %} 
+           value="Get Last Report Settings" 
+           title="You can import the settings from a previous report by visiting the archived report just before you come to this form and pressing this button"
+           {% if not last_report %}disabled{% endif %}
+           />

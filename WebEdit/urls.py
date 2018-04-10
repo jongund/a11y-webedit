@@ -27,23 +27,20 @@ from accounts.views import ShibbolethInstitution
 from accounts.views import HeaderInfo
 
 urlpatterns = [
+    url(r'^admin/', admin.site.urls),
 	url(r'^$', lambda r: HttpResponseRedirect('pages/new')),
 	url(r'^pages/', include('pages.urls')),
-    url(r'^accounts/', include('django.contrib.auth.urls')),
-    url(r'^accounts/', include('accounts.urls')),
-	url(r'^user/register/$', CreateView.as_view(
-            template_name='register.html',
-            form_class=UserCreationForm,
-            success_url='/accounts/login',
-			), name='register',
-		),
-    url(r'^login/$',                ShibbolethLogin.as_view(),       name='shib_login'),
-    url(r'^logout/$',               ShibbolethLogout.as_view(),      name='shib_logout'),
-    url(r'^discovery/$',            ShibbolethDiscovery.as_view(),   name='shib_discovery'),
-    url(r'^inst/(?P<domain>\w+)/$', ShibbolethInstitution.as_view(), name='shib_institution'),
-    url(r'^header-info/$',          HeaderInfo.as_view(),            name='shib_header_info'), # debug information
 
-    url(r'^admin/', admin.site.urls),
+    url(r'^accounts/',     include('registration.backends.hmac.urls')),
+    url(r'^registration/', include('django.contrib.auth.urls')),
+#    url(r'^logout/$',      Logout.as_view(), name='logout'),
+    url(r'^reset/',        include('password_reset.urls')),
+    url(r'^profile/',      include('accounts.urls')),
+#    url(r'^login/$',                ShibbolethLogin.as_view(),       name='shib_login'),
+#    url(r'^logout/$',               ShibbolethLogout.as_view(),      name='shib_logout'),
+#    url(r'^discovery/$',            ShibbolethDiscovery.as_view(),   name='shib_discovery'),
+#    url(r'^inst/(?P<domain>\w+)/$', ShibbolethInstitution.as_view(), name='shib_institution'),
+#    url(r'^header-info/$',          HeaderInfo.as_view(),            name='shib_header_info'), # debug information
+
 ]
-
 

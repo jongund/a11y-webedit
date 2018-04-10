@@ -1,0 +1,44 @@
+    <fieldset {% if form.depth.errors|length %}class="error"{% endif %} class="fae_group">
+        {% if form.depth.errors|length %}
+        <legend class="error">{{form.depth.label}}: {% for error in form.depth.errors %}{{error}}{% endfor %}
+            <span class="fae_info_button" aria-controls="id_inst_depth"></span>
+        {% else %}
+        <legend>{{form.depth.label}}
+        {% endif %}
+            <span class="fae_info_button" aria-controls="id_inst_depth"></span>
+        </legend>
+        <div id="id_inst_depth" class="fae_info">             
+            This option is for setting how "deep" FAE will look for pages within a website to include in the evaluation.   Increasing the depth typically results in more pages evaluated.
+
+            {% if payment_enabled %}
+                {% if user.profile.account_type.next_account_type.type ==  1 %}
+            <div class="subscription">Note: <a href="{% url 'update_subscription' %}">Subscribe</a> to FAE to increase the depth of pages spidered.</div>
+                {% else %}
+            <div class="subscription">Note: Change the level of your <a href="{% url 'update_subscription' %}">subscription</a> to increase the depth of pages spidered.</div>
+                {% endif %}
+            {% endif %}
+
+        </div>            
+        {% for choice in form.depth.field.choices %}
+            {% if forloop.counter <= user.profile.account_type.max_depth %}
+            <div class="fae_radio">
+                <label>
+                    <input
+                        id="id_depth_{{ forloop.counter }}"
+                        type="radio"
+                        name="depth"
+                        value="{{choice.0}}"
+                        {% if choice.0|slugify == form.depth.value|slugify  %}
+                        checked="checked"
+                        {% endif %}
+                    />
+                    <span>{{choice.1}}</span>
+                </label>
+            </div>
+            {% endif %}
+        {% endfor %}
+        {% if user.profile.account_type.next_account_type %}
+        {% endif %}
+
+
+    </fieldset>

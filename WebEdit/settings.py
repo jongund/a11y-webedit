@@ -17,14 +17,13 @@ from os.path import join, abspath, dirname
 #BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 here = lambda *dirs: join(abspath(dirname(__file__)), *dirs)
-root = lambda *dirs: join(abspath(here("","")), *dirs)
+root = lambda *dirs: join(abspath(here("","..")), *dirs)
 
 BASE_DIR = here("", "")
 print("BASE_DIR: " + BASE_DIR)
 
 APP_DIR  = root("")
 print(" APP_DIR: " + APP_DIR)
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
@@ -76,6 +75,8 @@ ADMIN_PASSWORD = get_secret('ADMIN_PASSWORD')
 
 ALLOWED_HOSTS = get_secret('ALLOWED_HOSTS');
 
+SITE_ID       = 1
+SITE_NAME     = get_secret('SITE_NAME')
 SITE_URL      = get_secret('SITE_URL')
 SHIB_URL      = get_secret('SHIB_URL')
 
@@ -93,14 +94,15 @@ BOOTSTRAP3 = {
 # Application definition
 
 INSTALLED_APPS = [
-	'bootstrap3',
-	'pages.apps.PagesConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+    'bootstrap3',
+    'pages.apps.PagesConfig',
 ]
 
 MIDDLEWARE = [
@@ -118,8 +120,7 @@ ROOT_URLCONF = 'WebEdit.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [join(APP_DIR,'../accounts/templates'),join(APP_DIR,'../templates'),
-		join(APP_DIR,'../samples/templates')],
+        'DIRS': [join(BASE_DIR,'templates/')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -189,6 +190,8 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = join(BASE_DIR, 'static/')
 
+print('STATIC_ROOT: ' + STATIC_ROOT)
+
 STATICFILES_DIRS = (
-  join(APP_DIR, '../pages/static'),
+  join(APP_DIR, 'static'),
 )
