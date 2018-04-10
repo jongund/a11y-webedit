@@ -102,6 +102,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'bootstrap3',
     'pages.apps.PagesConfig',
+    'accounts.apps.AccountsConfig',
 ]
 
 MIDDLEWARE = [
