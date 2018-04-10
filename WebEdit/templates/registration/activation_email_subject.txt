@@ -1,1 +1,1 @@
-a11yWebEdit account registration
+{{ site.name }} account registration
