@@ -2,7 +2,7 @@ from django.conf.urls import url
 from . import views
 
 urlpatterns = [
-	url(r'^new/$', views.new,      name = 'new'),
+	url(r'^$', views.new,      name = 'new'),
 
   url(r'^user/(?P<username>\w+)/all/$',                     views.show_all, name = 'show_all'),
   url(r'^user/(?P<username>\w+)/(?P<slug>[-\w]+)/$',        views.show,     name = 'show'),

@@ -20,7 +20,9 @@
         {% endif %}
     {% endif %}
 
+<!--
     <p><a href="{% url 'password_reset_recover' %}">Lost password?</a></p>
+-->
 
     <form method="post" action="{% url 'login' %}">
         {% csrf_token %}
@@ -28,7 +30,7 @@
         {% include "forms/input_text.html" with input=form.username size=20  %}
         {% include "forms/input_text.html" with input=form.password size=30 type='password' %}
 
-        <div class="fae_button">
+        <div class="button">
             <input type="submit" value="login">
         </div>
 

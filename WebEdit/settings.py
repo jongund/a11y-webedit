@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 
 import os, json
 from os.path import join, abspath, dirname
+from django.urls import reverse
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 #BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -81,10 +83,7 @@ SITE_URL      = get_secret('SITE_URL')
 SHIB_URL      = get_secret('SHIB_URL')
 
 # Redirect to home URL after login (Default redirects to /accounts/profile/)
-LOGIN_REDIRECT_URL = '/pages/new'
-
-# Codemirror specifications
-CODEMIRROR_PATH = '/pages/static/pages/plugins/codemirror'
+LOGIN_REDIRECT_URL = '/'
 
 # Allow django-bootstrap3 to use jquery
 BOOTSTRAP3 = {

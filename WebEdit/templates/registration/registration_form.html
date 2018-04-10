@@ -16,7 +16,7 @@
 <form method="post" action="">
    {% csrf_token %}
 
-  <fieldset class="fae_group">
+  <fieldset class="group">
     <legend title="This information is used to send you a registration confirmation link.">Contact Information</legend>
 
       {% include "forms/input_text.html" with input=form.first_name name="first_name" label="First Name" %}
@@ -27,7 +27,7 @@
 
   </fieldset>
 
-  <fieldset class="fae_group">
+  <fieldset class="group">
     <legend title="This information will be how you log in">Login Information</legend>
 
       {% include "forms/input_text.html" with input=form.username name="username" label="User Name" %}
@@ -38,7 +38,7 @@
 
   </fieldset>
 
-  <div class="fae_button">
+  <div class="button">
     <input id="id_submit" type="submit" value="Submit - Step 1"/>
   </div>
 

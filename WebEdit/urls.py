@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
+
 import django.contrib.auth.urls
 from django.views.generic.edit import CreateView
 from django.contrib.auth.forms import UserCreationForm
@@ -28,14 +29,12 @@ from accounts.views import HeaderInfo
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-	url(r'^$', lambda r: HttpResponseRedirect('pages/new')),
-	url(r'^pages/', include('pages.urls')),
-
-    url(r'^accounts/',     include('registration.backends.hmac.urls')),
-    url(r'^registration/', include('django.contrib.auth.urls')),
-#    url(r'^logout/$',      Logout.as_view(), name='logout'),
-    url(r'^reset/',        include('password_reset.urls')),
-    url(r'^profile/',      include('accounts.urls')),
+#	url(r'^$', lambda r: HttpResponseRedirect('pages/new')),
+	url(r'^', include('pages.urls')),
+    url(r'^accounts/', include('registration.backends.hmac.urls')),
+    url(r'^accounts/', include('django.contrib.auth.urls')),
+    url(r'^reset/',    include('password_reset.urls')),
+    url(r'^profile/',  include('accounts.urls')),
 #    url(r'^login/$',                ShibbolethLogin.as_view(),       name='shib_login'),
 #    url(r'^logout/$',               ShibbolethLogout.as_view(),      name='shib_logout'),
 #    url(r'^discovery/$',            ShibbolethDiscovery.as_view(),   name='shib_discovery'),
