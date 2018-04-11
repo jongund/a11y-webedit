@@ -26,22 +26,22 @@ users = (
 
 def create_users(users):
 
-	for person in users:
+  for person in users:
 
-		try:
-			print("Update User: " + person[0]),
-			user = User.objects.get(username=person[0])
-			user.is_superuser = person[2]
-			user.is_staff 	  = person[3]
-			user.set_password(person[1])
+    try:
+      print("Update User: " + person[0])
+      user = User.objects.get(username=person[0])
+      user.is_superuser = person[2]
+      user.is_staff 	  = person[3]
+      user.set_password(person[1])
 
-		except ObjectDoesNotExist:
-			print("Create User: " + person[0])
-			user = User(username=person[0], is_superuser=person[2], is_staff=person[3])
-			user.set_password(person[1])
 
-		user.save()
+    except ObjectDoesNotExist:
+      print("Create User: " + person[0])
+      user = User(username=person[0], is_superuser=person[2], is_staff=person[3])
+      user.set_password(person[1])
 
+    user.save()
 
 def set_site(name, url):
     site = Site.objects.get_current()
