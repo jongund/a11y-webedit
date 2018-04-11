@@ -20,8 +20,9 @@
         {% endif %}
     {% endif %}
 
-
+<!--
     <p><a href="{% url 'password_reset' %}">Lost password?</a></p>
+-->
 
     <form method="post" action="{% url 'login' %}">
         {% csrf_token %}
