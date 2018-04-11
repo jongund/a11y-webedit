@@ -4,7 +4,11 @@
 <!DOCTYPE html>
 <html lang = "en">
 <head>
-	<title>WebEdit</title>
+	{% if title %}
+	<title>{{title}} | WebEdit</title>
+	{% else %}
+	<title>{{site.name}}</title>
+	{% endif %}
 	<link rel="stylesheet" type = "text/css" href="{% static 'css/codemirror.css' %}"/>
 	<link rel = "stylesheet" type = "text/css" href = "{% static 'css/pages.css' %}"/>
 </head>

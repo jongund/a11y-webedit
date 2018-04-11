@@ -17,7 +17,8 @@ def show_samples(request):
 	tags    = Tag.objects.all()
 	samples = Page.objects.filter(sample=True)
 	context = {
-		'tags':tags,
+	  'title': 'Samples',
+ 		'tags':tags,
 		'samples':samples
 	}
 	return render(request, 'pages/samples.html', context)
@@ -54,6 +55,7 @@ def new(request):
 		form = PageForm(instance=page)
 
 	context = {
+	'title' : 'New Page',
 	'form' : form,
 	'sameUser' : True,
 	}
@@ -76,6 +78,7 @@ def show_anon(request, slug):
 
 			return redirect(reverse('show_anon',args=[page.webKey]))
 	context = {
+		'title' : 'Edit Page',
 		'p' : page,
 		'form' : form
 	}
@@ -115,7 +118,6 @@ def run_anon(request,slug):
 	return HttpResponse(html)
 
 def copy_anon(request, slug):
-	print('[copy][user]' + str(request.user))
 	page=get_object_or_404(Page, webKey=slug, user=None)
 	copy_title = "Copy of '"+page.title+"'"
 	if request.user.is_anonymous():
@@ -166,6 +168,7 @@ def show(request, profile_slug, slug):
 			return redirect(reverse('show', args=[user.profile.slug, page.webKey]))
 
 	context = {
+	  'title' : 'Edit Page',
 		'p' : page,
 		'form' : form,
 		'sameUser' : request.user.username == username
@@ -175,8 +178,6 @@ def show(request, profile_slug, slug):
 def show_all(request,profile_slug):
 	username = Profile.objects.get(slug=profile_slug).user.username
 
-	print('[USERNAME]: ' + username)
-
 	all_pages = Page.objects.filter(user=get_object_or_404(User,username=username))
 	user = User.objects.get(username=username)
 	name = user.first_name + ' ' + user.last_name
@@ -185,6 +186,7 @@ def show_all(request,profile_slug):
 		name = username
 
 	context = {
+		'title' : name + '\'s Pages',
 		'all_pages' : all_pages,
 		'name' : name,
 	}
