@@ -51,7 +51,7 @@ def new(request):
 				return redirect(reverse('show_anon',args=[page.slug]))
 
 	else:
-		page = Page(user=user, slug=get_random_string(length=8).lower())
+		page = Page(user=user, slug=get_random_string(length=6).lower())
 		form = PageForm(instance=page)
 
 	context = {
