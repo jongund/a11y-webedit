@@ -7,7 +7,7 @@ from django.utils.crypto import get_random_string
 class PageForm(forms.ModelForm):
 	class Meta:
 		model = Page
-		fields = ['user', 'title', 'description', 'webKey', 'public', 'sample', 'assignment', 'tags', 'htmlHead', 'htmlBody', 'css', 'javascript']
+		fields = ['user', 'title', 'description', 'slug', 'public', 'sample', 'assignment', 'tags', 'htmlHead', 'htmlBody', 'css', 'javascript']
 
 	htmlHead = forms.CharField(widget= CodeMirrorTextarea(
 		mode = "xml"), required = False,

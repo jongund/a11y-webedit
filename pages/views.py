@@ -15,7 +15,7 @@ from accounts.models import Profile
 
 def show_samples(request):
 	tags    = Tag.objects.all()
-	samples = Page.objects.filter(sample=True)
+	samples = Page.objects.filter(sample=True).order_by('title')
 	context = {
 	  'title': 'Samples',
  		'tags':tags,
@@ -46,12 +46,12 @@ def new(request):
 			page.save()
 
 			if page.user:
-				return redirect(reverse('show',args=[page.user.profile.slug, page.webKey]))
+				return redirect(reverse('show',args=[page.user.profile.slug, page.slug]))
 			else:
-				return redirect(reverse('show_anon',args=[page.webKey]))
+				return redirect(reverse('show_anon',args=[page.slug]))
 
 	else:
-		page = Page(user=user, webKey=get_random_string(length=8).lower())
+		page = Page(user=user, slug=get_random_string(length=8).lower())
 		form = PageForm(instance=page)
 
 	context = {
@@ -64,8 +64,8 @@ def new(request):
 
 #def new_anon
 
-def show_anon(request, slug):
-	page = get_object_or_404(Page, user=None, webKey=slug)
+def show_anon(request, page_slug):
+	page = get_object_or_404(Page, user=None, slug=page_slug)
 
 	form=PageForm(request.POST or None, instance=page)
 
@@ -76,7 +76,7 @@ def show_anon(request, slug):
 		if form.is_valid():
 			form.save()
 
-			return redirect(reverse('show_anon',args=[page.webKey]))
+			return redirect(reverse('show_anon',args=[page.slug]))
 	context = {
 		'title' : 'Edit Page',
 		'p' : page,
@@ -84,8 +84,8 @@ def show_anon(request, slug):
 	}
 	return render(request, 'pages/index.html', context)
 
-def run_anon(request,slug):
-	page = get_object_or_404(Page,webKey=slug)
+def run_anon(request, page_slug):
+	page = get_object_or_404(Page,slug=page_slug)
 
 	html = '<!DOCTYPE html>\n'
 	html += '<html>\n'
@@ -117,8 +117,8 @@ def run_anon(request,slug):
 
 	return HttpResponse(html)
 
-def copy_anon(request, slug):
-	page=get_object_or_404(Page, webKey=slug, user=None)
+def copy_anon(request, page_slug):
+	page=get_object_or_404(Page, slug=page_slug, user=None)
 	copy_title = "Copy of '"+page.title+"'"
 	if request.user.is_anonymous():
 		user = None
@@ -127,7 +127,7 @@ def copy_anon(request, slug):
 
 	copy = Page(user=user, title=copy_title, description=page.description,htmlHead=page.htmlHead,\
 	htmlBody=page.htmlBody,css=page.css,javascript=page.javascript,\
-	webKey=get_random_string(length=8).lower())
+	slug=get_random_string(length=8).lower())
 
 	try:
 		copy.save()
@@ -135,9 +135,9 @@ def copy_anon(request, slug):
 		return redirect(reverse('show_anon',args=[slug]))
 
 	if user:
-		return redirect(reverse('show',args=[copy.user.profile.slug, copy.webKey]))
+		return redirect(reverse('show',args=[copy.user.profile.slug, copy.slug]))
 	else:
-		return redirect(reverse('show_anon',args=[copy.webKey]))
+		return redirect(reverse('show_anon',args=[copy.slug]))
 
 
 #database should update as user types
@@ -150,9 +150,9 @@ def copy_anon(request, slug):
 
 #RUN saves before it runs
 
-def show(request, profile_slug, slug):
+def show(request, profile_slug, page_slug):
 	username = Profile.objects.get(slug=profile_slug).user.username
-	page = get_object_or_404(Page, webKey=slug, user=get_object_or_404(User,username=username))
+	page = get_object_or_404(Page, slug=page_slug, user=get_object_or_404(User,username=username))
 
 	form = PageForm(request.POST or None, instance=page)
 
@@ -165,7 +165,7 @@ def show(request, profile_slug, slug):
 		if form.is_valid():
 			form.save()
 
-			return redirect(reverse('show', args=[user.profile.slug, page.webKey]))
+			return redirect(reverse('show', args=[user.profile.slug, page.slug]))
 
 	context = {
 	  'title' : 'Edit Page',
@@ -192,10 +192,10 @@ def show_all(request,profile_slug):
 	}
 	return render(request, 'pages/all_pages.html', context)
 
-def run(request,slug,profile_slug):
+def run(request,page_slug,profile_slug):
 	username = Profile.objects.get(slug=profile_slug).user.username
 
-	page = get_object_or_404(Page,webKey=slug,user=get_object_or_404(User, username=username))
+	page = get_object_or_404(Page,slug=page_slug,user=get_object_or_404(User, username=username))
 
 	html = '<!DOCTYPE html>\n'
 	html += '<html>\n'
@@ -228,7 +228,7 @@ def run(request,slug,profile_slug):
 
 	return HttpResponse(html)
 
-def delete(request, slug, profile_slug):
+def delete(request, page_slug, profile_slug):
 	user = Profile.objects.get(slug=profile_slug).user
 	username = user.username
 
@@ -237,17 +237,17 @@ def delete(request, slug, profile_slug):
 	}
 	if request.user.username != username:
 		return render(request, 'pages/index.html', context)
-	p=get_object_or_404(Page, webKey=slug, user=get_object_or_404(User, username=username))
+	p=get_object_or_404(Page, slug=page_slug, user=get_object_or_404(User, username=username))
 	p.delete()
 	if request.user.is_anonymous():
 		return redirect(reverse('new'))
 	else:
 		return redirect(reverse('show_all', args=[user.profile.slug]))
 
-def copy(request, slug, profile_slug):
+def copy(request, page_slug, profile_slug):
 	username = Profile.objects.get(slug=profile_slug).user.username
 
-	page = get_object_or_404(Page, webKey=slug, user=get_object_or_404(User, username=username))
+	page = get_object_or_404(Page, slug=page_slug, user=get_object_or_404(User, username=username))
 
 	copy_title = "Copy of '" + page.title + "'"
 	if request.user.is_anonymous():
@@ -257,7 +257,7 @@ def copy(request, slug, profile_slug):
 
 	copy = Page(user=user, title=copy_title, description=page.description,htmlHead=page.htmlHead,\
 	htmlBody=page.htmlBody,css=page.css,javascript=page.javascript,\
-	webKey=get_random_string(length=8).lower())
+	slug=get_random_string(length=6).lower())
 
 	try:
 		copy.save()
@@ -265,8 +265,8 @@ def copy(request, slug, profile_slug):
 		return redirect(reverse('show',args=[user.profile.slug, slug]))
 
 	if user:
-		return redirect(reverse('show',args=[user.profile.slug, copy.webKey]))
+		return redirect(reverse('show',args=[user.profile.slug, copy.slug]))
 	else:
-		return redirect(reverse('show_anon',args=[copy.webKey]))
+		return redirect(reverse('show_anon',args=[copy.slug]))
 
 

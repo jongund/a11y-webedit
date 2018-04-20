@@ -35,12 +35,12 @@
 		<td>{{page.lastUpdated}}</td>
 		<td>
 			{% if  page.user == user %}
-			<a href = "{% url 'show'   page.user.profile.slug page.webKey %}" aria-label = "Edit {{page.title}}"   class = "btn btn-primary">Edit</a>
+			<a href = "{% url 'show'   page.user.profile.slug page.slug %}" aria-label = "Edit {{page.title}}"   class = "btn btn-primary">Edit</a>
 			{% endif %}
-			<a href = "{% url 'run'    page.user.profile.slug page.webKey %}" aria-label = "Run {{page.title}}"    class = "btn btn-primary">Run</a>
-			<a href = "{% url 'copy'   page.user.profile.slug page.webKey %}" aria-label = "Copy {{page.title}}"   class = "btn btn-primary">Copy</a>
+			<a href = "{% url 'run'    page.user.profile.slug page.slug %}" aria-label = "Run {{page.title}}"    class = "btn btn-primary">Run</a>
+			<a href = "{% url 'copy'   page.user.profile.slug page.slug %}" aria-label = "Copy {{page.title}}"   class = "btn btn-primary">Copy</a>
 			{% if  page.user == user %}
-			<a href = "{% url 'delete' page.user.profile.slug page.webKey %}" aria-label = "Delete {{page.title}}" class = "btn btn-danger">Delete
+			<a href = "{% url 'delete' page.user.profile.slug page.slug %}" aria-label = "Delete {{page.title}}" class = "btn btn-danger">Delete
 			</a>
 			{% endif %}
 		</td>

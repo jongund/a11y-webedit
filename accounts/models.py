@@ -15,8 +15,31 @@ class Profile(models.Model):
         return self.slug + ' (' + str(self.user) + ')'
 
     def save(self, **kwargs):
-        self.slug = self.user.username.replace('@', '_at_').replace('.', '_dot_').replace('+', '_plus_')
-        print('SLUG: ' + self.slug)
+        if len(self.slug) == 0:
+            count = 1
+            unique = False
+            slug = ''
+
+            for c in self.user.username.lower():
+                if 'abcdefghijklmnopqrstuvwxyz1234567890_-'.find(c) >= 0:
+                    slug += c
+                else:
+                    if '.'.find(c) >= 0:
+                        slug += '-'
+                    else:
+                        if '@'.find(c) >= 0:
+                            break
+
+            self.slug = slug
+
+            while (not unique):
+                try:
+                    Profile.objects.get(slug=self.slug)
+                    self.slug = slug + str(count)
+                    count += 1
+                except:
+                    unique = True
+
         super(Profile, self).save(**kwargs)  # Call real save
 
 @receiver(post_save, sender=User)

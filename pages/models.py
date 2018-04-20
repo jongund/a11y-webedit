@@ -14,7 +14,8 @@ class Page(models.Model):
 	#----------SETTINGS--------------
 	title       = models.CharField(max_length=128)
 	description = models.CharField(max_length=512,blank=True)
-	webKey      = models.CharField(max_length=32) #SHOULD JUST BE UNIQUE FOR ONE
+	webKey      = models.CharField(max_length=32,blank=True,default="")
+	slug        = models.SlugField(max_length=32,default="")
 	#=>USER letters and numbers excluding one and l
 
 	public = models.BooleanField(default=True)
@@ -35,14 +36,15 @@ class Page(models.Model):
 	javascript = models.TextField(blank=True)
 
 	class Meta:
-		ordering = ['title']
-		unique_together = ('user', 'webKey')
+		ordering = ['-lastUpdated', 'title']
+		unique_together = ('user', 'slug')
 
 	def __str__(self):
 		return self.title + ' (' + str(self.user) + ')'
 
 	def save(self):
 			self.save_count += 1  # Keep track of how many times someone saves a page
+			self.lastUpdated = datetime.now()
 			super(Page, self).save()  # Call real save
 
 class Tag(models.Model):

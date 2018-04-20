@@ -46,16 +46,16 @@
 		</td>
 		<td>
 			{% if request.user == sample.user %}
-			<a href = "{% url 'show'   sample.user.profile.slug sample.webKey %}" aria-label = "Edit {{sample.title}}" class = "btn btn-primary">Edit</a>
+			<a href = "{% url 'show'   sample.user.profile.slug sample.slug %}" aria-label = "Edit {{sample.title}}" class = "btn btn-primary">Edit</a>
 			{% endif %}
-			<a href = "{% url 'run'    sample.user.profile.slug sample.webKey %}" aria-label = "Run {{sample.title}}" class = "btn btn-primary">Run</a>
+			<a href = "{% url 'run'    sample.user.profile.slug sample.slug %}" aria-label = "Run {{sample.title}}" class = "btn btn-primary">Run</a>
 			{% if request.user.is_anonymous %}
-			<a href = "{% url 'copy_anon' sample.user.profile.slug sample.webKey %}" aria-label = "Copy {{sample.title}}" class = "btn btn-primary">Copy</a>
+			<a href = "{% url 'copy_anon' sample.user.profile.slug sample.slug %}" aria-label = "Copy {{sample.title}}" class = "btn btn-primary">Copy</a>
 			{% else %}
-			<a href = "{% url 'copy'   sample.user.profile.slug sample.webKey %}" aria-label = "Copy {{sample.title}}" class = "btn btn-primary">Copy</a>
+			<a href = "{% url 'copy'   sample.user.profile.slug sample.slug %}" aria-label = "Copy {{sample.title}}" class = "btn btn-primary">Copy</a>
 			{% endif %}
 			{% if request.user == sample.user %}
-			<a href = "{% url 'delete' sample.user.profile.slug sample.webKey %}" aria-label = "Delete {{sample.title}}" class = "btn btn-danger">Delete</a>
+			<a href = "{% url 'delete' sample.user.profile.slug sample.slug %}" aria-label = "Delete {{sample.title}}" class = "btn btn-danger">Delete</a>
 			{% endif %}
 		</td>
 	</tr>
