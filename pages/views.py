@@ -152,7 +152,13 @@ def copy_anon(request, page_slug):
 
 def show(request, profile_slug, page_slug):
 	username = Profile.objects.get(slug=profile_slug).user.username
-	page = get_object_or_404(Page, slug=page_slug, user=get_object_or_404(User,username=username))
+
+	user = get_object_or_404(User, username=username)
+
+	try:
+		page = Page.objects.get(user=user, slug=page_slug)
+	except:
+		page = get_object_or_404(Page,webKey=page_slug,user=user)
 
 	form = PageForm(request.POST or None, instance=page)
 
@@ -195,7 +201,12 @@ def show_all(request,profile_slug):
 def run(request,page_slug,profile_slug):
 	username = Profile.objects.get(slug=profile_slug).user.username
 
-	page = get_object_or_404(Page,slug=page_slug,user=get_object_or_404(User, username=username))
+	user = get_object_or_404(User, username=username)
+
+	try:
+		page = Page.objects.get(user=user, slug=page_slug)
+	except:
+		page = get_object_or_404(Page,webKey=page_slug,user=user)
 
 	html = '<!DOCTYPE html>\n'
 	html += '<html>\n'
