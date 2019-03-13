@@ -1,9 +1,9 @@
 confusable-homoglyphs==3.0.0
-Django==1.11.2
+Django
 django-bootstrap3==8.2.3
 django-codemirror-widget==0.4.1
-django-password-reset==1.0
-django-registration==2.4.1
+django-password-reset
+django-registration==3.0
 django-timezone-field==2.1
 psycopg2==2.7.4
 pytz==2017.2

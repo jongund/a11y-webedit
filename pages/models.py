@@ -1,4 +1,6 @@
-from datetime import datetime
+# from datetime import datetime
+from django.utils import timezone
+import pytz
 
 from django.db import models
 from django.conf import settings
@@ -20,7 +22,7 @@ class Page(models.Model):
 
 	public = models.BooleanField(default=True)
 
-	created     = models.DateTimeField(auto_now_add=False, default=datetime.now)
+	created     = models.DateTimeField(auto_now_add=False, default=timezone.now)
 	lastUpdated = models.DateTimeField(auto_now=True)
 	save_count  = models.IntegerField(default=0)
 
@@ -44,7 +46,8 @@ class Page(models.Model):
 
 	def save(self):
 			self.save_count += 1  # Keep track of how many times someone saves a page
-			self.lastUpdated = datetime.now()
+			# self.lastUpdated = datetime.now()
+			self.lastUpdated = timezone.now()
 			super(Page, self).save()  # Call real save
 
 class Tag(models.Model):

@@ -25,7 +25,7 @@ def show_samples(request):
 
 #THIS FUNCTION IS LIKELY UNNECESSARY AND CAN BE MERGED WITH SHOW
 def new(request):
-	if request.user.is_anonymous():
+	if request.user.is_anonymous:
 		user = None
 	else:
 		user = request.user
@@ -120,7 +120,7 @@ def run_anon(request, page_slug):
 def copy_anon(request, page_slug):
 	page=get_object_or_404(Page, slug=page_slug, user=None)
 	copy_title = "Copy of '"+page.title+"'"
-	if request.user.is_anonymous():
+	if request.user.is_anonymous:
 		user = None
 	else:
 		user = request.user
@@ -250,7 +250,7 @@ def delete(request, page_slug, profile_slug):
 		return render(request, 'pages/index.html', context)
 	p=get_object_or_404(Page, slug=page_slug, user=get_object_or_404(User, username=username))
 	p.delete()
-	if request.user.is_anonymous():
+	if request.user.is_anonymous:
 		return redirect(reverse('new'))
 	else:
 		return redirect(reverse('show_all', args=[user.profile.slug]))
@@ -261,7 +261,7 @@ def copy(request, page_slug, profile_slug):
 	page = get_object_or_404(Page, slug=page_slug, user=get_object_or_404(User, username=username))
 
 	copy_title = "Copy of '" + page.title + "'"
-	if request.user.is_anonymous():
+	if request.user.is_anonymous:
 		user = None
 	else:
 		user = request.user
