@@ -14,6 +14,7 @@ import os, json
 from os.path import join, abspath, dirname
 from django.urls import reverse
 from djangocodemirror.settings import *
+from djangocodemirror.helper import codemirror_settings_update
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 #BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -197,3 +198,7 @@ print('STATIC_ROOT: ' + STATIC_ROOT)
 STATICFILES_DIRS = (
   join(APP_DIR, 'static'),
 )
+
+CODEMIRROR_SETTINGS = codemirror_settings_update(CODEMIRROR_SETTINGS, {
+    'lineNumbers': True
+})

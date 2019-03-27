@@ -9,6 +9,9 @@
 <script src="{% static 'js/mode/xml.js' %}"></script>
 <script src="{% static 'js/mode/javascript.js' %}"></script>
 <script src="{% static 'js/mode/css.js' %}"></script>
+
+{% load djangocodemirror_tags %}
+
 {% if not p.public and not sameUser %}
 <h1>This page is private.</h1>
 {% else %}
@@ -127,6 +130,49 @@
 			{{ form.javascript }}
 	</div>
 </form>
+
+{% codemirror_field_css_assets form.htmlHead  %}
+{% codemirror_field_js_assets form.htmlHead %}
+
+<script>
+	var htmlHead_codemirror = CodeMirror.fromTextArea(
+        document.getElementById("id_htmlHead"),
+        {{ form.htmlHead|codemirror_parameters }}
+    );
+</script>
+
+{% codemirror_field_css_assets form.htmlBody %}
+{% codemirror_field_js_assets form.htmlBody %}
+
+<script>
+	var htmlBody_codemirror = CodeMirror.fromTextArea(
+        document.getElementById("id_htmlBody"),
+        {{ form.htmlBody|codemirror_parameters }}
+    );
+</script>
+
+{% codemirror_field_css_assets form.css %}
+{% codemirror_field_js_assets form.css %}
+
+<script>
+	var css_codemirror = CodeMirror.fromTextArea(
+        document.getElementById("id_css"),
+        {{ form.css|codemirror_parameters }}
+    );
+</script>
+
+
+
+{% codemirror_field_css_assets form.javascript %}
+{% codemirror_field_js_assets form.javascript %}
+
+<script>
+    var javascript_codemirror = CodeMirror.fromTextArea(
+        document.getElementById("id_javascript"),
+        {{ form.javascript|codemirror_parameters }}
+    );
+</script>
+
 <script src = {% static 'js/fixCodeMirrorLabeling.js' %}></script>
 <!-- <script src = {% static 'pages/javascript/fixCodeMirrorLabeling.js' %}></script> -->
 {% endif %}
