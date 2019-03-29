@@ -21,7 +21,7 @@ from django.contrib.sites.models import Site
 from django.contrib.auth.models  import User
 
 users = (
-	(settings.ADMIN_USERNAME, settings.ADMIN_PASSWORD, True, True),
+	(settings.ADMIN_USERNAME, settings.ADMIN_PASSWORD, settings.ADMIN_EMAIL, settings.ADMIN_FIRST_NAME, settings.ADMIN_LAST_NAME, True, True),
 )
 
 def create_users(users):
@@ -31,14 +31,17 @@ def create_users(users):
     try:
       print("Update User: " + person[0])
       user = User.objects.get(username=person[0])
-      user.is_superuser = person[2]
-      user.is_staff 	  = person[3]
+      user.email        = person[2]
+      user.first        = person[3]
+      user.last         = person[4]
+      user.is_superuser = person[5]
+      user.is_staff 	  = person[6]
       user.set_password(person[1])
 
 
     except ObjectDoesNotExist:
       print("Create User: " + person[0])
-      user = User(username=person[0], is_superuser=person[2], is_staff=person[3])
+      user = User(username=person[0], email=person[2], first=person[3], last=person[4], is_superuser=person[5], is_staff=person[6])
       user.set_password(person[1])
 
     user.save()
