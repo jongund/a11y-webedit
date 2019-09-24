@@ -1,6 +1,7 @@
 WebEdit/static/*
 WebEdit/secrets.json
 .idea/
+venv/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
