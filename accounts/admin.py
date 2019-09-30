@@ -6,6 +6,6 @@ from .models import Profile
 # Register your models here.
 
 class ProfileAdmin(admin.ModelAdmin):
-    list_display = ('user', 'slug')
+    list_display = ('user', 'slug', 'useCodeMirror')
 
 admin.site.register(Profile, ProfileAdmin)

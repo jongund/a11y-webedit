@@ -6,6 +6,7 @@ from django.dispatch import receiver
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     slug = models.SlugField(max_length=160)
+    useCodeMirror = models.BooleanField(default=False)
 
     class Meta:
         ordering = ['user']
