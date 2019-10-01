@@ -137,10 +137,25 @@
                 </div>
         </form>
 
-        {% if form.useCodeMirror %}
-            {% codemirror_field_css_assets form.htmlHead %}
-            {% codemirror_field_js_assets form.htmlHead %}
-        {% endif %}
+        {#        {% if form.useCodeMirror %}#}
+        {% codemirror_field_css_assets form.htmlHead %}
+        {% codemirror_field_js_assets form.htmlHead %}
+        {#        {% endif %}#}
+
+        {#        {% if form.useCodeMirror %}#}
+        {% codemirror_field_css_assets form.htmlBody %}
+        {% codemirror_field_js_assets form.htmlBody %}
+        {#        {% endif %}#}
+
+        {#        {% if form.useCodeMirror %}#}
+        {% codemirror_field_css_assets form.css %}
+        {% codemirror_field_js_assets form.css %}
+        {#        {% endif %}#}
+
+        {#        {% if form.useCodeMirror %}#}
+        {% codemirror_field_css_assets form.javascript %}
+        {% codemirror_field_js_assets form.javascript %}
+        {#        {% endif %}#}
 
         <script>
             var useCodeMirror = document.getElementById("id_useCodeMirror");
@@ -156,12 +171,19 @@
 
             useCodeMirror.addEventListener('change', function () {
                 if (useCodeMirror.checked) {
+
                     var htmlHead_codemirror = CodeMirror.fromTextArea(
                         document.getElementById("id_htmlHead"),
+                        {
+                            mode: 'xml',
+                            htmlMode: true,
+                            lineNumbers: true
+                        },
                         {{ form.htmlHead|codemirror_parameters }}
                     );
                     var htmlBody_codemirror = CodeMirror.fromTextArea(
                         document.getElementById("id_htmlBody"),
+                        {mode: 'xml', htmlMode: true, lineNumbers: true},
                         {{ form.htmlBody|codemirror_parameters }}
                     );
                     var css_codemirror = CodeMirror.fromTextArea(
@@ -189,24 +211,9 @@
             });
         </script>
 
-        {% if form.useCodeMirror %}
-            {% codemirror_field_css_assets form.htmlBody %}
-            {% codemirror_field_js_assets form.htmlBody %}
-        {% endif %}
-
-        {% if form.useCodeMirror %}
-            {% codemirror_field_css_assets form.css %}
-            {% codemirror_field_js_assets form.css %}
-        {% endif %}
-
-        {% if form.useCodeMirror %}
-            {% codemirror_field_css_assets form.javascript %}
-            {% codemirror_field_js_assets form.javascript %}
-        {% endif %}
-
-        {% if form.useCodeMirror %}
-            <script src= {% static 'js/fixCodeMirrorLabeling.js' %}></script>
-            <!-- <script src = {% static 'pages/javascript/fixCodeMirrorLabeling.js' %}></script> -->
-        {% endif %}
+        {#        {% if form.useCodeMirror %}#}
+        <script src= {% static 'js/fixCodeMirrorLabeling.js' %}></script>
+        <!-- <script src = {% static 'pages/javascript/fixCodeMirrorLabeling.js' %}></script> -->
+        {#        {% endif %}#}
     {% endif %}
 {% endblock %}
