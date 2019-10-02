@@ -160,53 +160,59 @@
         <script>
             var useCodeMirror = document.getElementById("id_useCodeMirror");
 
-            var textareas = document.querySelectorAll('textarea');
 
-            textareas.forEach(function (item) {
-                item.style.display = 'block';
-                item.style.width = '100%';
-                item.style.resize = 'none';
-                item.style.border = 'none';
-            });
+            function codeMirrorOff() {
+                var textareas = document.querySelectorAll('textarea');
+
+                textareas.forEach(function (item) {
+                    item.style.display = 'block';
+                    item.style.width = '100%';
+                    item.style.resize = 'none';
+                    item.style.border = 'none';
+                });
+
+                i = 0;
+                while (i < document.getElementsByClassName("CodeMirror").length) {
+                    document.getElementsByClassName("CodeMirror")[0].parentNode.removeChild(document.getElementsByClassName("CodeMirror")[0])
+                }
+            }
+
+            function codeMirrorOn() {
+                var htmlHead_codemirror = CodeMirror.fromTextArea(
+                    document.getElementById("id_htmlHead"),
+                    {
+                        mode: 'xml',
+                        htmlMode: true,
+                        lineNumbers: true
+                    },
+                    {{ form.htmlHead|codemirror_parameters }}
+                );
+                var htmlBody_codemirror = CodeMirror.fromTextArea(
+                    document.getElementById("id_htmlBody"),
+                    {mode: 'xml', htmlMode: true, lineNumbers: true},
+                    {{ form.htmlBody|codemirror_parameters }}
+                );
+                var css_codemirror = CodeMirror.fromTextArea(
+                    document.getElementById("id_css"),
+                    {{ form.css|codemirror_parameters }}
+                );
+                var javascript_codemirror = CodeMirror.fromTextArea(
+                    document.getElementById("id_javascript"),
+                    {{ form.javascript|codemirror_parameters }}
+                );
+            }
+
+            if (useCodeMirror.checked) {
+                codeMirrorOn();
+            } else {
+                codeMirrorOff();
+            }
 
             useCodeMirror.addEventListener('change', function () {
                 if (useCodeMirror.checked) {
-
-                    var htmlHead_codemirror = CodeMirror.fromTextArea(
-                        document.getElementById("id_htmlHead"),
-                        {
-                            mode: 'xml',
-                            htmlMode: true,
-                            lineNumbers: true
-                        },
-                        {{ form.htmlHead|codemirror_parameters }}
-                    );
-                    var htmlBody_codemirror = CodeMirror.fromTextArea(
-                        document.getElementById("id_htmlBody"),
-                        {mode: 'xml', htmlMode: true, lineNumbers: true},
-                        {{ form.htmlBody|codemirror_parameters }}
-                    );
-                    var css_codemirror = CodeMirror.fromTextArea(
-                        document.getElementById("id_css"),
-                        {{ form.css|codemirror_parameters }}
-                    );
-                    var javascript_codemirror = CodeMirror.fromTextArea(
-                        document.getElementById("id_javascript"),
-                        {{ form.javascript|codemirror_parameters }}
-                    );
+                    codeMirrorOn();
                 } else {
-                    var textareas = document.querySelectorAll('textarea');
-
-                    textareas.forEach(function (item) {
-                        item.style.display = 'block';
-                        item.style.width = '100%';
-                        item.style.resize = 'none';
-                        item.style.border = 'none';
-                    });
-                    i = 0;
-                    while (i < document.getElementsByClassName("CodeMirror").length) {
-                        document.getElementsByClassName("CodeMirror")[0].parentNode.removeChild(document.getElementsByClassName("CodeMirror")[0])
-                    }
+                    codeMirrorOff();
                 }
             });
         </script>
