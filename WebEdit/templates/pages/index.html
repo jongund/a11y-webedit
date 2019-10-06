@@ -17,7 +17,7 @@
     {% else %}
         <form id="pageForm" action="" method="POST">
             {% csrf_token %}
-            {% if form.errors %}
+            {% if pageForm.errors %}
                 <p>Something went wrong.</p>
             {% endif %}
             {% if p.title %}<h1>{{ p.title }}</h1>
@@ -80,15 +80,15 @@
                 </div>
                 <div class="panel-body" id="settings-body">
                     <div class="webedit-label">Title</div>
-                    {% bootstrap_field form.title show_label=False %}
+                    {% bootstrap_field pageForm.title show_label=False %}
 
                     <div class="webedit-label">Description</div>
-                    {% bootstrap_field form.description show_label=False %}
+                    {% bootstrap_field pageForm.description show_label=False %}
 
                     <div class="webedit-label">Web Key</div>
-                    {% bootstrap_field form.slug show_label=False %}
+                    {% bootstrap_field pageForm.slug show_label=False %}
 
-                    {% bootstrap_field form.public %}
+                    {% bootstrap_field pageForm.public %}
 
                     {% if p.lastUpdated %}
                         <p>Last updated: {{ p.lastUpdated }}</p>
@@ -97,14 +97,14 @@
                         <div class="panel panel-warning">
                             <div class="panel-heading">Administrator options</div>
                             <div class="panel-body">
-                                {% bootstrap_field form.sample show_label=False addon_after='<p>test</p>' %}
+                                {% bootstrap_field pageForm.sample show_label=False addon_after='<p>test</p>' %}
 
                                 {% bootstrap_label "Tags for sample pages" label_for="tags" %}
-                                {% bootstrap_field form.tags show_label=False %}
+                                {% bootstrap_field pageForm.tags show_label=False %}
                             </div>
                         </div>
                     {% endif %}
-                    {% bootstrap_field form.useCodeMirror show_label=False label='Use Code Mirror' %}
+                    {% bootstrap_field profileForm.useCodeMirror show_label=False label='Use Code Mirror' %}
 
                 </div>
 
@@ -112,56 +112,83 @@
                     <div class="panel-heading">
                         {% bootstrap_label "HTML Head" label_for="htmlHead" %}
                     </div>
-                    {{ form.htmlHead }}
+                    {{ pageForm.htmlHead }}
                 </div>
 
                 <div class="panel panel-info">
                     <div class="panel-heading">
                         {% bootstrap_label "HTML Body" label_for="htmlBody" %}
                     </div>
-                    {{ form.htmlBody }}
+                    {{ pageForm.htmlBody }}
                 </div>
 
                 <div class="panel panel-info">
                     <div class="panel-heading">
                         {% bootstrap_label "CSS" label_for="css" %}
                     </div>
-                    {{ form.css }}
+                    {{ pageForm.css }}
                 </div>
 
                 <div class="panel panel-info">
                     <div class="panel-heading">
                         {% bootstrap_label "JavaScript" label_for="javascript" %}
                     </div>
-                    {{ form.javascript }}
+                    {{ pageForm.javascript }}
                 </div>
         </form>
 
-        {#        {% if form.useCodeMirror %}#}
-        {% codemirror_field_css_assets form.htmlHead %}
-        {% codemirror_field_js_assets form.htmlHead %}
-        {#        {% endif %}#}
+        {% codemirror_field_css_assets pageForm.htmlHead %}
+        {% codemirror_field_js_assets pageForm.htmlHead %}
 
-        {#        {% if form.useCodeMirror %}#}
-        {% codemirror_field_css_assets form.htmlBody %}
-        {% codemirror_field_js_assets form.htmlBody %}
-        {#        {% endif %}#}
+        <script>
+            var htmlHead_codemirror = CodeMirror.fromTextArea(
+                document.getElementById("id_htmlHead"),
+                {{ pageForm.htmlHead|codemirror_parameters }}
+            );
+        </script>
 
-        {#        {% if form.useCodeMirror %}#}
-        {% codemirror_field_css_assets form.css %}
-        {% codemirror_field_js_assets form.css %}
-        {#        {% endif %}#}
+        {% codemirror_field_css_assets pageForm.htmlBody %}
+        {% codemirror_field_js_assets pageForm.htmlBody %}
 
-        {#        {% if form.useCodeMirror %}#}
-        {% codemirror_field_css_assets form.javascript %}
-        {% codemirror_field_js_assets form.javascript %}
-        {#        {% endif %}#}
+        <script>
+            var htmlBody_codemirror = CodeMirror.fromTextArea(
+                document.getElementById("id_htmlBody"),
+                {{ pageForm.htmlBody|codemirror_parameters }}
+            );
+        </script>
+
+        {% codemirror_field_css_assets pageForm.css %}
+        {% codemirror_field_js_assets pageForm.css %}
+
+        <script>
+            var css_codemirror = CodeMirror.fromTextArea(
+                document.getElementById("id_css"),
+                {{ pageForm.css|codemirror_parameters }}
+            );
+        </script>
+
+        {% codemirror_field_css_assets pageForm.javascript %}
+        {% codemirror_field_js_assets pageForm.javascript %}
+
+        <script>
+            var javascript_codemirror = CodeMirror.fromTextArea(
+                document.getElementById("id_javascript"),
+                {{ pageForm.javascript|codemirror_parameters }}
+            );
+        </script>
 
         <script>
             var useCodeMirror = document.getElementById("id_useCodeMirror");
 
+            function hideTextArea() {
+                var textareas = document.querySelectorAll('textarea');
 
-            function codeMirrorOff() {
+                textareas.forEach(function (item) {
+                    item.style.display = 'none';
+                });
+            }
+
+            function showTextArea() {
                 var textareas = document.querySelectorAll('textarea');
 
                 textareas.forEach(function (item) {
@@ -170,56 +197,39 @@
                     item.style.resize = 'none';
                     item.style.border = 'none';
                 });
+            }
 
+            function hideCodeMirror() {
                 i = 0;
                 while (i < document.getElementsByClassName("CodeMirror").length) {
-                    document.getElementsByClassName("CodeMirror")[0].parentNode.removeChild(document.getElementsByClassName("CodeMirror")[0])
+                    {#document.getElementsByClassName("CodeMirror")[0].parentNode.removeChild(document.getElementsByClassName("CodeMirror")[0])#}
+                    document.getElementsByClassName("CodeMirror")[i].style.display = "none";
+                    i++;
                 }
             }
 
-            function codeMirrorOn() {
-                var htmlHead_codemirror = CodeMirror.fromTextArea(
-                    document.getElementById("id_htmlHead"),
-                    {
-                        mode: 'xml',
-                        htmlMode: true,
-                        lineNumbers: true
-                    },
-                    {{ form.htmlHead|codemirror_parameters }}
-                );
-                var htmlBody_codemirror = CodeMirror.fromTextArea(
-                    document.getElementById("id_htmlBody"),
-                    {mode: 'xml', htmlMode: true, lineNumbers: true},
-                    {{ form.htmlBody|codemirror_parameters }}
-                );
-                var css_codemirror = CodeMirror.fromTextArea(
-                    document.getElementById("id_css"),
-                    {{ form.css|codemirror_parameters }}
-                );
-                var javascript_codemirror = CodeMirror.fromTextArea(
-                    document.getElementById("id_javascript"),
-                    {{ form.javascript|codemirror_parameters }}
-                );
+            function showCodeMirror() {
+                i = 0;
+                while (i < document.getElementsByClassName("CodeMirror").length) {
+                    {#document.getElementsByClassName("CodeMirror")[0].parentNode.removeChild(document.getElementsByClassName("CodeMirror")[0])#}
+                    document.getElementsByClassName("CodeMirror")[i].style.display = "block";
+                    i++;
+                }
+
             }
 
-            if (useCodeMirror.checked) {
-                codeMirrorOn();
-            } else {
-                codeMirrorOff();
+            if (!useCodeMirror.checked) {
+                showTextArea();
+                hideCodeMirror();
             }
 
             useCodeMirror.addEventListener('change', function () {
-                if (useCodeMirror.checked) {
-                    codeMirrorOn();
-                } else {
-                    codeMirrorOff();
-                }
+                document.getElementById('pageForm').submit();
             });
         </script>
 
-        {#        {% if form.useCodeMirror %}#}
+
         <script src= {% static 'js/fixCodeMirrorLabeling.js' %}></script>
         <!-- <script src = {% static 'pages/javascript/fixCodeMirrorLabeling.js' %}></script> -->
-        {#        {% endif %}#}
     {% endif %}
 {% endblock %}

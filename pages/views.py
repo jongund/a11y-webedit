@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
-from .forms import PageForm
+from .forms import PageForm, ProfileForm
 from django.http import HttpResponse
 # from django.contrib.auth.mixins import LoginRequiredMixin
 # from django.contrib.auth.decorators import login_required
@@ -39,13 +39,15 @@ def new(request):
 
     if request.method == 'POST':
 
-        form = PageForm(request.POST)  # populate form instance with data
-        form.user = user
+        pageForm = PageForm(request.POST)  # populate form instance with data
+        pageForm.user = user
+        profileForm = ProfileForm(request.POST)
 
-        if form.is_valid():
-            page = form.save()
+        if pageForm.is_valid():
+            page = pageForm.save()
             page.user = user
             page.save()
+            profileForm.save()
 
             if page.user:
                 return redirect(reverse('show', args=[page.user.profile.slug, page.slug]))
@@ -54,11 +56,13 @@ def new(request):
 
     else:
         page = Page(user=user, slug=get_random_string(length=6).lower())
-        form = PageForm(instance=page)
+        pageForm = PageForm(instance=page)
+        profileForm = ProfileForm(request.POST or None, instance=profile)
 
     context = {
         'title': 'New Page',
-        'form': form,
+        'pageForm': pageForm,
+        'profileForm': profileForm,
         'sameUser': True,
     }
 
@@ -156,7 +160,8 @@ def copy_anon(request, page_slug):
 # RUN saves before it runs
 
 def show(request, profile_slug, page_slug):
-    username = Profile.objects.get(slug=profile_slug).user.username
+    profile = Profile.objects.get(slug=profile_slug)
+    username = profile.user.username
 
     user = get_object_or_404(User, username=username)
 
@@ -165,23 +170,27 @@ def show(request, profile_slug, page_slug):
     except:
         page = get_object_or_404(Page, webKey=page_slug, user=user)
 
-    form = PageForm(request.POST or None, instance=page)
+    pageForm = PageForm(request.POST or None, instance=page)
+    profileForm = ProfileForm(request.POST or None, instance=profile)
 
     user = request.user
 
     if request.method == 'POST':
         form_data = request.POST.copy()
         form_data['user'] = (request.user).id
-        form = PageForm(form_data, instance=page)
-        if form.is_valid():
-            form.save()
+        pageForm = PageForm(form_data, instance=page)
+        profileForm = ProfileForm(form_data, instance=profile)
+        if pageForm.is_valid():
+            pageForm.save()
+            profileForm.save()
 
             return redirect(reverse('show', args=[user.profile.slug, page.slug]))
 
     context = {
         'title': 'Edit Page',
         'p': page,
-        'form': form,
+        'pageForm': pageForm,
+        'profileForm': profileForm,
         'sameUser': request.user.username == username
     }
     return render(request, 'pages/index.html', context)
