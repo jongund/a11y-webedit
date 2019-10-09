@@ -224,7 +224,19 @@
             }
 
             useCodeMirror.addEventListener('change', function () {
-                document.getElementById('pageForm').submit();
+                if (useCodeMirror.checked) {
+                    if (confirm('Turning on Code Mirror will reload the page. Press okay to continue.')) {
+                        document.getElementById('pageForm').submit();
+                    } else {
+                        useCodeMirror.checked = false;
+                    }
+                } else {
+                    if (confirm('Turning off Code Mirror will reload the page. Press okay to continue.')) {
+                        document.getElementById('pageForm').submit();
+                    } else {
+                        useCodeMirror.checked = true;
+                    }
+                }
             });
         </script>
 
