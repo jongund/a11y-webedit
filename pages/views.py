@@ -62,6 +62,10 @@ def new(request):
         pageForm = PageForm(instance=page)
         profileForm = ProfileForm(request.POST or None, instance=profile)
 
+    if profile is None:
+        profile = Profile.objects.get(user=2)
+        profileForm = ProfileForm(request.POST or None, instance=profile)
+
     context = {
         'title': 'New Page',
         'pageForm': pageForm,
@@ -71,8 +75,6 @@ def new(request):
 
     response = render(request, 'pages/index.html', context)
     if profile is None:
-        profileForm = {'useCodeMirror': True}
-        context['profileForm'] = profileForm
         response.set_cookie(key='isUserAnonymous', value=True)
         response.set_cookie(key='useCodeMirror', value=True)
 
