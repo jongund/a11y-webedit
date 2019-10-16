@@ -74,7 +74,7 @@ def new(request):
         profileForm = {'useCodeMirror': True}
         context['profileForm'] = profileForm
         response.set_cookie(key='isUserAnonymous', value=True)
-        response.set_cookie(key='useCodeMirror', value=False)
+        response.set_cookie(key='useCodeMirror', value=True)
 
     return response
 
@@ -112,7 +112,7 @@ def show_anon(request, page_slug):
     response = render(request, 'pages/index.html', context)
     profileForm = {'useCodeMirror': True}
     context['profileForm'] = profileForm
-    response.set_cookie(key='useCodeMirror', value=False)
+    response.set_cookie(key='useCodeMirror', value=True)
 
     return response
 
