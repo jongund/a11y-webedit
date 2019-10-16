@@ -29,6 +29,7 @@ def show_samples(request):
 def new(request):
     if request.user.is_anonymous:
         user = None
+        profile = None
     else:
         user = request.user
         try:
@@ -40,14 +41,16 @@ def new(request):
     if request.method == 'POST':
 
         pageForm = PageForm(request.POST)  # populate form instance with data
-        pageForm.user = user
+        if request.user.is_anonymous:
+            pageForm.user = 2
         profileForm = ProfileForm(request.POST)
 
         if pageForm.is_valid():
             page = pageForm.save()
             page.user = user
             page.save()
-            profileForm.save()
+            if not request.COOKIES.get('isUserAnonymous'):
+                profileForm.save()
 
             if page.user:
                 return redirect(reverse('show', args=[page.user.profile.slug, page.slug]))
@@ -66,7 +69,14 @@ def new(request):
         'sameUser': True,
     }
 
-    return render(request, 'pages/index.html', context)
+    response = render(request, 'pages/index.html', context)
+    if profile is None:
+        profileForm = {'useCodeMirror': True}
+        context['profileForm'] = profileForm
+        response.set_cookie(key='isUserAnonymous', value=True)
+        response.set_cookie(key='useCodeMirror', value=False)
+
+    return response
 
 
 # def new_anon
@@ -74,22 +84,37 @@ def new(request):
 def show_anon(request, page_slug):
     page = get_object_or_404(Page, user=None, slug=page_slug)
 
-    form = PageForm(request.POST or None, instance=page)
+    pageForm = PageForm(request.POST or None, instance=page)
 
     if request.method == 'POST':
 
-        form = PageForm(request.POST, instance=page)
+        pageForm = PageForm(request.POST, instance=page)
 
-        if form.is_valid():
-            form.save()
+        if pageForm.is_valid():
+            pageForm.save()
 
-            return redirect(reverse('show_anon', args=[page.slug]))
+            response = redirect(reverse('show_anon', args=[page.slug]))
+            response.set_cookie(key='useCodeMirror', value=not request.COOKIES.get('useCodeMirror'))
+
+            return response
+
+    profile = Profile.objects.get(user__username='anon')
+    profileForm = ProfileForm(request.POST or None, instance=profile)
+
     context = {
         'title': 'Edit Page',
         'p': page,
-        'form': form
+        'profileForm': profileForm,
+        'pageForm': pageForm,
+        'sameUser': True
     }
-    return render(request, 'pages/index.html', context)
+
+    response = render(request, 'pages/index.html', context)
+    profileForm = {'useCodeMirror': True}
+    context['profileForm'] = profileForm
+    response.set_cookie(key='useCodeMirror', value=False)
+
+    return response
 
 
 def run_anon(request, page_slug):
