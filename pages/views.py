@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
-from .forms import PageForm, ProfileForm
+from .forms import PageForm, ProfileForm, PageFormWithCodeMirror
 from django.http import HttpResponse
 # from django.contrib.auth.mixins import LoginRequiredMixin
 # from django.contrib.auth.decorators import login_required
@@ -40,17 +40,20 @@ def new(request):
 
     if request.method == 'POST':
 
-        pageForm = PageForm(request.POST)  # populate form instance with data
-        if request.user.is_anonymous:
-            pageForm.user = 2
-        profileForm = ProfileForm(request.POST)
+        if not request.user.is_anonymous:
+            if request.user.profile.useCodeMirror:
+                pageForm = PageFormWithCodeMirror(request.POST)  # populate form instance with data
+            else:
+                pageForm = PageForm(request.POST)
+            profileForm = ProfileForm(request.POST or None, instance=profile)
+        else:
+            pageForm = PageForm(request.POST)
+            pageForm.user = Profile.objects.get(user__username="anon")[0]['id']
 
         if pageForm.is_valid():
             page = pageForm.save()
             page.user = user
             page.save()
-            if not request.COOKIES.get('isUserAnonymous'):
-                profileForm.save()
 
             if page.user:
                 return redirect(reverse('show', args=[page.user.profile.slug, page.slug]))
@@ -58,13 +61,22 @@ def new(request):
                 return redirect(reverse('show_anon', args=[page.slug]))
 
     else:
-        page = Page(user=user, slug=get_random_string(length=6).lower())
-        pageForm = PageForm(instance=page)
-        profileForm = ProfileForm(request.POST or None, instance=profile)
+        if not request.user.is_anonymous:
+            page = Page(user=user, slug=get_random_string(length=6).lower())
+            if request.user.profile.useCodeMirror:
+                pageForm = PageFormWithCodeMirror(instance=page)  # populate form instance with data
+            else:
+                pageForm = PageForm(instance=page)
+            profileForm = ProfileForm(request.POST or None, instance=profile)
+        # else:
+        #     pageForm = PageForm(instance=page)
+        #     pageForm.user = Profile.objects.get(user__username="anon")[0]['id']
 
-    if profile is None:
-        profile = Profile.objects.get(user=2)
-        profileForm = ProfileForm(request.POST or None, instance=profile)
+        # profileForm = ProfileForm(request.POST or None, instance=profile)
+
+    # if profile is None:
+    #     profile = Profile.objects.get(user__username="anon")
+    #     profileForm = ProfileForm(request.POST or None, instance=profile)
 
     context = {
         'title': 'New Page',
@@ -73,10 +85,14 @@ def new(request):
         'sameUser': True,
     }
 
-    response = render(request, 'pages/index.html', context)
-    if profile is None:
-        response.set_cookie(key='isUserAnonymous', value=True)
-        response.set_cookie(key='useCodeMirror', value=True)
+    if not request.user.is_anonymous:
+        if request.user.profile.useCodeMirror:
+            response = render(request, 'pages/index.html', context)
+        else:
+            response = render(request, 'pages/index_without_codemirror.html', context)
+    # if profile is None:
+    #     response.set_cookie(key='isUserAnonymous', value=True)
+    #     response.set_cookie(key='useCodeMirror', value=True)
 
     return response
 
@@ -96,7 +112,7 @@ def show_anon(request, page_slug):
             pageForm.save()
 
             response = redirect(reverse('show_anon', args=[page.slug]))
-            response.set_cookie(key='useCodeMirror', value=not request.COOKIES.get('useCodeMirror'))
+            # response.set_cookie(key='useCodeMirror', value=not request.COOKIES.get('useCodeMirror'))
 
             return response
 
@@ -114,7 +130,7 @@ def show_anon(request, page_slug):
     response = render(request, 'pages/index.html', context)
     profileForm = {'useCodeMirror': True}
     context['profileForm'] = profileForm
-    response.set_cookie(key='useCodeMirror', value=True)
+    # response.set_cookie(key='useCodeMirror', value=True)
 
     return response
 
@@ -197,8 +213,13 @@ def show(request, profile_slug, page_slug):
     except:
         page = get_object_or_404(Page, webKey=page_slug, user=user)
 
-    pageForm = PageForm(request.POST or None, instance=page)
-    profileForm = ProfileForm(request.POST or None, instance=profile)
+    if request.user.profile.useCodeMirror:
+        pageForm = PageFormWithCodeMirror(request.POST or None, instance=page)
+    else:
+        pageForm = PageForm(request.POST or None, instance=page)
+
+
+    # profileForm = ProfileForm(request.POST or None, instance=profile)
 
     user = request.user
 
@@ -206,10 +227,10 @@ def show(request, profile_slug, page_slug):
         form_data = request.POST.copy()
         form_data['user'] = (request.user).id
         pageForm = PageForm(form_data, instance=page)
-        profileForm = ProfileForm(form_data, instance=profile)
+        # profileForm = ProfileForm(form_data, instance=profile)
         if pageForm.is_valid():
             pageForm.save()
-            profileForm.save()
+            # profileForm.save()
 
             return redirect(reverse('show', args=[user.profile.slug, page.slug]))
 
@@ -217,7 +238,6 @@ def show(request, profile_slug, page_slug):
         'title': 'Edit Page',
         'p': page,
         'pageForm': pageForm,
-        'profileForm': profileForm,
         'sameUser': request.user.username == username
     }
     return render(request, 'pages/index.html', context)

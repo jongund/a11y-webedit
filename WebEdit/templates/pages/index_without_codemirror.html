@@ -4,14 +4,6 @@
 {% block content %}
     <!-- everything that fits into the template -->
 
-    <script src="{% static 'js/codemirror.js' %}"></script>
-    <script src="{% static 'js/mode/javascript.js' %}"></script>
-    <script src="{% static 'js/mode/xml.js' %}"></script>
-    <script src="{% static 'js/mode/javascript.js' %}"></script>
-    <script src="{% static 'js/mode/css.js' %}"></script>
-
-    {% load djangocodemirror_tags %}
-
     {% if not p.public and not sameUser %}
         <h1>This page is private.</h1>
     {% else %}
@@ -104,7 +96,7 @@
                             </div>
                         </div>
                     {% endif %}
-{#                    {% bootstrap_field profileForm.useCodeMirror show_label=False label='Use Code Mirror' %}#}
+                    {#                    {% bootstrap_field profileForm.useCodeMirror show_label=False label='Use Code Mirror' %}#}
 
                 </div>
 
@@ -135,49 +127,19 @@
                     </div>
                     {{ pageForm.javascript }}
                 </div>
+
+                <script>
+                    var textareas = document.querySelectorAll('textarea');
+
+                    textareas.forEach(function (item) {
+                        item.style.display = 'block';
+                        item.style.width = '100%';
+                        item.style.resize = 'none';
+                        item.style.border = 'none';
+                    });
+                </script>
         </form>
 
-        {% codemirror_field_css_assets pageForm.htmlHead %}
-        {% codemirror_field_js_assets pageForm.htmlHead %}
 
-        <script>
-            var htmlHead_codemirror = CodeMirror.fromTextArea(
-                document.getElementById("id_htmlHead"),
-                {{ pageForm.htmlHead|codemirror_parameters }}
-            );
-        </script>
-
-        {% codemirror_field_css_assets pageForm.htmlBody %}
-        {% codemirror_field_js_assets pageForm.htmlBody %}
-
-        <script>
-            var htmlBody_codemirror = CodeMirror.fromTextArea(
-                document.getElementById("id_htmlBody"),
-                {{ pageForm.htmlBody|codemirror_parameters }}
-            );
-        </script>
-
-        {% codemirror_field_css_assets pageForm.css %}
-        {% codemirror_field_js_assets pageForm.css %}
-
-        <script>
-            var css_codemirror = CodeMirror.fromTextArea(
-                document.getElementById("id_css"),
-                {{ pageForm.css|codemirror_parameters }}
-            );
-        </script>
-
-        {% codemirror_field_css_assets pageForm.javascript %}
-        {% codemirror_field_js_assets pageForm.javascript %}
-
-        <script>
-            var javascript_codemirror = CodeMirror.fromTextArea(
-                document.getElementById("id_javascript"),
-                {{ pageForm.javascript|codemirror_parameters }}
-            );
-        </script>
-
-        <script src= {% static 'js/fixCodeMirrorLabeling.js' %}></script>
-        <!-- <script src = {% static 'pages/javascript/fixCodeMirrorLabeling.js' %}></script> -->
     {% endif %}
 {% endblock %}
