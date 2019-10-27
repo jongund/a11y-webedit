@@ -219,15 +219,18 @@ def show(request, profile_slug, page_slug):
         pageForm = PageForm(request.POST or None, instance=page)
 
 
-    # profileForm = ProfileForm(request.POST or None, instance=profile)
+    profileForm = ProfileForm(request.POST or None, instance=profile)
 
     user = request.user
 
     if request.method == 'POST':
         form_data = request.POST.copy()
         form_data['user'] = (request.user).id
-        pageForm = PageForm(form_data, instance=page)
-        # profileForm = ProfileForm(form_data, instance=profile)
+        if request.user.profile.useCodeMirror:
+            pageForm = PageFormWithCodeMirror(form_data, instance=page)
+        else:
+            pageForm = PageForm(form_data, instance=page)
+        profileForm = ProfileForm(form_data, instance=profile)
         if pageForm.is_valid():
             pageForm.save()
             # profileForm.save()
@@ -238,9 +241,15 @@ def show(request, profile_slug, page_slug):
         'title': 'Edit Page',
         'p': page,
         'pageForm': pageForm,
+        'profileForm': profileForm,
         'sameUser': request.user.username == username
     }
-    return render(request, 'pages/index.html', context)
+
+    if request.user.profile.useCodeMirror:
+        return render(request, 'pages/index.html', context)
+    else:
+        return render(request, 'pages/index_without_codemirror.html', context)
+
 
 
 def show_all(request, profile_slug):
