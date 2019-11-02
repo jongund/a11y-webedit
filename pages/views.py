@@ -87,9 +87,9 @@ def new(request):
 
     if not request.user.is_anonymous:
         if request.user.profile.useCodeMirror:
-            response = render(request, 'pages/index.html', context)
+            response = render(request, 'pages/index_with_codemirror_dependencies.html', context)
         else:
-            response = render(request, 'pages/index_without_codemirror.html', context)
+            response = render(request, 'pages/index_without_codemirror_dependencies.html', context)
     # if profile is None:
     #     response.set_cookie(key='isUserAnonymous', value=True)
     #     response.set_cookie(key='useCodeMirror', value=True)
@@ -127,7 +127,7 @@ def show_anon(request, page_slug):
         'sameUser': True
     }
 
-    response = render(request, 'pages/index.html', context)
+    response = render(request, 'pages/index_with_codemirror_dependencies.html', context)
     profileForm = {'useCodeMirror': True}
     context['profileForm'] = profileForm
     # response.set_cookie(key='useCodeMirror', value=True)
@@ -246,9 +246,9 @@ def show(request, profile_slug, page_slug):
     }
 
     if request.user.profile.useCodeMirror:
-        return render(request, 'pages/index.html', context)
+        return render(request, 'pages/index_with_codemirror_dependencies.html', context)
     else:
-        return render(request, 'pages/index_without_codemirror.html', context)
+        return render(request, 'pages/index_without_codemirror_dependencies.html', context)
 
 
 
@@ -319,7 +319,7 @@ def delete(request, page_slug, profile_slug):
         'sameUser': False
     }
     if request.user.username != username:
-        return render(request, 'pages/index.html', context)
+        return render(request, 'pages/index_with_codemirror_dependencies.html', context)
     p = get_object_or_404(Page, slug=page_slug, user=get_object_or_404(User, username=username))
     p.delete()
     if request.user.is_anonymous:
