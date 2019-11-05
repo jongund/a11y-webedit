@@ -1,4 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, render_to_response
+from django.template import RequestContext
+from django.urls import reverse
 from django.http import HttpResponse
 
 from WebEdit.settings import SITE_URL
@@ -12,20 +14,38 @@ from django.views.generic import CreateView
 from django.views.generic import RedirectView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from accounts.forms import EditProfileForm, ProfileForm
-
+from .models import Profile
+from django.contrib.auth.models import User
 
 # Create your views here.
 
 def show_profile(request):
     u = request.user
-    form = EditProfileForm(instance=request.user)
-    profile_form = ProfileForm(instance=request.user.profile)
+
+    profile = Profile.objects.get(slug=request.user)
+    userAccount = User.objects.get(profile__slug=request.user)
+
+    if request.method == "POST":
+
+        form = EditProfileForm(data=request.POST or None, instance=userAccount)
+        profile_form = ProfileForm(data=request.POST or None, instance=profile)
+
+        if form.is_valid():
+            form.save()
+            profile_form.save()
+            return redirect(reverse('show_profile'))
+
+    else:
+        form = EditProfileForm(instance=userAccount)
+        profile_form = ProfileForm(instance=profile)
+
     context = {
         'u': u,
         'form': form,
         'profileForm': profile_form
     }
     return render(request, "accounts/profile.html", context)
+
 
 
 class HeaderInfo(LoginRequiredMixin, TemplateView):

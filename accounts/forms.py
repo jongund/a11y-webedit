@@ -6,18 +6,13 @@ from django.forms import ModelForm
 from accounts.models import Profile
 
 
-class EditProfileForm(ModelForm):
+class EditProfileForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = (
-            'email',
-            'first_name',
-            'last_name'
-        )
+        fields = ['email', 'first_name', 'last_name']
 
 
-class ProfileForm(ModelForm):
+class ProfileForm(forms.ModelForm):
     class Meta:
-
         model = Profile
-        fields = ('slug', 'useCodeMirror')  # Note that we didn't mention user field here.
+        fields = ['useCodeMirror']  # Note that we didn't mention user field here.
