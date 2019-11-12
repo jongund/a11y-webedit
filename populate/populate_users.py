@@ -23,6 +23,8 @@ from django.contrib.auth.models import User
 users = (
     (settings.ADMIN_USERNAME, settings.ADMIN_PASSWORD, settings.ADMIN_EMAIL, settings.ADMIN_FIRST_NAME,
      settings.ADMIN_LAST_NAME, True, True),
+    ("Anonymous", "^E,eN-!kN%sPBZ$_(2V)'y", "anonymous@anon.org", "Anonymous",
+     "User", False, False)
 )
 
 
@@ -42,7 +44,8 @@ def create_users(users):
 
         except ObjectDoesNotExist:
             print("Create User: " + person[0])
-            user = User(username=person[0], email=person[2], first_name=person[3], last_name=person[4], is_superuser=person[5],
+            user = User(username=person[0], email=person[2], first_name=person[3], last_name=person[4],
+                        is_superuser=person[5],
                         is_staff=person[6])
             user.set_password(person[1])
 
