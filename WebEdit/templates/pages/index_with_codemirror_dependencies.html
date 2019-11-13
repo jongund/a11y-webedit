@@ -31,10 +31,14 @@
 
                     {% if p %}
                         {% if p.user %}
-                            <a href="{% url 'run' p.user.profile.slug p.slug %}" class="btn btn-primary" target="_blank"
+                            <a href="{% url 'run' p.user.profile.slug p.slug %}"
+                               class="btn btn-primary"
+                               target="_blank"
                                title="Displays output of code in new window">Run</a>
                         {% else %}
-                            <a href="{% url 'run_anon' p.slug %}" class="btn btn-primary" target="_blank"
+                            <a href="{% url 'run_anon' p.slug %}"
+                               class="btn btn-primary"
+                               target="_blank"
                                title="Displays output of code in new window">Run</a>
                         {% endif %}
                     {% else %}
