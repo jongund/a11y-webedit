@@ -1,4 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, render_to_response
+from django.template import RequestContext
+from django.urls import reverse
 from django.http import HttpResponse
 
 from WebEdit.settings import SITE_URL
@@ -6,24 +8,48 @@ from WebEdit.settings import SHIB_URL
 from WebEdit.settings import ADMIN_USERNAME
 
 from django.contrib.messages.views import SuccessMessageMixin
-from django.views.generic          import TemplateView
-from django.views.generic          import FormView
-from django.views.generic          import CreateView
-from django.views.generic          import RedirectView
-from django.contrib.auth.mixins    import LoginRequiredMixin
-
+from django.views.generic import TemplateView
+from django.views.generic import FormView
+from django.views.generic import CreateView
+from django.views.generic import RedirectView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from accounts.forms import EditProfileForm, ProfileForm
+from .models import Profile
+from django.contrib.auth.models import User
 
 # Create your views here.
 
 def show_profile(request):
-	u = request.user
-	context = {
-		'u' : u,
-		}
-	return render(request, "accounts/profile.html", context)
+    u = request.user
+
+    profile = Profile.objects.get(slug=request.user)
+    userAccount = User.objects.get(profile__slug=request.user)
+
+    if request.method == "POST":
+
+        form = EditProfileForm(data=request.POST or None, instance=userAccount)
+        profile_form = ProfileForm(data=request.POST or None, instance=profile)
+
+        if form.is_valid():
+            form.save()
+            profile_form.save()
+            return redirect(reverse('show_profile'))
+
+    else:
+        form = EditProfileForm(instance=userAccount)
+        profile_form = ProfileForm(instance=profile)
+
+    context = {
+        'u': u,
+        'form': form,
+        'profileForm': profile_form
+    }
+    return render(request, "accounts/profile.html", context)
+
+
 
 class HeaderInfo(LoginRequiredMixin, TemplateView):
-   template_name = 'registration/header_info.html'
+    template_name = 'registration/header_info.html'
 
 
 class ShibbolethLogout(RedirectView):
@@ -41,7 +67,7 @@ class ShibbolethLogin(RedirectView):
         user = self.request.user
 
         if user.username == ADMIN_USERNAME:
-            user.is_staff     = True
+            user.is_staff = True
             user.is_superuser = True
             user.save()
 
@@ -55,14 +81,14 @@ class ShibbolethLogin(RedirectView):
 
         if not user.is_anonymous and user.last_name == '':
             try:
-                user.last_name  = self.request.META['sn']
+                user.last_name = self.request.META['sn']
                 user.save()
             except:
                 pass
 
         if not user.is_anonymous and user.email == '':
             try:
-                user.email      = self.request.META['mail']
+                user.email = self.request.META['mail']
                 user.save()
             except:
                 try:
@@ -76,8 +102,10 @@ class ShibbolethLogin(RedirectView):
 
         return super(ShibbolethLogin, self).get_redirect_url(*args, **kwargs)
 
+
 class ShibbolethDiscovery(TemplateView):
     template_name = 'shib_discovery.html'
+
 
 class ShibbolethInstitution(RedirectView):
     def get_redirect_url(self, *args, **kwargs):
@@ -89,10 +117,9 @@ class ShibbolethInstitution(RedirectView):
             self.url += '/Shibboleth.sso/Login?entityID=' + ip.authentication + '&target=' + SITE_URL
         except:
             try:
-                ip =  InstitutionalProfile.objects.get(alt_domain=kwargs['domain'])
+                ip = InstitutionalProfile.objects.get(alt_domain=kwargs['domain'])
                 self.url += '/Shibboleth.sso/Login?entityID=' + ip.authentication + '&target=' + SITE_URL
             except:
-                ip =  None
+                ip = None
 
         return super(ShibbolethInstitution, self).get_redirect_url(*args, **kwargs)
-

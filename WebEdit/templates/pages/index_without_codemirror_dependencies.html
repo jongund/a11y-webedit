@@ -1,0 +1,149 @@
+{% extends "base.html" %}
+{% load bootstrap3 %}
+{% load static %}
+{% block content %}
+    <!-- everything that fits into the template -->
+
+    {% if not p.public and not sameUser %}
+        <h1>This page is private.</h1>
+    {% else %}
+        <form id="pageForm" action="" method="POST">
+            {% csrf_token %}
+            {% if pageForm.errors %}
+                <p>Something went wrong.</p>
+            {% endif %}
+            {% if p.title %}<h1>{{ p.title }}</h1>
+            {% else %}<h1>New page</h1>
+            {% endif %}
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    {#                    {% if p.user == user or not p %}#}
+                    {% bootstrap_button "Save" button_type="submit" button_class="btn btn-primary" extra_classes="save" title="Saves changes to page" %}
+                    {#                    {% endif %}#}
+
+                    {% if p %}
+                        {% if p.user %}
+                            <a href="{% url 'run' p.user.profile.slug p.slug %}"
+                               class="btn btn-primary"
+                               target="_blank"
+                               title="Displays output of code in new window">Run</a>
+                        {% else %}
+                            <a href="{% url 'run_anon' p.slug %}"
+                               class="btn btn-primary"
+                               target="_blank"
+                               title="Displays output of code in new window">Run</a>
+                        {% endif %}
+                    {% else %}
+
+                        {% bootstrap_button "Run" button_type="submit" button_class="btn btn-primary" extra_classes="save before-run" %}
+
+                    {% endif %}
+
+                    {% if p %}
+                        {% if p.user %}
+                            <a href="{% url 'copy' p.user.profile.slug p.slug %}" class="btn btn-primary"
+                               title="Copies last-saved page to new page">Copy</a>
+                        {% else %}
+                            <a href="{% url 'copy_anon' p.slug %}" class="btn btn-primary"
+                               title="Copies last-saved page to new page">Copy</a>
+                        {% endif %}
+                    {% endif %}
+
+                    {% if p and p.user == user %}
+                        <a href="{% url 'delete' user.profile.slug p.slug %}" class="btn btn-danger danger"
+                           title="Permanently removes page from your account">Delete</a>
+                    {% endif %}
+
+                </div>
+            </div>
+
+            <div id="upper-form" class="panel panel-default">
+                <div class="panel-heading">
+                    Settings
+                    <button type="button" id="hideBtn" onclick="toggleHide()"
+                            class="btn btn-default btn-xs">Hide
+                    </button>
+                    <div class="clearfix"></div>
+                    <script>
+                        var toggleHide = function () {
+                            var settings = document.querySelector("#settings-body");
+                            var hidden = settings.style.display == "none";
+                            var hideBtn = document.querySelector("#hideBtn");
+                            settings.style.display = hidden ? "block" : "none";
+                            hideBtn.textContent = hidden ? "Hide" : "Show";
+                        }
+                    </script>
+                </div>
+                <div class="panel-body" id="settings-body">
+                    <div class="webedit-label">Title</div>
+                    {% bootstrap_field pageForm.title show_label=False %}
+
+                    <div class="webedit-label">Description</div>
+                    {% bootstrap_field pageForm.description show_label=False %}
+
+                    <div class="webedit-label">Web Key</div>
+                    {% bootstrap_field pageForm.slug show_label=False %}
+
+                    {% bootstrap_field pageForm.public %}
+
+                    {% if p.lastUpdated %}
+                        <p>Last updated: {{ p.lastUpdated }}</p>
+                    {% endif %}
+                    {% if user.is_superuser %}
+                        <div class="panel panel-warning">
+                            <div class="panel-heading">Administrator options</div>
+                            <div class="panel-body">
+                                {% bootstrap_field pageForm.sample show_label=False addon_after='<p>test</p>' %}
+
+                                {% bootstrap_label "Tags for sample pages" label_for="tags" %}
+                                {% bootstrap_field pageForm.tags show_label=False %}
+                            </div>
+                        </div>
+                    {% endif %}
+                    {#                    {% bootstrap_field profileForm.useCodeMirror show_label=False label='Use Code Mirror' %}#}
+
+                </div>
+
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        {% bootstrap_label "HTML Head" label_for="htmlHead" %}
+                    </div>
+                    {{ pageForm.htmlHead }}
+                </div>
+
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        {% bootstrap_label "HTML Body" label_for="htmlBody" %}
+                    </div>
+                    {{ pageForm.htmlBody }}
+                </div>
+
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        {% bootstrap_label "CSS" label_for="css" %}
+                    </div>
+                    {{ pageForm.css }}
+                </div>
+
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        {% bootstrap_label "JavaScript" label_for="javascript" %}
+                    </div>
+                    {{ pageForm.javascript }}
+                </div>
+
+                <script>
+                    var textareas = document.querySelectorAll('textarea');
+
+                    textareas.forEach(function (item) {
+                        item.style.display = 'block';
+                        item.style.width = '100%';
+                        item.style.resize = 'none';
+                        item.style.border = 'none';
+                    });
+                </script>
+        </form>
+
+
+    {% endif %}
+{% endblock %}
