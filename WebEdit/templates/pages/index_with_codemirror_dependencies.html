@@ -31,15 +31,33 @@
 
                     {% if p %}
                         {% if p.user %}
-                            <a href="{% url 'run' p.user.profile.slug p.slug %}"
+                            <a href="#"
+                               onclick="submitPage_Run(event);"
                                class="btn btn-primary"
                                target="_blank"
                                title="Displays output of code in new window">Run</a>
+                            <script type="text/javascript">
+                                function submitPage_Run(e) {
+                                    e.preventDefault();
+                                    document.getElementById('pageForm').submit();
+                                    alert('Page Saved. You will be redirected when you click OK.');
+                                    window.open("{% url 'run' p.user.profile.slug p.slug %}", '_blank');
+                                }
+                            </script>
                         {% else %}
-                            <a href="{% url 'run_anon' p.slug %}"
+                            <a href="#"
+                               onclick="submitPage_RunAnon(event);"
                                class="btn btn-primary"
                                target="_blank"
                                title="Displays output of code in new window">Run</a>
+                            <script type="text/javascript">
+                                function submitPage_RunAnon(e) {
+                                    e.preventDefault();
+                                    document.getElementById('pageForm').submit();
+                                    alert('Page Saved! You will be redirected when you click OK.');
+                                    window.open("{% url 'run_anon' p.slug %}", '_blank');
+                                }
+                            </script>
                         {% endif %}
                     {% else %}
 
@@ -49,11 +67,31 @@
 
                     {% if p %}
                         {% if p.user %}
-                            <a href="{% url 'copy' p.user.profile.slug p.slug %}" class="btn btn-primary"
+                            <a href="#"
+                               onclick="submitPage_Copy(event);"
+                               class="btn btn-primary"
                                title="Copies last-saved page to new page">Copy</a>
+                            <script type="text/javascript">
+                                function submitPage_Copy(e) {
+                                    e.preventDefault();
+                                    document.getElementById('pageForm').submit();
+                                    alert('Page Saved! You will be redirected to page with cloned details when you click OK.');
+                                    window.location.href = "{% url 'copy' p.user.profile.slug p.slug %}";
+                                }
+                            </script>
                         {% else %}
-                            <a href="{% url 'copy_anon' p.slug %}" class="btn btn-primary"
+                            <a href="#"
+                               onclick="submitPage_CopyAnon(event);"
+                               class="btn btn-primary"
                                title="Copies last-saved page to new page">Copy</a>
+                            <script type="text/javascript">
+                                function submitPage_CopyAnon(e) {
+                                    e.preventDefault();
+                                    document.getElementById('pageForm').submit();
+                                    alert('Page Saved! You will be redirected to page with cloned details when you click OK.');
+                                    window.location.href = "{% url 'copy_anon' p.slug %}";
+                                }
+                            </script>
                         {% endif %}
                     {% endif %}
 
