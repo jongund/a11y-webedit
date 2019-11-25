@@ -80,9 +80,11 @@
                         $(function () {
                             var $form = $('#pageForm');
                             var initialState = $form.serialize();
+                            var form = document.getElementById('pageForm');
+                            var formInitialInnerText = form.innerText;
 
-                            document.getElementById("pageForm").addEventListener("change", function () {
-                                if (initialState === $form.serialize()) {
+                            form.addEventListener("change", function (e) {
+                                if (initialState === $form.serialize() && formInitialInnerText === e.target.form.innerText) {
                                     enableButtons();
                                 } else {
                                     disableButtons();
