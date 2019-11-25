@@ -15,6 +15,7 @@
             {% if p.title %}<h1>{{ p.title }}</h1>
             {% else %}<h1>New page</h1>
             {% endif %}
+
             <div class="panel panel-default">
                 <div class="panel-body">
                     {#                    {% if p.user == user or not p %}#}
@@ -23,33 +24,19 @@
 
                     {% if p %}
                         {% if p.user %}
-                            <a href="#"
-                               onclick="submitPage_Run(event);"
+                            <a href="{% url 'run' p.user.profile.slug p.slug %}"
+                               target="_blank"
+                               id="runButton"
                                class="btn btn-primary"
                                target="_blank"
                                title="Displays output of code in new window">Run</a>
-                            <script type="text/javascript">
-                                function submitPage_Run(e) {
-                                    e.preventDefault();
-                                    document.getElementById('pageForm').submit();
-                                    alert('Page Saved. You will be redirected when you click OK.');
-                                    window.open("{% url 'run' p.user.profile.slug p.slug %}", '_blank');
-                                }
-                            </script>
                         {% else %}
-                            <a href="#"
-                               onclick="submitPage_RunAnon(event);"
+                            <a href="{% url 'run_anon' p.slug %}"
+                               target="_blank"
+                               id="runButton"
                                class="btn btn-primary"
                                target="_blank"
                                title="Displays output of code in new window">Run</a>
-                            <script type="text/javascript">
-                                function submitPage_RunAnon(e) {
-                                    e.preventDefault();
-                                    document.getElementById('pageForm').submit();
-                                    alert('Page Saved! You will be redirected when you click OK.');
-                                    window.open("{% url 'run_anon' p.slug %}", '_blank');
-                                }
-                            </script>
                         {% endif %}
                     {% else %}
 
@@ -59,33 +46,43 @@
 
                     {% if p %}
                         {% if p.user %}
-                            <a href="#"
-                               onclick="submitPage_Copy(event);"
+                            <a href="{% url 'copy' p.user.profile.slug p.slug %}"
                                class="btn btn-primary"
+                               id="copyButton"
                                title="Copies last-saved page to new page">Copy</a>
-                            <script type="text/javascript">
-                                function submitPage_Copy(e) {
-                                    e.preventDefault();
-                                    document.getElementById('pageForm').submit();
-                                    alert('Page Saved! You will be redirected to page with cloned details when you click OK.');
-                                    window.location.href = "{% url 'copy' p.user.profile.slug p.slug %}";
-                                }
-                            </script>
                         {% else %}
-                            <a href="#"
-                               onclick="submitPage_CopyAnon(event);"
+                            <a href="{% url 'copy_anon' p.slug %}"
                                class="btn btn-primary"
+                               id="copyButton"
                                title="Copies last-saved page to new page">Copy</a>
-                            <script type="text/javascript">
-                                function submitPage_CopyAnon(e) {
-                                    e.preventDefault();
-                                    document.getElementById('pageForm').submit();
-                                    alert('Page Saved! You will be redirected to page with cloned details when you click OK.');
-                                    window.location.href = "{% url 'copy_anon' p.slug %}";
-                                }
-                            </script>
                         {% endif %}
                     {% endif %}
+
+                    <script>
+
+                        function enableButtons() {
+                            document.getElementById("runButton").classList.remove("disabled");
+                            document.getElementById("copyButton").classList.remove("disabled");
+                        }
+
+                        function disableButtons() {
+                            document.getElementById("runButton").classList.add("disabled");
+                            document.getElementById("copyButton").classList.add("disabled");
+                        }
+
+                        $(function () {
+                            var $form = $('#pageForm');
+                            var initialState = $form.serialize();
+
+                            document.getElementById("pageForm").addEventListener("change", function () {
+                                if (initialState === $form.serialize()) {
+                                    enableButtons();
+                                } else {
+                                    disableButtons();
+                                }
+                            });
+                        });
+                    </script>
 
                     {% if p and p.user == user %}
                         <a href="{% url 'delete' user.profile.slug p.slug %}" class="btn btn-danger danger"
