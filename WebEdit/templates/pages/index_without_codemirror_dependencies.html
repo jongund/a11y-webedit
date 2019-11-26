@@ -18,9 +18,8 @@
 
             <div class="panel panel-default">
                 <div class="panel-body">
-                    {#                    {% if p.user == user or not p %}#}
+
                     {% bootstrap_button "Save" button_type="submit" button_class="btn btn-primary" extra_classes="save" title="Saves changes to page" %}
-                    {#                    {% endif %}#}
 
                     {% if p %}
                         {% if p.user %}
@@ -58,29 +57,38 @@
                         {% endif %}
                     {% endif %}
 
+                    {% if p %}
+                        <span class="text-warning" style="display: none">Unsaved changes!</span>
+                    {% endif %}
+
                     <script>
 
+                        var runButton = document.getElementById("runButton");
+                        var copyButton = document.getElementById("copyButton");
+
                         function enableButtons() {
-                            document.getElementById("runButton").classList.remove("disabled");
-                            document.getElementById("copyButton").classList.remove("disabled");
+                            runButton.classList.remove("disabled");
+                            copyButton.classList.remove("disabled");
+                            $('.text-warning').hide();
                         }
 
                         function disableButtons() {
-                            document.getElementById("runButton").classList.add("disabled");
-                            document.getElementById("copyButton").classList.add("disabled");
+                            runButton.classList.add("disabled");
+                            copyButton.classList.add("disabled");
+                            $('.text-warning').show();
                         }
 
                         $(function () {
                             var $form = $('#pageForm');
                             var initialState = $form.serialize();
 
-                            document.getElementById("pageForm").addEventListener("change", function () {
+                            setInterval(function () {
                                 if (initialState === $form.serialize()) {
                                     enableButtons();
                                 } else {
                                     disableButtons();
                                 }
-                            });
+                            }, 100);
                         });
                     </script>
 

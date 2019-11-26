@@ -65,33 +65,9 @@
                         {% endif %}
                     {% endif %}
 
-                    <script>
-
-                        function enableButtons() {
-                            document.getElementById("runButton").classList.remove("disabled");
-                            document.getElementById("copyButton").classList.remove("disabled");
-                        }
-
-                        function disableButtons() {
-                            document.getElementById("runButton").classList.add("disabled");
-                            document.getElementById("copyButton").classList.add("disabled");
-                        }
-
-                        $(function () {
-                            var $form = $('#pageForm');
-                            var initialState = $form.serialize();
-                            var form = document.getElementById('pageForm');
-                            var formInitialInnerText = form.innerText;
-
-                            form.addEventListener("change", function (e) {
-                                if (initialState === $form.serialize() && formInitialInnerText === e.target.form.innerText) {
-                                    enableButtons();
-                                } else {
-                                    disableButtons();
-                                }
-                            });
-                        });
-                    </script>
+                    {% if p %}
+                        <span class="text-warning" style="display: none">Unsaved changes!</span>
+                    {% endif %}
 
                     {% if p and p.user == user %}
                         <a href="{% url 'delete' user.profile.slug p.slug %}" class="btn btn-danger danger"
@@ -181,10 +157,44 @@
         {% codemirror_field_js_assets pageForm.htmlHead %}
 
         <script>
+            var runButton = document.getElementById("runButton");
+            var copyButton = document.getElementById("copyButton");
+
+            function enableButtons() {
+                runButton.classList.remove("disabled");
+                copyButton.classList.remove("disabled");
+                $('.text-warning').hide();
+            }
+
+            function disableButtons() {
+                runButton.classList.add("disabled");
+                copyButton.classList.add("disabled");
+                $('.text-warning').show();
+            }
+
+            var codeMirrorFieldsFlags = {
+                'htmlHead': false,
+                'htmlBody': false,
+                'css': false,
+                'js': false
+            }
+        </script>
+
+        <script>
             var htmlHead_codemirror = CodeMirror.fromTextArea(
                 document.getElementById("id_htmlHead"),
                 {{ pageForm.htmlHead|codemirror_parameters }}
             );
+
+            htmlHead_codemirror.on('change', function (e) {
+                if (e.options.value === htmlHead_codemirror.getValue()) {
+                    codeMirrorFieldsFlags['htmlHead'] = false;
+                    enableButtons();
+                } else {
+                    codeMirrorFieldsFlags['htmlHead'] = true;
+                    disableButtons();
+                }
+            });
         </script>
 
         {% codemirror_field_css_assets pageForm.htmlBody %}
@@ -195,6 +205,16 @@
                 document.getElementById("id_htmlBody"),
                 {{ pageForm.htmlBody|codemirror_parameters }}
             );
+
+            htmlBody_codemirror.on('change', function (e) {
+                if (e.options.value === htmlBody_codemirror.getValue()) {
+                    codeMirrorFieldsFlags['htmlBody'] = false;
+                    enableButtons();
+                } else {
+                    codeMirrorFieldsFlags['htmlBody'] = true;
+                    disableButtons();
+                }
+            });
         </script>
 
         {% codemirror_field_css_assets pageForm.css %}
@@ -205,6 +225,16 @@
                 document.getElementById("id_css"),
                 {{ pageForm.css|codemirror_parameters }}
             );
+
+            css_codemirror.on('change', function (e) {
+                if (e.options.value === css_codemirror.getValue()) {
+                    codeMirrorFieldsFlags['css'] = false;
+                    enableButtons();
+                } else {
+                    codeMirrorFieldsFlags['css'] = true;
+                    disableButtons();
+                }
+            });
         </script>
 
         {% codemirror_field_css_assets pageForm.javascript %}
@@ -215,6 +245,35 @@
                 document.getElementById("id_javascript"),
                 {{ pageForm.javascript|codemirror_parameters }}
             );
+
+            javascript_codemirror.on('input', function (e) {
+                if (e.options.value === javascript_codemirror.getValue()) {
+                    codeMirrorFieldsFlags['js'] = false;
+                    enableButtons();
+                } else {
+                    codeMirrorFieldsFlags['js'] = true;
+                    disableButtons();
+                }
+            });
+        </script>
+
+        <script>
+            $(function () {
+                var $form = $('#pageForm');
+                var initialState = $form.serialize();
+
+                setInterval(function () {
+                    if (initialState === $form.serialize()
+                        && !codeMirrorFieldsFlags['htmlHead']
+                        && !codeMirrorFieldsFlags['htmlBody']
+                        && !codeMirrorFieldsFlags['css']
+                        && !codeMirrorFieldsFlags['js']) {
+                        enableButtons();
+                    } else {
+                        disableButtons();
+                    }
+                }, 100);
+            });
         </script>
 
         <script src= {% static 'js/fixCodeMirrorLabeling.js' %}></script>
