@@ -67,14 +67,22 @@
                         var copyButton = document.getElementById("copyButton");
 
                         function enableButtons() {
-                            runButton.classList.remove("disabled");
-                            copyButton.classList.remove("disabled");
+                            if (runButton) {
+                                runButton.classList.remove("disabled");
+                            }
+                            if (copyButton) {
+                                copyButton.classList.remove("disabled");
+                            }
                             $('.text-warning').hide();
                         }
 
                         function disableButtons() {
-                            runButton.classList.add("disabled");
-                            copyButton.classList.add("disabled");
+                            if (runButton) {
+                                runButton.classList.add("disabled");
+                            }
+                            if (copyButton) {
+                                copyButton.classList.add("disabled");
+                            }
                             $('.text-warning').show();
                         }
 
