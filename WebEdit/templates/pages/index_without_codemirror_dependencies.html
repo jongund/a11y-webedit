@@ -15,20 +15,24 @@
             {% if p.title %}<h1>{{ p.title }}</h1>
             {% else %}<h1>New page</h1>
             {% endif %}
+
             <div class="panel panel-default">
                 <div class="panel-body">
-                    {#                    {% if p.user == user or not p %}#}
+
                     {% bootstrap_button "Save" button_type="submit" button_class="btn btn-primary" extra_classes="save" title="Saves changes to page" %}
-                    {#                    {% endif %}#}
 
                     {% if p %}
                         {% if p.user %}
                             <a href="{% url 'run' p.user.profile.slug p.slug %}"
+                               target="_blank"
+                               id="runButton"
                                class="btn btn-primary"
                                target="_blank"
                                title="Displays output of code in new window">Run</a>
                         {% else %}
                             <a href="{% url 'run_anon' p.slug %}"
+                               target="_blank"
+                               id="runButton"
                                class="btn btn-primary"
                                target="_blank"
                                title="Displays output of code in new window">Run</a>
@@ -41,13 +45,62 @@
 
                     {% if p %}
                         {% if p.user %}
-                            <a href="{% url 'copy' p.user.profile.slug p.slug %}" class="btn btn-primary"
+                            <a href="{% url 'copy' p.user.profile.slug p.slug %}"
+                               class="btn btn-primary"
+                               id="copyButton"
                                title="Copies last-saved page to new page">Copy</a>
                         {% else %}
-                            <a href="{% url 'copy_anon' p.slug %}" class="btn btn-primary"
+                            <a href="{% url 'copy_anon' p.slug %}"
+                               class="btn btn-primary"
+                               id="copyButton"
                                title="Copies last-saved page to new page">Copy</a>
                         {% endif %}
                     {% endif %}
+
+                    {% if p %}
+                        <span aria-live="polite">
+                        <span class="text-warning" style="display: none">Unsaved changes!</span>
+                        </span>
+                    {% endif %}
+
+                    <script>
+
+                        var runButton = document.getElementById("runButton");
+                        var copyButton = document.getElementById("copyButton");
+
+                        function enableButtons() {
+                            if (runButton) {
+                                runButton.classList.remove("disabled");
+                            }
+                            if (copyButton) {
+                                copyButton.classList.remove("disabled");
+                            }
+                            $('.text-warning').hide();
+                        }
+
+                        function disableButtons() {
+                            if (runButton) {
+                                runButton.classList.add("disabled");
+                            }
+                            if (copyButton) {
+                                copyButton.classList.add("disabled");
+                            }
+                            $('.text-warning').show();
+                        }
+
+                        $(function () {
+                            var $form = $('#pageForm');
+                            var initialState = $form.serialize();
+
+                            setInterval(function () {
+                                if (initialState === $form.serialize()) {
+                                    enableButtons();
+                                } else {
+                                    disableButtons();
+                                }
+                            }, 100);
+                        });
+                    </script>
 
                     {% if p and p.user == user %}
                         <a href="{% url 'delete' user.profile.slug p.slug %}" class="btn btn-danger danger"

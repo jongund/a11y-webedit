@@ -32,11 +32,15 @@
                     {% if p %}
                         {% if p.user %}
                             <a href="{% url 'run' p.user.profile.slug p.slug %}"
+                               target="_blank"
+                               id="runButton"
                                class="btn btn-primary"
                                target="_blank"
                                title="Displays output of code in new window">Run</a>
                         {% else %}
                             <a href="{% url 'run_anon' p.slug %}"
+                               target="_blank"
+                               id="runButton"
                                class="btn btn-primary"
                                target="_blank"
                                title="Displays output of code in new window">Run</a>
@@ -49,12 +53,22 @@
 
                     {% if p %}
                         {% if p.user %}
-                            <a href="{% url 'copy' p.user.profile.slug p.slug %}" class="btn btn-primary"
+                            <a href="{% url 'copy' p.user.profile.slug p.slug %}"
+                               class="btn btn-primary"
+                               id="copyButton"
                                title="Copies last-saved page to new page">Copy</a>
                         {% else %}
-                            <a href="{% url 'copy_anon' p.slug %}" class="btn btn-primary"
+                            <a href="{% url 'copy_anon' p.slug %}"
+                               class="btn btn-primary"
+                               id="copyButton"
                                title="Copies last-saved page to new page">Copy</a>
                         {% endif %}
+                    {% endif %}
+
+                    {% if p %}
+                        <span aria-live="polite">
+                        <span class="text-warning" style="display: none">Unsaved changes!</span>
+                        </span>
                     {% endif %}
 
                     {% if p and p.user == user %}
@@ -108,7 +122,7 @@
                             </div>
                         </div>
                     {% endif %}
-{#                    {% bootstrap_field profileForm.useCodeMirror show_label=False label='Use Code Mirror' %}#}
+                    {#                    {% bootstrap_field profileForm.useCodeMirror show_label=False label='Use Code Mirror' %}#}
 
                 </div>
 
@@ -145,10 +159,52 @@
         {% codemirror_field_js_assets pageForm.htmlHead %}
 
         <script>
+            var runButton = document.getElementById("runButton");
+            var copyButton = document.getElementById("copyButton");
+
+            function enableButtons() {
+                if (runButton) {
+                    runButton.classList.remove("disabled");
+                }
+                if (copyButton) {
+                    copyButton.classList.remove("disabled");
+                }
+                $('.text-warning').hide();
+            }
+
+            function disableButtons() {
+                if (runButton) {
+                    runButton.classList.add("disabled");
+                }
+                if (copyButton) {
+                    copyButton.classList.add("disabled");
+                }
+                $('.text-warning').show();
+            }
+
+            var codeMirrorFieldsFlags = {
+                'htmlHead': false,
+                'htmlBody': false,
+                'css': false,
+                'js': false
+            }
+        </script>
+
+        <script>
             var htmlHead_codemirror = CodeMirror.fromTextArea(
                 document.getElementById("id_htmlHead"),
                 {{ pageForm.htmlHead|codemirror_parameters }}
             );
+
+            htmlHead_codemirror.on('change', function (e) {
+                if (e.options.value === htmlHead_codemirror.getValue()) {
+                    codeMirrorFieldsFlags['htmlHead'] = false;
+                    enableButtons();
+                } else {
+                    codeMirrorFieldsFlags['htmlHead'] = true;
+                    disableButtons();
+                }
+            });
         </script>
 
         {% codemirror_field_css_assets pageForm.htmlBody %}
@@ -159,6 +215,16 @@
                 document.getElementById("id_htmlBody"),
                 {{ pageForm.htmlBody|codemirror_parameters }}
             );
+
+            htmlBody_codemirror.on('change', function (e) {
+                if (e.options.value === htmlBody_codemirror.getValue()) {
+                    codeMirrorFieldsFlags['htmlBody'] = false;
+                    enableButtons();
+                } else {
+                    codeMirrorFieldsFlags['htmlBody'] = true;
+                    disableButtons();
+                }
+            });
         </script>
 
         {% codemirror_field_css_assets pageForm.css %}
@@ -169,6 +235,16 @@
                 document.getElementById("id_css"),
                 {{ pageForm.css|codemirror_parameters }}
             );
+
+            css_codemirror.on('change', function (e) {
+                if (e.options.value === css_codemirror.getValue()) {
+                    codeMirrorFieldsFlags['css'] = false;
+                    enableButtons();
+                } else {
+                    codeMirrorFieldsFlags['css'] = true;
+                    disableButtons();
+                }
+            });
         </script>
 
         {% codemirror_field_css_assets pageForm.javascript %}
@@ -179,6 +255,35 @@
                 document.getElementById("id_javascript"),
                 {{ pageForm.javascript|codemirror_parameters }}
             );
+
+            javascript_codemirror.on('input', function (e) {
+                if (e.options.value === javascript_codemirror.getValue()) {
+                    codeMirrorFieldsFlags['js'] = false;
+                    enableButtons();
+                } else {
+                    codeMirrorFieldsFlags['js'] = true;
+                    disableButtons();
+                }
+            });
+        </script>
+
+        <script>
+            $(function () {
+                var $form = $('#pageForm');
+                var initialState = $form.serialize();
+
+                setInterval(function () {
+                    if (initialState === $form.serialize()
+                        && !codeMirrorFieldsFlags['htmlHead']
+                        && !codeMirrorFieldsFlags['htmlBody']
+                        && !codeMirrorFieldsFlags['css']
+                        && !codeMirrorFieldsFlags['js']) {
+                        enableButtons();
+                    } else {
+                        disableButtons();
+                    }
+                }, 100);
+            });
         </script>
 
         <script src= {% static 'js/fixCodeMirrorLabeling.js' %}></script>
