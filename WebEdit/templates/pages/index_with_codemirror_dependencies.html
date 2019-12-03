@@ -66,7 +66,9 @@
                     {% endif %}
 
                     {% if p %}
+                        <span aria-live="polite">
                         <span class="text-warning" style="display: none">Unsaved changes!</span>
+                        </span>
                     {% endif %}
 
                     {% if p and p.user == user %}
