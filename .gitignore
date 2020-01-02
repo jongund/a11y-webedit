@@ -1,8 +1,8 @@
 WebEdit/static/*
 WebEdit/secrets.json
 *.class
-*.pyc
-*~
+**/*.pyc
+**/*~
 **/migrations/
 
 .idea/
