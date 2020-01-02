@@ -1,5 +1,10 @@
 WebEdit/static/*
 WebEdit/secrets.json
+*.class
+*.pyc
+*~
+**/migrations/
+
 .idea/
 venv/
 
