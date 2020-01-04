@@ -75,5 +75,25 @@
 </div>
 {% bootstrap_javascript %}
 <script src="{% static 'js/page_js.js' %}"></script>
+<script>
+var skipToConfig =
+{
+    "settings": {
+        "skipTo": {
+            "headings"     : "h1, h2, h3, h4",
+            "main"         : "main, [role=main]",
+            "landmarks"    : "[role=navigation], [role=search]",
+            "sections"     : "nav",
+            "ids"          : "#SkipToA1, #SkipToA2",
+            "customClass"  : "MyClass",
+            "accesskey"    : "0",
+            "wrap"         : "true",
+            "visibility"   : "onfocus",
+            "attachElement": ".MyCustomClass" // or "attachElement": "#MyCustomId"
+        }
+    }
+};
+</script>
+<script src="{% static 'js/skipto.js' %}"></script>
 </body>
 </html>
