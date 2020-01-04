@@ -76,17 +76,15 @@
 {% bootstrap_javascript %}
 <script src="{% static 'js/page_js.js' %}"></script>
 <script>
-var skipToConfig =
-{
-    "settings": {
-        "skipTo": {
-            "headings"     : "h1, h2",
-            "main"         : "main, [role=main]",
-            "landmarks"    : "[role=navigation]"
+var SkipToConfig =
+      {
+        "settings": {
+          "skipTo": {
+            "headings": "h1, h2"
+          }
         }
-    }
-};
-</script>
+      };
+  </script>
 <script src="{% static 'js/skipto.js' %}"></script>
 </body>
 </html>
