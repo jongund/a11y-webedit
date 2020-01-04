@@ -45,7 +45,9 @@
                         <li><a href="{% url 'show_profile' %}">{{ user }}</a></li>
                         <li><a href="{% url 'logout' %}">Logout</a></li>
                     {% else %}
+                        {% if shibboleth.enabled != True %}
                         <li><a href="{% url 'django_registration_register' %}">Register</a></li>
+                        {% endif %}
                         <li><a href="{% url 'login' %}">Login</a></li>
                     {% endif %}
                 </ul>

@@ -28,23 +28,25 @@ from accounts.views import ShibbolethDiscovery
 from accounts.views import ShibbolethInstitution
 from accounts.views import HeaderInfo
 
+from WebEdit.settings import SHIBBOLETH_ENABLED
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-#	url(r'^$', lambda r: HttpResponseRedirect('pages/new')),
-	url(r'^', include('pages.urls')),
-    url(r'^accounts/', include('django_registration.backends.activation.urls')),
-    url(r'^accounts/', include('django.contrib.auth.urls')),
-    # url(r'^accounts/password_reset/', auth_views.PasswordChangeView.as_view()),
-    # url(r'^accounts/password_reset/done', auth_views.PasswordChangeDoneView.as_view()),
-    # url(r'^reset/',    include('password_reset.urls')),
+    url(r'^', include('pages.urls')),
     url(r'^profile/',  include('accounts.urls')),
-
-    # url(r'^login$', auth_views.LoginView, name='login'),
-#    url(r'^login/$',                ShibbolethLogin.as_view(),       name='shib_login'),
-#    url(r'^logout/$',               ShibbolethLogout.as_view(),      name='shib_logout'),
-#    url(r'^discovery/$',            ShibbolethDiscovery.as_view(),   name='shib_discovery'),
-#    url(r'^inst/(?P<domain>\w+)/$', ShibbolethInstitution.as_view(), name='shib_institution'),
-#    url(r'^header-info/$',          HeaderInfo.as_view(),            name='shib_header_info'), # debug information
-
 ]
+
+if SHIBBOLETH_ENABLED:
+    urlpatterns += [
+        url(r'^login/$', ShibbolethLogin.as_view(), name='login'),
+        url(r'^logout/$', ShibbolethLogout.as_view(), name='logout'),
+        url(r'^shib-discovery/$', ShibbolethDiscovery.as_view(), name='shib_discovery'),
+        url(r'^inst/(?P<domain>\w+)/$', ShibbolethInstitution.as_view(), name='shib_institution'),
+        url(r'^header-info/$', HeaderInfo.as_view(), name='header_info'),  # debug information
+    ]
+else:
+    urlpatterns += [
+        url(r'^accounts/', include('django_registration.backends.activation.urls')),
+        url(r'^accounts/', include('django.contrib.auth.urls')),
+    ]
 

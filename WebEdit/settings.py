@@ -83,12 +83,29 @@ ADMIN_FIRST_NAME = get_secret('ADMIN_FIRST_NAME')
 ADMIN_LAST_NAME = get_secret('ADMIN_LAST_NAME')
 ADMIN_EMAIL = get_secret('ADMIN_EMAIL')
 
+
+
 ALLOWED_HOSTS = get_secret('ALLOWED_HOSTS');
 
 SITE_ID = 1
 SITE_NAME = get_secret('SITE_NAME')
 SITE_URL = get_secret('SITE_URL')
 SHIB_URL = get_secret('SHIB_URL')
+
+try:
+    SHIBBOLETH_ENABLED = get_secret('SHIBBOLETH_ENABLED')
+except:
+    SHIBBOLETH_ENABLED = False
+
+if SHIBBOLETH_ENABLED:
+    SHIBBOLETH_URL = get_secret('SHIBBOLETH_URL')
+    SHIBBOLETH_NAME = get_secret('SHIBBOLETH_NAME')
+    SHIBBOLETH_SUPERUSER = get_secret('SHIBBOLETH_SUPERUSER')
+else:
+    SHIBBOLETH_URL = ''
+    SHIBBOLETH_NAME = ''
+    SHIBBOLETH_SUPERUSER = ''
+
 
 # Redirect to home URL after login (Default redirects to /accounts/profile/)
 LOGIN_REDIRECT_URL = '/'
@@ -115,15 +132,34 @@ INSTALLED_APPS = [
     'djangocodemirror',
 ]
 
-MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-]
+if SHIBBOLETH_ENABLED:
+    MIDDLEWARE = [
+        'django.middleware.security.SecurityMiddleware',
+        'django.contrib.sessions.middleware.SessionMiddleware',
+        'django.middleware.common.CommonMiddleware',
+        'django.middleware.csrf.CsrfViewMiddleware',
+        'django.contrib.auth.middleware.AuthenticationMiddleware',
+        'django.contrib.auth.middleware.PersistentRemoteUserMiddleware',
+        'django.contrib.messages.middleware.MessageMiddleware',
+        'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    ]
+
+    AUTHENTICATION_BACKENDS = [
+        'django.contrib.auth.backends.RemoteUserBackend',
+    ]
+
+    LOGIN_URL = SHIBBOLETH_URL
+
+else:
+    MIDDLEWARE = [
+        'django.middleware.security.SecurityMiddleware',
+        'django.contrib.sessions.middleware.SessionMiddleware',
+        'django.middleware.common.CommonMiddleware',
+        'django.middleware.csrf.CsrfViewMiddleware',
+        'django.contrib.auth.middleware.AuthenticationMiddleware',
+        'django.contrib.messages.middleware.MessageMiddleware',
+        'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    ]
 
 ROOT_URLCONF = 'WebEdit.urls'
 
@@ -138,7 +174,9 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-            ],
+                'WebEdit.context_processors.site',
+                'WebEdit.context_processors.shibboleth',
+                'WebEdit.context_processors.user_profile'            ],
         },
     },
 ]
