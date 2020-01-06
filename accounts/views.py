@@ -56,7 +56,7 @@ class HeaderInfo(LoginRequiredMixin, TemplateView):
 class ShibbolethLogout(RedirectView):
 
     def get_redirect_url(self, *args, **kwargs):
-        self.url = SITE_URL + '/Shibboleth.sso/Logout'
+        self.url = SITE_URL + '/Shibboleth.sso/Logout' + '&amp;target=' + SITE_URL
         return super(ShibbolethLogout, self).get_redirect_url(*args, **kwargs)
 
 
