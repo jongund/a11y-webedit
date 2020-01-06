@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, render_to_response
 from django.template import RequestContext
 from django.urls import reverse
 from django.http import HttpResponse
+from django.contrib import auth
 
 from WebEdit.settings import SITE_URL
 from WebEdit.settings import SHIBBOLETH_URL
@@ -56,8 +57,8 @@ class HeaderInfo(LoginRequiredMixin, TemplateView):
 class ShibbolethLogout(RedirectView):
 
     def get_redirect_url(self, *args, **kwargs):
-        logout(self.request)
-        self.url = SITE_URL
+        auth.logout(self.request)
+        self.url = SITE_URL + '/Shibboleth.sso/Logout'
         return super(ShibbolethLogout, self).get_redirect_url(*args, **kwargs)
 
 
