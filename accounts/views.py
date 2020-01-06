@@ -68,8 +68,6 @@ class ShibbolethLogin(RedirectView):
 
         user = self.request.user
 
-        print('ShibbolethLogin: ' + user.username+ ' ' + ADMIN_USERNAME)
-
         if user.username == ADMIN_USERNAME:
             user.is_staff = True
             user.is_superuser = True
@@ -102,7 +100,7 @@ class ShibbolethLogin(RedirectView):
                 except:
                     pass
 
-        self.url = SITE_URL
+        self.url = "https://test.org"
 
         return super(ShibbolethLogin, self).get_redirect_url(*args, **kwargs)
 
