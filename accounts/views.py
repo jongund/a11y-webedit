@@ -108,7 +108,7 @@ class ShibbolethLogin(RedirectView):
 class ShibbolethInstitution(RedirectView):
     def get_redirect_url(self, *args, **kwargs):
 
-        login_url = 'https://webedit-dev.disability.illinois.edu'
+        login_url = 'https://webedit-dev.disability.illinois.edu/login'
 
         self.url = SHIBBOLETH_URL + '?entityID=' + SHIBBOLETH_AUTH + '&amp;target=' + login_url
 
