@@ -24,8 +24,8 @@ from django.contrib.auth.models import User
 def show_profile(request):
     u = request.user
 
-    profile = Profile.objects.get(slug=request.user)
-    userAccount = User.objects.get(profile__slug=request.user)
+    profile = Profile.objects.get(user=request.user)
+    userAccount = User.objects.get(profile__user=request.user)
 
     if request.method == "POST":
 
