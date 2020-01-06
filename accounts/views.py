@@ -68,6 +68,8 @@ class ShibbolethLogin(RedirectView):
 
         user = self.request.user
 
+        print('ShibbolethLogin: ' + user.username+ ' ' + ADMIN_USERNAME)
+
         if user.username == ADMIN_USERNAME:
             user.is_staff = True
             user.is_superuser = True
