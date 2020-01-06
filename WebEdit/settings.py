@@ -88,9 +88,10 @@ ADMIN_EMAIL = get_secret('ADMIN_EMAIL')
 ALLOWED_HOSTS = get_secret('ALLOWED_HOSTS');
 
 SITE_ID = 1
+
 SITE_NAME = get_secret('SITE_NAME')
-SITE_URL = get_secret('SITE_URL')
-SHIB_URL = get_secret('SHIB_URL')
+SITE_URL  = get_secret('SITE_URL')
+SHIB_URL  = get_secret('SHIB_URL')
 
 try:
     SHIBBOLETH_ENABLED = get_secret('SHIBBOLETH_ENABLED')
@@ -98,12 +99,14 @@ except:
     SHIBBOLETH_ENABLED = False
 
 if SHIBBOLETH_ENABLED:
-    SHIBBOLETH_URL = get_secret('SHIBBOLETH_URL')
-    SHIBBOLETH_NAME = get_secret('SHIBBOLETH_NAME')
+    SHIBBOLETH_URL       = get_secret('SHIBBOLETH_URL')
+    SHIBBOLETH_NAME      = get_secret('SHIBBOLETH_NAME')
+    SHIBBOLETH_AUTH      = get_secret('SHIBBOLETH_AUTH')
     SHIBBOLETH_SUPERUSER = get_secret('SHIBBOLETH_SUPERUSER')
 else:
     SHIBBOLETH_URL = ''
     SHIBBOLETH_NAME = ''
+    SHIBBOLETH_DOMAIN = ''
     SHIBBOLETH_SUPERUSER = ''
 
 

@@ -21,6 +21,7 @@ from django.contrib.auth.models import AnonymousUser
 from WebEdit.settings import SHIBBOLETH_ENABLED
 from WebEdit.settings import SHIBBOLETH_URL
 from WebEdit.settings import SHIBBOLETH_NAME
+from WebEdit.settings import SHIBBOLETH_AUTH
 
 
 def site(request):
@@ -30,12 +31,13 @@ def site(request):
 
 def shibboleth(request):
 	return {
-		'shibboleth': { 'enabled' : SHIBBOLETH_ENABLED,
-            'url'  : SHIBBOLETH_URL,
-            'name' : SHIBBOLETH_NAME
-
-        }
-	}
+		'shibboleth': { 
+                    'enabled'        : SHIBBOLETH_ENABLED,
+                    'url'            : SHIBBOLETH_URL,
+                    'authentication' : SHIBBOLETH_AUTH,
+                    'name'           : SHIBBOLETH_NAME
+        		}
+		}
 
 def user_profile(request):
 
