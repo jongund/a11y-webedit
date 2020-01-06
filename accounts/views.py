@@ -4,7 +4,8 @@ from django.urls import reverse
 from django.http import HttpResponse
 
 from WebEdit.settings import SITE_URL
-from WebEdit.settings import SHIB_URL
+from WebEdit.settings import SHIBBOLETH_URL
+from WebEdit.settings import SHIBBOLETH_AUTH
 from WebEdit.settings import ADMIN_USERNAME
 
 from django.contrib.messages.views import SuccessMessageMixin
@@ -103,23 +104,9 @@ class ShibbolethLogin(RedirectView):
         return super(ShibbolethLogin, self).get_redirect_url(*args, **kwargs)
 
 
-class ShibbolethDiscovery(TemplateView):
-    template_name = 'shib_discovery.html'
-
-
 class ShibbolethInstitution(RedirectView):
     def get_redirect_url(self, *args, **kwargs):
 
-        self.url = SHIB_URL
-
-        try:
-            ip = InstitutionalProfile.objects.get(domain=kwargs['domain'])
-            self.url += '/Shibboleth.sso/Login?entityID=' + ip.authentication + '&target=' + SITE_URL
-        except:
-            try:
-                ip = InstitutionalProfile.objects.get(alt_domain=kwargs['domain'])
-                self.url += '/Shibboleth.sso/Login?entityID=' + ip.authentication + '&target=' + SITE_URL
-            except:
-                ip = None
+        self.url = SHIBBOLETH_URL + '?entityID=' + SHIBBOLETH_AUTH + '&target=' + SITE_URL
 
         return super(ShibbolethInstitution, self).get_redirect_url(*args, **kwargs)

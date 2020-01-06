@@ -40,8 +40,7 @@ if SHIBBOLETH_ENABLED:
     urlpatterns += [
         url(r'^login/$', ShibbolethLogin.as_view(), name='login'),
         url(r'^logout/$', ShibbolethLogout.as_view(), name='logout'),
-        url(r'^shib-discovery/$', ShibbolethDiscovery.as_view(), name='shib_discovery'),
-        url(r'^inst/(?P<domain>\w+)/$', ShibbolethInstitution.as_view(), name='shib_institution'),
+        url(r'^inst/$', ShibbolethInstitution.as_view(), name='shib_login'),
         url(r'^header-info/$', HeaderInfo.as_view(), name='header_info'),  # debug information
     ]
 else:
