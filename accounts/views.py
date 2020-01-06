@@ -107,6 +107,8 @@ class ShibbolethLogin(RedirectView):
 class ShibbolethInstitution(RedirectView):
     def get_redirect_url(self, *args, **kwargs):
 
-        self.url = SHIBBOLETH_URL + '?entityID=' + SHIBBOLETH_AUTH + '&target=' + SITE_URL
+        login_url = reverse('login')
+
+        self.url = SHIBBOLETH_URL + '?entityID=' + SHIBBOLETH_AUTH + '&amp;target=' + login_url
 
         return super(ShibbolethInstitution, self).get_redirect_url(*args, **kwargs)
