@@ -24,7 +24,6 @@ from django.contrib.auth import views as auth_views
 
 from accounts.views import ShibbolethLogin
 from accounts.views import ShibbolethLogout
-from accounts.views import ShibbolethDiscovery
 from accounts.views import ShibbolethInstitution
 from accounts.views import HeaderInfo
 
