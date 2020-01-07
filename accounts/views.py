@@ -112,5 +112,8 @@ class ShibbolethLogin(RedirectView):
         update_url = 'https://webedit-dev.disability.illinois.edu/update'
 
         self.url = SHIBBOLETH_URL + '?entityID=' + SHIBBOLETH_AUTH + '&amp;target=' + update_url
+        self.url = SHIBBOLETH_URL + '?entityID=urn:mace:incommon:uiuc.edu&target=https://webedit-dev.disability.illinois.edu/update'
+
+
 
         return super(ShibbolethLogin, self).get_redirect_url(*args, **kwargs)
