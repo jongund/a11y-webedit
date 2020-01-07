@@ -48,7 +48,7 @@
                         {% if shibboleth.enabled != True %}
                         <li><a href="{% url 'django_registration_register' %}">Register</a></li>
                         {% endif %}
-                        <li><a href="https://webedit-dev.disability.illinois.edu/Shibboleth.sso/Login?entityID=urn:mace:incommon:uiuc.edu&amp;target=https://webedit-dev.disability.illinois.edu/update">Login</a></li>
+                        <li><a href="{% url 'shib_login' %}">Login</a></li>
                     {% endif %}
                 </ul>
 
