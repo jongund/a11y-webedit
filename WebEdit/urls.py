@@ -24,8 +24,8 @@ from django.contrib.auth import views as auth_views
 
 from accounts.views import ShibbolethLogin
 from accounts.views import ShibbolethLogout
-from accounts.views import ShibbolethInstitution
-from accounts.views import HeaderInfo
+from accounts.views import ShibbolethUpdate
+from accounts.views import ShibbolethInfo
 
 from WebEdit.settings import SHIBBOLETH_ENABLED
 
@@ -39,8 +39,8 @@ if SHIBBOLETH_ENABLED:
     urlpatterns += [
         url(r'^login/$', ShibbolethLogin.as_view(), name='login'),
         url(r'^logout/$', ShibbolethLogout.as_view(), name='logout'),
-        url(r'^inst/$', ShibbolethInstitution.as_view(), name='shib_login'),
-        url(r'^header-info/$', HeaderInfo.as_view(), name='header_info'),  # debug information
+        url(r'^update/$', ShibbolethUpdate.as_view(), name='update'),
+        url(r'^info/$', ShibbolethInfo.as_view(), name='info'),  # debug information
     ]
 else:
     urlpatterns += [

@@ -50,7 +50,7 @@ def show_profile(request):
 
 
 
-class HeaderInfo(LoginRequiredMixin, TemplateView):
+class ShibbolethInfo(LoginRequiredMixin, TemplateView):
     template_name = 'registration/header_info.html'
 
 
@@ -58,11 +58,12 @@ class ShibbolethLogout(RedirectView):
 
     def get_redirect_url(self, *args, **kwargs):
         auth.logout(self.request)
-        self.url = SITE_URL + '/Shibboleth.sso/Logout'
+#        self.url = SITE_URL + '/Shibboleth.sso/Logout'
+        self.url = SITE_URL
         return super(ShibbolethLogout, self).get_redirect_url(*args, **kwargs)
 
 
-class ShibbolethLogin(RedirectView):
+class ShibbolethUpdate(RedirectView):
 
     def get_redirect_url(self, *args, **kwargs):
 
@@ -105,7 +106,7 @@ class ShibbolethLogin(RedirectView):
         return super(ShibbolethLogin, self).get_redirect_url(*args, **kwargs)
 
 
-class ShibbolethInstitution(RedirectView):
+class ShibbolethLogin(RedirectView):
     def get_redirect_url(self, *args, **kwargs):
 
         login_url = 'https://webedit-dev.disability.illinois.edu/login'
