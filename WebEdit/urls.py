@@ -37,9 +37,9 @@ urlpatterns = [
 
 if SHIBBOLETH_ENABLED:
     urlpatterns += [
-        url(r'^login/$', ShibbolethLogin.as_view(), name='login'),
+        url(r'^login/$', ShibbolethLogin.as_view(),   name='shib_login'),
+        url(r'^update/$', ShibbolethUpdate.as_view(), name='shib_update'),
         url(r'^logout/$', ShibbolethLogout.as_view(), name='logout'),
-        url(r'^update/$', ShibbolethUpdate.as_view(), name='update'),
         url(r'^info/$', ShibbolethInfo.as_view(), name='info'),  # debug information
     ]
 else:
