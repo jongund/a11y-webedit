@@ -103,7 +103,7 @@ class ShibbolethUpdate(RedirectView):
 
         self.url = SITE_URL
 
-        return super(ShibbolethLogin, self).get_redirect_url(*args, **kwargs)
+        return super(ShibbolethUpdate, self).get_redirect_url(*args, **kwargs)
 
 
 class ShibbolethLogin(RedirectView):
@@ -113,4 +113,4 @@ class ShibbolethLogin(RedirectView):
 
         self.url = SHIBBOLETH_URL + '?entityID=' + SHIBBOLETH_AUTH + '&amp;target=' + login_url
 
-        return super(ShibbolethInstitution, self).get_redirect_url(*args, **kwargs)
+        return super(ShibbolethLogin, self).get_redirect_url(*args, **kwargs)
