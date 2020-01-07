@@ -58,7 +58,7 @@ class ShibbolethLogout(RedirectView):
 
     def get_redirect_url(self, *args, **kwargs):
         auth.logout(self.request)
-        self.url = SITE_URL + '/Shibboleth.sso/Logout'
+        self.url = SITE_URL + '/Shibboleth.sso/Logout?return=' + SITE_URL
         return super(ShibbolethLogout, self).get_redirect_url(*args, **kwargs)
 
 
