@@ -91,7 +91,6 @@ SITE_ID = 1
 
 SITE_NAME = get_secret('SITE_NAME')
 SITE_URL  = get_secret('SITE_URL')
-SHIB_URL  = get_secret('SHIB_URL')
 
 try:
     SHIBBOLETH_ENABLED = get_secret('SHIBBOLETH_ENABLED')
