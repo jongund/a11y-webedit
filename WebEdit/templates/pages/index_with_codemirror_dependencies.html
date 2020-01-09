@@ -36,18 +36,18 @@
                                id="runButton"
                                class="btn btn-primary"
                                target="_blank"
-                               title="Displays output of code in new window">Run</a>
+                               title="Displays output of code in new window">Show</a>
                         {% else %}
                             <a href="{% url 'run_anon' p.slug %}"
                                target="_blank"
                                id="runButton"
                                class="btn btn-primary"
                                target="_blank"
-                               title="Displays output of code in new window">Run</a>
+                               title="Displays output of code in new window">Show</a>
                         {% endif %}
                     {% else %}
 
-                        {% bootstrap_button "Run" button_type="submit" button_class="btn btn-primary" extra_classes="save before-run" %}
+                        {% bootstrap_button "Show" button_type="submit" button_class="btn btn-primary" extra_classes="save before-run" %}
 
                     {% endif %}
 
