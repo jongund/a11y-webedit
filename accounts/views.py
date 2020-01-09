@@ -2,9 +2,11 @@ from django.shortcuts import render, redirect, render_to_response
 from django.template import RequestContext
 from django.urls import reverse
 from django.http import HttpResponse
+from django.contrib import auth
 
 from WebEdit.settings import SITE_URL
-from WebEdit.settings import SHIB_URL
+from WebEdit.settings import SHIBBOLETH_URL
+from WebEdit.settings import SHIBBOLETH_AUTH
 from WebEdit.settings import ADMIN_USERNAME
 
 from django.contrib.messages.views import SuccessMessageMixin
@@ -22,8 +24,8 @@ from django.contrib.auth.models import User
 def show_profile(request):
     u = request.user
 
-    profile = Profile.objects.get(slug=request.user)
-    userAccount = User.objects.get(profile__slug=request.user)
+    profile = Profile.objects.get(user=request.user)
+    userAccount = User.objects.get(profile__user=request.user)
 
     if request.method == "POST":
 
@@ -48,19 +50,19 @@ def show_profile(request):
 
 
 
-class HeaderInfo(LoginRequiredMixin, TemplateView):
+class ShibbolethInfo(LoginRequiredMixin, TemplateView):
     template_name = 'registration/header_info.html'
 
 
 class ShibbolethLogout(RedirectView):
 
     def get_redirect_url(self, *args, **kwargs):
-        logout(self.request)
-        self.url = SITE_URL + '/Shibboleth.sso/Logout'
+        auth.logout(self.request)
+        self.url = SITE_URL + '/Shibboleth.sso/Logout?return=' + SITE_URL
         return super(ShibbolethLogout, self).get_redirect_url(*args, **kwargs)
 
 
-class ShibbolethLogin(RedirectView):
+class ShibbolethUpdate(RedirectView):
 
     def get_redirect_url(self, *args, **kwargs):
 
@@ -100,26 +102,15 @@ class ShibbolethLogin(RedirectView):
 
         self.url = SITE_URL
 
-        return super(ShibbolethLogin, self).get_redirect_url(*args, **kwargs)
+        return super(ShibbolethUpdate, self).get_redirect_url(*args, **kwargs)
 
 
-class ShibbolethDiscovery(TemplateView):
-    template_name = 'shib_discovery.html'
+class ShibbolethLogin(RedirectView):
 
-
-class ShibbolethInstitution(RedirectView):
     def get_redirect_url(self, *args, **kwargs):
 
-        self.url = SHIB_URL
+        update_url = reverse('shib_update')
 
-        try:
-            ip = InstitutionalProfile.objects.get(domain=kwargs['domain'])
-            self.url += '/Shibboleth.sso/Login?entityID=' + ip.authentication + '&target=' + SITE_URL
-        except:
-            try:
-                ip = InstitutionalProfile.objects.get(alt_domain=kwargs['domain'])
-                self.url += '/Shibboleth.sso/Login?entityID=' + ip.authentication + '&target=' + SITE_URL
-            except:
-                ip = None
+        self.url = SHIBBOLETH_URL + '?entityID=' + SHIBBOLETH_AUTH + '&amp;target=' + update_url
 
-        return super(ShibbolethInstitution, self).get_redirect_url(*args, **kwargs)
+        return super(ShibbolethLogin, self).get_redirect_url(*args, **kwargs)

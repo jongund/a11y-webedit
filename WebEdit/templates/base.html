@@ -45,8 +45,12 @@
                         <li><a href="{% url 'show_profile' %}">{{ user }}</a></li>
                         <li><a href="{% url 'logout' %}">Logout</a></li>
                     {% else %}
+                        {% if shibboleth.enabled %}
+                        <li><a href="{% url 'shib_login' %}">Login</a></li>
+                        {% else %}
                         <li><a href="{% url 'django_registration_register' %}">Register</a></li>
                         <li><a href="{% url 'login' %}">Login</a></li>
+                        {% endif %}
                     {% endif %}
                 </ul>
 
@@ -72,6 +76,17 @@
     </footer>
 </div>
 {% bootstrap_javascript %}
-<script src="{% static 'js/page_js.js' %}"></script>
+<script src="{% static 'js/skipto.js' %}"></script>
+<script>
+var SkipToConfig =
+      {
+        "settings": {
+          "skipTo": {
+            "headings": "h1, h2"
+          }
+        }
+      };
+    skipToMenuInit(SkipToConfig)
+</script>
 </body>
 </html>
