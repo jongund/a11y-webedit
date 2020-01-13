@@ -5,6 +5,9 @@ Online HTML/CS/Javascript code editor similiar in function to jsfiddle, but more
 
 ## Dependencies/build instructions
 
+* Python 3.6
+* Django 2.2
+
 
 ### Installing Python Dependencies in a Virtual Envirobment
 
