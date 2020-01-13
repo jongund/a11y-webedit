@@ -50,7 +50,7 @@ def show_profile(request):
 
 
 
-class ShibbolethInfo(LoginRequiredMixin, TemplateView):
+class ShibbolethInfo(TemplateView):
     template_name = 'registration/header_info.html'
 
 
