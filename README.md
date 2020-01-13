@@ -10,6 +10,48 @@ Online HTML/CS/Javascript code editor similiar in function to jsfiddle, but more
 ### Example with Shibboleth Support
 
 ```
+</VirtualHost>
+(webedit-prod) [root@aitg conf.d]# more webedit-dev.conf 
+WSGISocketPrefix  /var/run/wsgi
+
+<Location /Shibboleth.ss>
+  AuthType shibboleth
+  ShibUseHeaders On
+  Require shibboleth
+</Location>
+
+<VirtualHost *:443 >
+
+  Servername  webedit-dev.disability.illinois.edu
+  ServerAlias webedit-dev.disability.illinois.edu
+
+  SSLEngine on
+  SSLCertificateFile      /etc/pki/tls/fae2/fae2.crt
+  SSLCertificateKeyFile   /etc/pki/tls/fae2/fae2.key
+  SSLCertificateChainFile /etc/pki/tls/fae2/in-common-bundle.crt
+
+  CustomLog logs/webedit-dev-access_log common
+  ErrorLog  logs/webedit-dev-error_log 
+  
+  Alias /static /var/www/webedit/webedit-dev/WebEdit/static/
+
+  <Directory /var/www/webedit/webedit-dev/WebEdit/static>
+    Require all granted
+  </Directory>
+
+  <Directory /var/www/webedit/webedit-dev>
+    <Files wsgi.py>
+     AuthType shibboleth
+     Require shibboleth
+    </Files>
+  </Directory>
+
+  WSGIDaemonProcess webedit-dev python-path=/var/www/webedit/webedit-dev:/var/www/venv/webedit-dev/lib/python3.6/site-packages
+  WSGIProcessGroup  webedit-dev
+
+  WSGIScriptAlias / /var/www/webedit/webedit-dev/WebEdit/wsgi.py 
+
+</VirtualHost>
 ```
 
 ### Example with Django Registration System
