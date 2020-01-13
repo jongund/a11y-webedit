@@ -21,6 +21,9 @@ from django.contrib.sites.models import Site
 from django.contrib.auth.models import User
 from accounts.models import Profile
 
+for s in Site.objects.all():
+  print("\nSite: " + s.domain + " " + s.name)
+
 for u in User.objects.all():
   print( "\nUsername: " +  u.username)
   print( "Staff: "      + str(u.is_staff))
