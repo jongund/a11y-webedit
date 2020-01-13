@@ -4,6 +4,7 @@ WebEdit/secrets.json
 **/*.pyc
 **/*~
 **/migrations/
+**/*.bak
 
 .idea/
 venv/
