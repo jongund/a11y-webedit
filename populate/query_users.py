@@ -20,9 +20,20 @@ from django.core.exceptions import ImproperlyConfigured
 from django.contrib.sites.models import Site
 from django.contrib.auth.models import User
 from accounts.models import Profile
+from django.urls import reverse
+
+from WebEdit.settings import SITE_URL
+from WebEdit.settings import SHIBBOLETH_URL
+from WebEdit.settings import SHIBBOLETH_AUTH
+from WebEdit.settings import ADMIN_USERNAME
 
 for s in Site.objects.all():
   print("\nSite: " + s.domain + " " + s.name)
+
+print("\n       SITE URL: " + SITE_URL)
+print("\n SHIBBOLETH URL: " + SHIBBOLETH_URL)
+print("\nSHIBBOLETH AUTH: " + SHIBBOLETH_AUTH)
+print("\nshib_update URL: " + SITE_URL + reverse('shib_update'))
 
 for u in User.objects.all():
   print( "\nUsername: " +  u.username)
