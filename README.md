@@ -7,12 +7,55 @@ Online HTML/CS/Javascript code editor similiar in function to jsfiddle, but more
 
 * Python 3.6
 * Django 2.2
+* Apache 2.4
+* Postgres 9.4
 
 
 ### Installing Python Dependencies in a Virtual Envirobment
 
 ```
 pip install -r requirements.txt
+```
+
+## Secrets File
+
+The `secrets.json` file is used for configuring A11yWebEdit for a particular machine and URL.
+It is also used to idenitfy if Shibboleth (inCommon) or the built-in Django registration system will be used for autheticating users.
+
+### Example Secrets file
+
+```
+{ 
+  "DEBUG":           true,
+  "SITE_URL":        "{site URL}",
+  "SHIBBOLETH_ENABLED": true | false,
+  "SHIBBOLETH_URL": "{site URL}/Shibboleth.sso/Login",
+  "SHIBBOLETH_NAME": "",
+  "SHIBBOLETH_AUTH": "{urn:mace:incommon:uiuc.edu}",
+  "SHIBBOLETH_SUPERUSER": "{email address of shibboleth super user}",
+  "SITE_NAME":       "{name of site, for example WebEdit}",
+  "FILENAME" :       "secrets.json",
+  "SECRET_KEY" :     "{random string of characters used by Django}",
+  "DATABASE_ENGINE": "django.db.backends.postgresql_psycopg2",
+  "DATABASE_NAME":   "{databse name}",
+  "DATABASE_USER":     "{database user name}",
+  "DATABASE_PASSWORD": "{databased user password}",
+  "DATABASE_HOST":     "localhost",
+  "DATABASE_PORT":     "5432",
+  "ALLOWED_HOSTS" :  ["{SITE_NAME}"],
+  "EMAIL_HOST":      "localhost",
+  "EMAIL_PORT":      25,
+  "EMAIL_USE_TLS":   false,
+  "EMAIL_HOST_USER": "no-reply@{site domain name}",
+  "EMAIL_HOST_USER_PASSWORD": "{password for no-replay e-mail}",
+  "ACCOUNT_ACTIVATION_DAYS" : 3,
+  "CONTACT_EMAIL" :    "{email address}",
+  "ADMIN_USERNAME":  "{username}",
+  "ADMIN_EMAIL":  "{email}",
+  "ADMIN_FIRST_NAME":  "{first name}",
+  "ADMIN_LAST_NAME":  "{last name}",
+  "ADMIN_PASSWORD":  "{intial password for admin}"
+}
 ```
 
 ## Apache Configuration Files
