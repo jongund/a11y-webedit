@@ -39,8 +39,8 @@
 
                 <!-- Right side navbar -->
                 <ul class="nav navbar-nav navbar-right">
+                    <li><a href="{% url 'show_samples' %}">Samples</a></li>
                     {% if user.is_authenticated %}
-                        <li><a href="{% url 'show_samples' %}">Samples</a></li>
                         <li><a href="{% url 'show_all' user.profile.slug %}">My Pages</a></li>
                         <li><a href="{% url 'show_profile' %}">{{ user }}</a></li>
                         <li><a href="{% url 'logout' %}">Logout</a></li>

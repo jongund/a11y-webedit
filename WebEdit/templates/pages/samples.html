@@ -50,7 +50,7 @@
 			{% endif %}
 			<a href = "{% url 'run'    sample.user.profile.slug sample.slug %}" aria-label = "Show {{sample.title}}" class = "btn btn-primary">Show</a>
 			{% if request.user.is_anonymous %}
-			<a href = "{% url 'copy_anon' sample.user.profile.slug sample.slug %}" aria-label = "Copy {{sample.title}}" class = "btn btn-primary">Copy</a>
+			<a href = "{% url 'copy_anon' sample.slug %}" aria-label = "Copy {{sample.title}}" class = "btn btn-primary">Copy</a>
 			{% else %}
 			<a href = "{% url 'copy'   sample.user.profile.slug sample.slug %}" aria-label = "Copy {{sample.title}}" class = "btn btn-primary">Copy</a>
 			{% endif %}
