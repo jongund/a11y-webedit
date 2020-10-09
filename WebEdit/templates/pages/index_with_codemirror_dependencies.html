@@ -58,7 +58,7 @@
                                id="copyButton"
                                title="Copies last-saved page to new page">Copy</a>
                         {% else %}
-                            <a href="{% url 'copy_anon' p.slug %}"
+                            <a href="{% url 'copy_anon' 'guest' p.slug %}"
                                class="btn btn-primary"
                                id="copyButton"
                                title="Copies last-saved page to new page">Copy</a>

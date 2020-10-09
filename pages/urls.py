@@ -12,7 +12,7 @@ urlpatterns = [
 
     url(r'^guest/(?P<page_slug>[-\w]+)/$', views.show_anon, name='show_anon'),
     url(r'^guest/(?P<page_slug>[-\w]+)/output/$', views.run_anon, name='run_anon'),
-    url(r'^guest/(?P<page_slug>[-\w]+)/copy/$', views.copy_anon, name='copy_anon'),
+    url(r'^guest/(?P<profile_slug>\w+)/(?P<page_slug>[-\w]+)/copy/$', views.copy_anon, name='copy_anon'),
 
     url(r'^samples/$', views.show_samples, name='show_samples')
 ]

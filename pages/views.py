@@ -172,8 +172,18 @@ def run_anon(request, page_slug):
     return HttpResponse(html)
 
 
-def copy_anon(request, page_slug):
-    page = get_object_or_404(Page, slug=page_slug, user=None)
+def copy_anon(request, page_slug, profile_slug):
+
+    if profile_slug == 'guest':
+      page = get_object_or_404(Page, slug=page_slug)
+
+    else:
+      sample_username = Profile.objects.get(slug=profile_slug).user.username
+      sample_user = get_object_or_404(User, username=sample_username)
+
+      page = get_object_or_404(Page, slug=page_slug, user=sample_user)
+
+
     copy_title = "Copy of '" + page.title + "'"
     if request.user.is_anonymous:
         user = None
