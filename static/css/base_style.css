@@ -1,0 +1,16 @@
+.navbar-btn{
+	border: thin solid gray;
+	margin-right: .5em  ;
+}
+.navbar{
+	border: thin solid gray;
+}
+.expand{
+	float: right;
+}
+#page-functions{
+	padding-left: 0;
+}
+#page-functions li{
+	display: inline;
+}

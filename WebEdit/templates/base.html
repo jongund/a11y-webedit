@@ -1,0 +1,92 @@
+{% load bootstrap3 %}
+{% bootstrap_css %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% if title %}
+        <title>{{ title }} | WebEdit</title>
+    {% else %}
+        <title>{{ site.name }}</title>
+    {% endif %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/codemirror.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/pages.css' %}"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+<body>
+<div class="container" id="main">
+    <nav class="navbar navbar-default navbar-custom">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                        data-target="#navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a id="brand" class="navbar-brand" href="{% url 'new' %}">WebEdit</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="navbar-collapse-1">
+
+                <!-- Left side navbar -->
+                <ul class="nav navbar-nav navbar-left nav-links">
+                    <li><a href="{% url 'new' %}">New page</a></li>
+                </ul>
+
+                <!-- Right side navbar -->
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="{% url 'show_samples' %}">Samples</a></li>
+                    {% if user.is_authenticated %}
+                        <li><a href="{% url 'show_all' user.profile.slug %}">My Pages</a></li>
+                        <li><a href="{% url 'show_profile' %}">{{ user }}</a></li>
+                        <li><a href="{% url 'logout' %}">Logout</a></li>
+                    {% else %}
+                        {% if shibboleth.enabled %}
+                        <li><a href="{% url 'shib_login' %}">Login</a></li>
+                        {% else %}
+                        <li><a href="{% url 'django_registration_register' %}">Register</a></li>
+                        <li><a href="{% url 'login' %}">Login</a></li>
+                        {% endif %}
+                    {% endif %}
+                </ul>
+
+            </div><!-- /.navbar-collapse -->
+            <hr id="nav-line">
+        </div><!-- /.container-fluid -->
+    </nav>
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+</div>
+<div class="container" id="bottom">
+    <hr/>
+    <footer>
+        <ul>
+            <li><p class="footer-parts">WebEdit&nbsp;|&nbsp;</p></li>
+            <li><a class="footer-parts" href="https://github.com/illinois-dres-aitg/a11yWebEdit"
+                   target="_blank">GitHub</a></li>
+            <li><p class="footer-parts">&nbsp;|&nbsp;University of Illinois Urbana-Champaign &copy; {% now "Y" %}</p>
+            </li>
+        </ul>
+    </footer>
+</div>
+{% bootstrap_javascript %}
+<script src="{% static 'js/skipto.js' %}"></script>
+<script>
+var SkipToConfig =
+      {
+        "settings": {
+          "skipTo": {
+            "headings": "h1, h2"
+          }
+        }
+      };
+    skipToMenuInit(SkipToConfig)
+</script>
+</body>
+</html>

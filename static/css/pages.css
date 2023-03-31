@@ -1,0 +1,64 @@
+.navbar{
+	border: none;
+	background: none;
+}
+
+#brand{
+	color: black;
+}
+#navbar-collapse-1 ul>li>a{
+	color: #337ab7;
+}
+#navbar-collapse-1 ul>li>a:hover{
+	text-decoration: underline;
+}
+#nav-line{
+	margin: 0;
+}
+.expand{
+	float: right;
+}
+
+ul{
+	list-style: none;
+}
+
+.danger{
+	float: right;
+}
+body{
+	height: 100%;
+}
+#main{
+	min-height: 100%;
+}
+footer{
+	height: 5%;
+}
+.footer-parts{
+	float: left;
+}
+
+table .description{
+	font-weight: normal;
+	font-style: italic;
+}
+
+.webedit-label{
+	font-weight: bold;
+}
+
+main form fieldset,
+main form div.group,
+main form div.button {
+  margin-top: 1.5em;
+}
+
+main form legend {
+	padding: 0;
+	margin: 0;
+}
+
+.error {
+	color: red;
+}

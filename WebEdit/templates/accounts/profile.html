@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load bootstrap3 %}
+{% block content %}
+    <h1>{{ u.first_name }} {{ u.last_name }}'s profile</h1>
+    <p>Last logged in: {{ u.last_login }}</p>
+
+    <div id="upper-form" class="panel panel-default">
+        <div class="panel-heading">
+            Profile Details
+        </div>
+        <div class="panel-body">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="webedit-label">Email</div>
+                {% bootstrap_field form.email show_label=False %}
+
+                <div class="webedit-label">First Name</div>
+                {% bootstrap_field form.first_name show_label=False %}
+
+                <div class="webedit-label">Last Name</div>
+                {% bootstrap_field form.last_name show_label=False %}
+
+                {% bootstrap_field profileForm.useCodeMirror show_label=False label="Use Code Mirror" %}
+
+                {% bootstrap_button "Save" button_type="submit" button_class="btn btn-primary" extra_classes="save" title="Saves changes to Profile" %}
+            </form>
+        </div>
+    </div>
+{% endblock %}

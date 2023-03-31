@@ -1,0 +1,10 @@
+confusable-homoglyphs==3.2.0
+Django==2.2.12
+django-assets==0.12
+django-bootstrap3==11.0.0
+django-registration==3.0
+django-timezone-field==3.0
+djangocodemirror==2.0.0
+psycopg2==2.7.4
+pytz==2018.9
+webassets==0.12.1

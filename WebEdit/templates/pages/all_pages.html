@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load bootstrap3 %}
+{% block content %}
+
+<h1>{{title}}</h1>
+
+<table class="table table-striped">
+<thead>
+	<tr>
+		<th>Title</th>
+		<th>Public</th>
+		<th>Last Updated</th>
+		<th>Options</th>
+	</tr>
+</thead>
+<tbody>
+{% for page in all_pages %}
+	<tr>
+		{% if page.public or page.user == user or user.is_superuser %}
+		<th>
+			<details>
+				<summary style="width: 20em">{{page.title}}</summary>
+				{% if page.description %}
+					<div class = "description">
+						{{page.description}}
+					</div>
+				{% else %}
+					<div class = "description">
+						no description
+					</div>
+				{% endif %}
+			</details>
+		</th>
+		<td>{{page.public}}</td>
+		<td>{{page.lastUpdated}}</td>
+		<td>
+			{% if  page.user == user %}
+			<a href = "{% url 'show'   page.user.profile.slug page.slug %}" aria-label = "Edit {{page.title}}"   class = "btn btn-primary">Edit</a>
+			{% endif %}
+			<a href = "{% url 'run'    page.user.profile.slug page.slug %}" aria-label = "Show {{page.title}}"    class = "btn btn-primary">Show</a>
+			<a href = "{% url 'copy'   page.user.profile.slug page.slug %}" aria-label = "Copy {{page.title}}"   class = "btn btn-primary">Copy</a>
+			{% if  page.user == user %}
+			<a href = "{% url 'delete' page.user.profile.slug page.slug %}" aria-label = "Delete {{page.title}}" class = "btn btn-danger">Delete
+			</a>
+			{% endif %}
+		</td>
+	</tr>
+	{% endif %}
+{% empty %}
+	<tr>
+		<th>No saved pages</th>
+		<td></td>
+		<td></td>
+	</tr>
+
+{% endfor %}
+</table>
+{% endblock %}
